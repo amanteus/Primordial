@@ -459,6 +459,12 @@ h1, h2, h3, h4 {
     font-size: 1rem;
     color: #aaa;
 }
+
+.price-warning {
+    font-size: 0.5rem;
+    color: #aaa;
+}
+
 /* Novo estilo para o container de vagas na caixa de oferta */
 .vagas-variaveis-container {
     margin: 40px auto;
