@@ -817,11 +817,11 @@ h1, h2, h3, h4 {
     /* Força o texto a ficar em uma única linha */
     white-space: normal;
     display: block;
-    width: 90%;
+    width: 60%;
     margin: 20px auto;
     /* Reduz o padding para se adequar a telas menores */
     padding: 18px 40px; 
 
     /* Reduz um pouco a fonte para garantir que caiba bem */
-    font-size: 1.5rem; 
+    font-size: 1rem; 
 }
