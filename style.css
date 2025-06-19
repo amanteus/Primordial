@@ -766,3 +766,21 @@ h1, h2, h3, h4 {
     /* Altera a animação para que ela deslize de cima para baixo */
     transform: translateY(-150%); 
 }
+
+/* Dentro de @media (max-width: 768px) { ... } */
+
+/* --- Ajustes no Bloco de Preço para Mobile --- */
+.price-main {
+    gap: 10px; /* Reduz o espaço entre "12x" e o valor */
+    flex-wrap: wrap; /* Permite que quebre a linha se necessário */
+    justify-content: center;
+}
+.price-installments {
+    font-size: 2rem; /* Reduz o tamanho do "12x" */
+}
+.price-value {
+    font-size: 4rem; /* Reduz drasticamente o tamanho do valor principal */
+}
+.price-prefix, .price-descriptor {
+    font-size: 1rem; /* Ajusta os textos de apoio */
+}
