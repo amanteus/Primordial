@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function startCountdown(duration, display) {
         let timer = duration, minutes, seconds;
         const intervalId = setInterval(() => {
-            minutes = parseInt(timer / 60, 7);
-            seconds = parseInt(timer % 60, 7);
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
 
             minutes = minutes < 10 ? "0" + minutes : minutes;
             seconds = seconds < 10 ? "0" + seconds : seconds;
@@ -171,7 +171,7 @@ const fakePurchases = [
 ];
 
         const totalVagas = 50;
-        let vagasAtuais = 21;
+        let vagasAtuais = 17;
 
         function showNotification() {
             if (vagasAtuais <= 3) return;
@@ -197,7 +197,7 @@ const fakePurchases = [
         }
 
         function scheduleNextNotification() {
-            const randomDelay = Math.random() * (15000 - 6000) + 8000; 
+            const randomDelay = Math.random() * (25000 - 8000) + 8000; 
             setTimeout(showNotification, randomDelay);
         }
 
