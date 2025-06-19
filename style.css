@@ -2,14 +2,14 @@
 @font-face {
     font-family: 'Loft';
     /* Aponte para o local correto do seu arquivo de fonte */
-    src: url('../fonts/Loft-Regular.woff2') format('woff2'); 
+    src: url('fonts/Loft-Regular.woff2') format('woff2'); 
     font-weight: normal;
 }
 
 @font-face {
     font-family: 'Houstiq';
     /* Aponte para o local correto do seu arquivo de fonte */
-    src: url('../fonts/Houstiq.ttf') format('truetype');
+    src: url('fonts/Houstiq.ttf') format('truetype');
 }
 
 :root {
