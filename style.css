@@ -1,15 +1,13 @@
-/* --- CONFIGURAÇÕES GLOBAIS E FONTES --- */
 @font-face {
     font-family: 'Loft';
-    /* Aponte para o local correto do seu arquivo de fonte */
-    src: url('../fonts/Loft-Regular.woff2') format('woff2'); 
+    /* Agora usamos a função url_for do Flask */
+    src: url("fonts/Loft-Regular.woff2") format('woff2'); 
     font-weight: normal;
 }
 
 @font-face {
     font-family: 'Houstiq';
-    /* Aponte para o local correto do seu arquivo de fonte */
-    src: url('../fonts/Houstiq.ttf') format('truetype');
+    src: url("fonts/Houstiq.ttf") format('truetype');
 }
 
 :root {
@@ -83,20 +81,68 @@ h1, h2, h3, h4 {
     z-index: 1000;
     padding: 8px 0;
 }
+/* Estilo para o novo Pre-Header com 2 colunas */
 .pre-header-content {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between; /* Coloca um item em cada ponta */
     align-items: center;
-    gap: 5px;
+    max-width: 1200px; /* Limita a largura */
+    margin: 0 auto; /* Centraliza */
+    padding: 0 20px;
+    gap: 20px;
     font-size: 15px;
     font-weight: bold;
 }
+
+.online-now {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.vagas-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .progress-bar-header {
-    width: 80%;
-    max-width: 400px;
+    width: 150px; /* Largura da barra */
     height: 8px;
     background-color: #333;
     border-radius: 5px;
+    overflow: hidden; /* Garante que a barra interna não vaze */
+}
+
+/* A regra para #progress-bar-inner deve existir, mas confirme */
+#progress-bar-inner {
+    height: 100%;
+    width: 0%; /* Começa em 0% */
+    background: var(--accent-color);
+    border-radius: 5px;
+    transition: width 0.5s ease-out; /* Animação suave */
+}
+
+/* Ajuste para mobile */
+@media (max-width: 768px) {
+    .pre-header-content {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+.live-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ff4d4d;
+    border-radius: 50%;
+    animation: pulse-live 1.5s infinite;
+}
+
+@keyframes pulse-live {
+    0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
 }
 /* A regra #progress-bar-inner que já existe vai funcionar aqui */
 
@@ -378,22 +424,25 @@ h1, h2, h3, h4 {
 .price-section p { font-size: 1.2rem; }
 .price-section h3 { font-size: 4rem; color: var(--accent-color); }
 
-/* Novo estilo para o cronômetro dentro da caixa de oferta */
-.offer-countdown {
+/* Novo estilo para o container de vagas na caixa de oferta */
+.vagas-variaveis-container {
     margin: 40px auto;
     padding: 15px;
-    border: 2px dashed var(--accent-color);
+    background-color: rgba(196, 170, 131, 0.1);
+    border: 1px solid var(--accent-color);
     border-radius: 5px;
-    max-width: 450px;
+    max-width: 500px;
 }
-.offer-countdown p {
-    font-size: 1rem;
+
+.vagas-variaveis-container p {
+    font-size: 0.9rem;
+    opacity: 0.8;
     margin-bottom: 10px;
-    color: var(--text-color);
 }
-.offer-countdown #countdown-timer {
+
+.vagas-variaveis-container span {
     font-family: var(--font-headline);
-    font-size: 3rem;
+    font-size: 1.8rem;
     color: var(--accent-color);
 }
 #progress-bar-inner {
