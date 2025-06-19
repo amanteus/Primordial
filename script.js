@@ -1,31 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- FUNÇÃO DO CRONÔMETRO REGRESSIVO ---
-    function startCountdown(duration, display) {
-        let timer = duration, minutes, seconds;
-        const intervalId = setInterval(() => {
-            minutes = parseInt(timer / 60, 10);
-            seconds = parseInt(timer % 60, 10);
-
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-
-            display.textContent = minutes + ":" + seconds;
-
-            if (--timer < 0) {
-                timer = 0;
-                display.textContent = "ESGOTADO";
-                clearInterval(intervalId);
-            }
-        }, 1000);
-    }
-
-    const countdownDisplay = document.getElementById('countdown-timer');
-    if (countdownDisplay) {
-        const tenMinutes = 60 * 10;
-        startCountdown(tenMinutes, countdownDisplay);
-    }
-
     // --- FUNÇÃO DO ACORDEÃO ---
     const accordionItems = document.querySelectorAll('.accordion-item');
     accordionItems.forEach(item => {
@@ -58,15 +32,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================================
-    // --- SISTEMA DE NOTIFICAÇÃO E PROVA SOCIAL (AGORA ALEATÓRIO) ---
+    // --- SISTEMA DINÂMICO DE PROVA SOCIAL E ESCASSEZ ---
     // ==========================================================
 
+    const onlineCountElement = document.getElementById('pessoas-online');
+    const vagasElement = document.getElementById('vagas-variaveis');
     const notificationElement = document.getElementById('social-proof-notification');
-    const vagasSpan = document.getElementById('vagas-restantes');
-    const progressBar = document.getElementById('progress-bar-inner');
 
-    if (notificationElement && vagasSpan && progressBar) {
+    if (onlineCountElement && vagasElement && notificationElement) {
+
+        // --- LÓGICA DO CONTADOR DE PESSOAS ONLINE ---
+        let onlineCount = 137; // Número inicial de pessoas online
+        function updateOnlineCount() {
+            const variation = Math.floor(Math.random() * 7) - 3; // Varia entre -3 e +3
+            onlineCount += variation;
+            if (onlineCount < 110) onlineCount = 110;
+            if (onlineCount > 190) onlineCount = 190;
+            onlineCountElement.textContent = onlineCount;
+        }
+        setInterval(updateOnlineCount, 2500); // Atualiza a cada 2.5 segundos
+
         
+        // --- LÓGICA DAS VAGAS E NOTIFICAÇÕES ---
         // Banco de dados FAKE de compras (versão com 100 entradas)
 const fakePurchases = [
     // Seus 20 originais
@@ -170,24 +157,21 @@ const fakePurchases = [
     { name: 'Xavier Padrão', location: 'Suzano, SP' }
 ];
 
-        const totalVagas = 50;
-        let vagasAtuais = 17;
+        // Gera um número inicial de vagas aleatório entre 11 e 27
+        let vagasAtuais = Math.floor(Math.random() * (27 - 11 + 1)) + 11;
+        vagasElement.textContent = vagasAtuais;
 
         function showNotification() {
-            if (vagasAtuais <= 3) return;
+            if (vagasAtuais <= 5) return;
 
-            // --- LÓGICA ALTERADA AQUI ---
-            // Sorteia um índice aleatório da lista a cada vez
             const randomIndex = Math.floor(Math.random() * fakePurchases.length);
             const purchase = fakePurchases[randomIndex];
             
-            notificationElement.innerHTML = `<p><span class="notification-name">${purchase.name}</span> de ${purchase.location} acaba de garantir sua vaga no Primordial.</p>`;
+            notificationElement.innerHTML = `<p><span class="notification-name">${purchase.name}</span> de ${purchase.location} acaba de garantir sua vaga na Irmandade Primordial.</p>`;
             notificationElement.classList.add('show');
 
             vagasAtuais--;
-            vagasSpan.textContent = vagasAtuais;
-            const percentualPreenchido = ((totalVagas - vagasAtuais) / totalVagas) * 100;
-            progressBar.style.width = percentualPreenchido + '%';
+            vagasElement.textContent = vagasAtuais;
 
             setTimeout(() => {
                 notificationElement.classList.remove('show');
@@ -197,11 +181,10 @@ const fakePurchases = [
         }
 
         function scheduleNextNotification() {
-            const randomDelay = Math.random() * (25000 - 8000) + 8000; 
+            const randomDelay = Math.random() * (28000 - 9000) + 9000;
             setTimeout(showNotification, randomDelay);
         }
 
-        // Inicia o ciclo após um delay inicial para não aparecer logo de cara
-        setTimeout(scheduleNextNotification, 7000);
+        setTimeout(scheduleNextNotification, 8000);
     }
 });
