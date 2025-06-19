@@ -809,19 +809,3 @@ h1, h2, h3, h4 {
 .price-prefix, .price-descriptor {
     font-size: 1rem; /* Ajusta os textos de apoio */
 }
-
-/* Dentro de @media (max-width: 768px) { ... } */
-
-/* --- Ajuste do Botão de CTA para Mobile --- */
-.cta-button {
-    /* Força o texto a ficar em uma única linha */
-    white-space: normal;
-    display: block;
-    width: 60%;
-    margin: 20px auto;
-    /* Reduz o padding para se adequar a telas menores */
-    padding: 18px 40px; 
-
-    /* Reduz um pouco a fonte para garantir que caiba bem */
-    font-size: 1rem; 
-}
