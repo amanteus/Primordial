@@ -71,7 +71,11 @@ h1, h2, h3, h4 {
 }
 
 /* --- ESTILOS DAS SEÇÕES --- */
-
+.section-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 10px;
+    text-align: center; /* <<< ADICIONE ESTA LINHA */
+}
 /* SEÇÃO 0: PRÉ-HEADER */
 .pre-header {
     background-color: #000;
