@@ -419,13 +419,13 @@ h1, h2, h3, h4 {
 }
 
 .price-old {
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     opacity: 0.7;
 }
 
 /* Estilo para o "Por apenas" */
 .price-prefix {
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: var(--text-color); /* Cor #e0e0e0, como solicitado */
     margin-top: 15px;
 }
@@ -443,14 +443,14 @@ h1, h2, h3, h4 {
 /* Estilo para o "12x" */
 .price-installments {
     font-family: var(--font-primary);
-    font-size: 1.4rem;
+    font-size: 2.5rem;
     font-weight: 700;
 }
 
 /* Estilo para o "R$ 10,24" */
 .price-value {
     font-family: var(--font-headline);
-    font-size: 2.5rem; /* Destaque máximo para o valor */
+    font-size: 5rem; /* Destaque máximo para o valor */
     line-height: 1;
 }
 
@@ -459,7 +459,6 @@ h1, h2, h3, h4 {
     font-size: 1rem;
     color: #aaa;
 }
-
 /* Novo estilo para o container de vagas na caixa de oferta */
 .vagas-variaveis-container {
     margin: 40px auto;
