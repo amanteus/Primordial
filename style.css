@@ -413,9 +413,52 @@ h1, h2, h3, h4 {
 .offer-summary ul { list-style: none; }
 .offer-summary li { margin-bottom: 10px; font-size: 1.1rem; }
 
-.price-section { margin: 40px 0; }
-.price-section p { font-size: 1.2rem; }
-.price-section h3 { font-size: 4rem; color: var(--accent-color); }
+.price-section {
+    margin: 40px 0;
+    text-align: center;
+}
+
+.price-old {
+    font-size: 1.1rem;
+    opacity: 0.7;
+}
+
+/* Estilo para o "Por apenas" */
+.price-prefix {
+    font-size: 1.2rem;
+    color: var(--text-color); /* Cor #e0e0e0, como solicitado */
+    margin-top: 15px;
+}
+
+/* Container principal do preço (12x R$ 10,24) */
+.price-main {
+    display: flex;
+    justify-content: center;
+    align-items: baseline; /* Alinha pela base do texto, fica melhor */
+    gap: 15px;
+    margin: 5px 0;
+    color: var(--accent-color); /* Cor de destaque para o conjunto */
+}
+
+/* Estilo para o "12x" */
+.price-installments {
+    font-family: var(--font-primary);
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+/* Estilo para o "R$ 10,24" */
+.price-value {
+    font-family: var(--font-headline);
+    font-size: 5rem; /* Destaque máximo para o valor */
+    line-height: 1;
+}
+
+/* Estilo para o "ou R$ 99,00 à vista" */
+.price-descriptor {
+    font-size: 1rem;
+    color: #aaa;
+}
 
 /* Novo estilo para o container de vagas na caixa de oferta */
 .vagas-variaveis-container {
