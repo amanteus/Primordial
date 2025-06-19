@@ -400,14 +400,14 @@ h1, h2, h3, h4 {
     border: 2px solid var(--accent-color);
     border-radius: 10px;
     padding: 40px;
-    max-width: 800px;
+    max-width: 500px;
     margin: 0 auto;
     text-align: center;
 }
 
 .offer-summary {
     text-align: left;
-    max-width: 500px;
+    max-width: 300px;
     margin: 30px auto;
 }
 .offer-summary ul { list-style: none; }
@@ -419,13 +419,13 @@ h1, h2, h3, h4 {
 }
 
 .price-old {
-    font-size: 1.1rem;
+    font-size: 0.8rem;
     opacity: 0.7;
 }
 
 /* Estilo para o "Por apenas" */
 .price-prefix {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: var(--text-color); /* Cor #e0e0e0, como solicitado */
     margin-top: 15px;
 }
@@ -443,14 +443,14 @@ h1, h2, h3, h4 {
 /* Estilo para o "12x" */
 .price-installments {
     font-family: var(--font-primary);
-    font-size: 2.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
 }
 
 /* Estilo para o "R$ 10,24" */
 .price-value {
     font-family: var(--font-headline);
-    font-size: 5rem; /* Destaque máximo para o valor */
+    font-size: 3rem; /* Destaque máximo para o valor */
     line-height: 1;
 }
 
