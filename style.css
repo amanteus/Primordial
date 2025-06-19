@@ -493,6 +493,14 @@ h1, h2, h3, h4 {
     border-radius: 10px;
 }
 
+/* Adicione esta nova regra */
+.cta-container {
+    display: flex;
+    flex-direction: column; /* Empilha os itens verticalmente */
+    align-items: center;    /* Centraliza os itens horizontalmente */
+    margin-top: 40px;       /* Mantém um espaço acima do botão */
+}
+
 .cta-button {
     display: inline-block;
     background-color: var(--accent-color);
