@@ -172,7 +172,7 @@ const fakePurchases = [
         updateVagasDisplay();
 
         function showNotification() {
-            if (vagasAtuais <= 5) return;
+            if (vagasAtuais <= 3) return;
 
             const randomIndex = Math.floor(Math.random() * fakePurchases.length);
             const purchase = fakePurchases[randomIndex];
@@ -191,7 +191,7 @@ const fakePurchases = [
         }
 
         function scheduleNextNotification() {
-            const randomDelay = Math.random() * (28000 - 9000) + 9000;
+            const randomDelay = Math.random() * (25000 - 8000) + 8000;
             setTimeout(showNotification, randomDelay);
         }
 
