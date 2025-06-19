@@ -32,26 +32,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================================
-    // --- SISTEMA DINÂMICO DE PROVA SOCIAL E ESCASSEZ ---
+    // --- SISTEMA DINÂMICO DE PROVA SOCIAL E ESCASSEZ (VERSÃO CORRIGIDA) ---
     // ==========================================================
 
     const onlineCountElement = document.getElementById('pessoas-online');
-    const vagasElement = document.getElementById('vagas-variaveis');
+    const vagasHeaderElement = document.getElementById('vagas-restantes-header');
     const notificationElement = document.getElementById('social-proof-notification');
+    const progressBar = document.getElementById('progress-bar-inner');
 
-    if (onlineCountElement && vagasElement && notificationElement) {
+    // Verifica se TODOS os elementos necessários existem antes de rodar a lógica
+    if (onlineCountElement && vagasHeaderElement && notificationElement && progressBar) {
 
         // --- LÓGICA DO CONTADOR DE PESSOAS ONLINE ---
-        let onlineCount = 137; // Número inicial de pessoas online
+        let onlineCount = 137;
         function updateOnlineCount() {
-            const variation = Math.floor(Math.random() * 7) - 3; // Varia entre -3 e +3
+            const variation = Math.floor(Math.random() * 7) - 3;
             onlineCount += variation;
             if (onlineCount < 110) onlineCount = 110;
             if (onlineCount > 190) onlineCount = 190;
             onlineCountElement.textContent = onlineCount;
         }
-        setInterval(updateOnlineCount, 2500); // Atualiza a cada 2.5 segundos
-
+        setInterval(updateOnlineCount, 2500);
         
         // --- LÓGICA DAS VAGAS E NOTIFICAÇÕES ---
         // Banco de dados FAKE de compras (versão com 100 entradas)
@@ -157,9 +158,18 @@ const fakePurchases = [
     { name: 'Xavier Padrão', location: 'Suzano, SP' }
 ];
 
-        // Gera um número inicial de vagas aleatório entre 11 e 27
-        let vagasAtuais = Math.floor(Math.random() * (27 - 11 + 1)) + 11;
-        vagasElement.textContent = vagasAtuais;
+        const totalVagas = 50;
+        let vagasAtuais = Math.floor(Math.random() * (24 - 12 + 1)) + 12;
+
+        function updateVagasDisplay() {
+            vagasHeaderElement.textContent = vagasAtuais;
+            const vagasPreenchidas = totalVagas - vagasAtuais;
+            const percentualPreenchido = (vagasPreenchidas / totalVagas) * 100;
+            progressBar.style.width = percentualPreenchido + '%';
+        }
+
+        // Define o estado inicial assim que a página carrega
+        updateVagasDisplay();
 
         function showNotification() {
             if (vagasAtuais <= 5) return;
@@ -171,7 +181,7 @@ const fakePurchases = [
             notificationElement.classList.add('show');
 
             vagasAtuais--;
-            vagasElement.textContent = vagasAtuais;
+            updateVagasDisplay(); // Atualiza tanto o número quanto a barra
 
             setTimeout(() => {
                 notificationElement.classList.remove('show');
