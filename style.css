@@ -228,6 +228,18 @@ h1, h2, h3, h4 {
     background-color: #111;
 }
 
+/* Adicione estas DUAS novas regras no lugar da anterior */
+
+/* 1. Define um espaçamento PEQUENO para TODOS os parágrafos da introdução */
+.secao-2-epidemia .conteudo-secao > p {
+    margin-bottom: 10px; /* Espaçamento padrão de 10px entre parágrafos */
+}
+
+/* 2. Define um espaçamento MAIOR especificamente para o ÚLTIMO parágrafo */
+.secao-2-epidemia .conteudo-secao > p:last-of-type {
+    margin-bottom: 30px; /* Espaçamento de 30px para separar do próximo bloco */
+}
+
 .stats-container {
     display: flex;
     justify-content: center;
