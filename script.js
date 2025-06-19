@@ -1,5 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- FUNÇÃO DO CRONÔMETRO REGRESSIVO ---
+    function startCountdown(duration, display) {
+        let timer = duration, minutes, seconds;
+        const intervalId = setInterval(() => {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                timer = 0;
+                display.textContent = "ESGOTADO";
+                clearInterval(intervalId);
+            }
+        }, 1000);
+    }
+
+    const countdownDisplay = document.getElementById('countdown-timer');
+    if (countdownDisplay) {
+        const tenMinutes = 60 * 10;
+        startCountdown(tenMinutes, countdownDisplay);
+    }
+
     // --- FUNÇÃO DO ACORDEÃO ---
     const accordionItems = document.querySelectorAll('.accordion-item');
     accordionItems.forEach(item => {
@@ -32,29 +58,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================================
-    // --- SISTEMA DINÂMICO DE PROVA SOCIAL E ESCASSEZ (VERSÃO CORRIGIDA) ---
+    // --- SISTEMA DE NOTIFICAÇÃO E PROVA SOCIAL (AGORA ALEATÓRIO) ---
     // ==========================================================
 
-    const onlineCountElement = document.getElementById('pessoas-online');
-    const vagasHeaderElement = document.getElementById('vagas-restantes-header');
     const notificationElement = document.getElementById('social-proof-notification');
+    const vagasSpan = document.getElementById('vagas-restantes');
     const progressBar = document.getElementById('progress-bar-inner');
 
-    // Verifica se TODOS os elementos necessários existem antes de rodar a lógica
-    if (onlineCountElement && vagasHeaderElement && notificationElement && progressBar) {
-
-        // --- LÓGICA DO CONTADOR DE PESSOAS ONLINE ---
-        let onlineCount = 137;
-        function updateOnlineCount() {
-            const variation = Math.floor(Math.random() * 7) - 3;
-            onlineCount += variation;
-            if (onlineCount < 110) onlineCount = 110;
-            if (onlineCount > 190) onlineCount = 190;
-            onlineCountElement.textContent = onlineCount;
-        }
-        setInterval(updateOnlineCount, 2500);
+    if (notificationElement && vagasSpan && progressBar) {
         
-        // --- LÓGICA DAS VAGAS E NOTIFICAÇÕES ---
         // Banco de dados FAKE de compras (versão com 100 entradas)
 const fakePurchases = [
     // Seus 20 originais
@@ -159,29 +171,23 @@ const fakePurchases = [
 ];
 
         const totalVagas = 50;
-        let vagasAtuais = Math.floor(Math.random() * (24 - 12 + 1)) + 12;
-
-        function updateVagasDisplay() {
-            vagasHeaderElement.textContent = vagasAtuais;
-            const vagasPreenchidas = totalVagas - vagasAtuais;
-            const percentualPreenchido = (vagasPreenchidas / totalVagas) * 100;
-            progressBar.style.width = percentualPreenchido + '%';
-        }
-
-        // Define o estado inicial assim que a página carrega
-        updateVagasDisplay();
+        let vagasAtuais = 21;
 
         function showNotification() {
-            if (vagasAtuais <= 5) return;
+            if (vagasAtuais <= 3) return;
 
+            // --- LÓGICA ALTERADA AQUI ---
+            // Sorteia um índice aleatório da lista a cada vez
             const randomIndex = Math.floor(Math.random() * fakePurchases.length);
             const purchase = fakePurchases[randomIndex];
             
-            notificationElement.innerHTML = `<p><span class="notification-name">${purchase.name}</span> de ${purchase.location} acaba de garantir sua vaga na Irmandade Primordial.</p>`;
+            notificationElement.innerHTML = `<p><span class="notification-name">${purchase.name}</span> de ${purchase.location} acaba de garantir sua vaga no Primordial.</p>`;
             notificationElement.classList.add('show');
 
             vagasAtuais--;
-            updateVagasDisplay(); // Atualiza tanto o número quanto a barra
+            vagasSpan.textContent = vagasAtuais;
+            const percentualPreenchido = ((totalVagas - vagasAtuais) / totalVagas) * 100;
+            progressBar.style.width = percentualPreenchido + '%';
 
             setTimeout(() => {
                 notificationElement.classList.remove('show');
@@ -191,10 +197,11 @@ const fakePurchases = [
         }
 
         function scheduleNextNotification() {
-            const randomDelay = Math.random() * (28000 - 9000) + 9000;
+            const randomDelay = Math.random() * (15000 - 6000) + 8000; 
             setTimeout(showNotification, randomDelay);
         }
 
-        setTimeout(scheduleNextNotification, 8000);
+        // Inicia o ciclo após um delay inicial para não aparecer logo de cara
+        setTimeout(scheduleNextNotification, 7000);
     }
 });
