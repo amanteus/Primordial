@@ -1,0 +1,552 @@
+/* --- CONFIGURAÇÕES GLOBAIS E FONTES --- */
+@font-face {
+    font-family: 'Loft';
+    /* Aponte para o local correto do seu arquivo de fonte */
+    src: url('../fonts/Loft-Regular.woff2') format('woff2'); 
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Houstiq';
+    /* Aponte para o local correto do seu arquivo de fonte */
+    src: url('../fonts/Houstiq.ttf') format('truetype');
+}
+
+:root {
+    --bg-color: #1d1d1d;
+    --text-color: #e0e0e0;
+    --accent-color: #c4aa83;
+    --font-primary: 'Loft', sans-serif;
+    --font-headline: 'Houstiq', serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-primary);
+    line-height: 1.7;
+    font-size: 18px;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.secao {
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.conteudo-secao {
+    position: relative;
+    z-index: 2;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-headline);
+    line-height: 1.2;
+    font-weight: normal;
+}
+
+.highlight {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.highlight-strong {
+    color: var(--accent-color);
+    font-family: var(--font-headline);
+    text-transform: uppercase;
+}
+
+/* --- ESTILOS DAS SEÇÕES --- */
+
+/* SEÇÃO 0: PRÉ-HEADER */
+.pre-header {
+    background-color: #000;
+    color: var(--accent-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 8px 0;
+}
+.pre-header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+.progress-bar-header {
+    width: 80%;
+    max-width: 400px;
+    height: 8px;
+    background-color: #333;
+    border-radius: 5px;
+}
+/* A regra #progress-bar-inner que já existe vai funcionar aqui */
+
+/* SEÇÃO 1: IMPACTO INICIAL */
+.secao-1-impacto {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 5%;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+.main-headline {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    color: #fff;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.main-subheadline {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: var(--text-color);
+    max-width: 800px;
+    margin: 20px auto 0;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
+.scroll-down-arrow {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 24px;
+    z-index: 3;
+    animation: bounce 2s infinite;
+}
+
+.scroll-down-arrow span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-bottom: 3px solid var(--accent-color);
+    border-right: 3px solid var(--accent-color);
+    transform: rotate(45deg);
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-15px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+}
+
+
+/* SEÇÃO 2: EPIDEMIA */
+.secao-2-epidemia {
+    text-align: center;
+    background-color: #111;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    border: 1px solid rgba(196, 170, 131, 0.3);
+    padding: 30px;
+    flex-basis: 45%;
+    min-width: 300px;
+}
+.stat-card h3 {
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+/* SEÇÃO 3: INIMIGO */
+.secao-3-inimigo {
+    text-align: center;
+}
+
+.manifesto {
+    margin: 40px auto;
+    padding: 30px;
+    border-left: 3px solid var(--accent-color);
+    font-size: 1.5rem;
+    font-style: italic;
+    max-width: 700px;
+}
+
+/* SEÇÃO 4: REVELAÇÃO */
+.secao-4-revelacao {
+    text-align: center;
+    background-color: #111;
+}
+
+.section-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    color: #aaa;
+    margin-bottom: 50px;
+}
+
+.section-subtitle-gold {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--accent-color);
+    margin-bottom: 30px;
+}
+
+.proof-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.proof-card {
+    background: #252525;
+    padding: 30px;
+    border-radius: 5px;
+}
+
+.proof-card h4 {
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.conclusion-box {
+    margin: 60px auto 0 auto;
+    padding: 30px;
+    border: 2px solid var(--accent-color);
+    max-width: 800px;
+    font-size: 1.4rem;
+}
+
+/* SEÇÃO 5: SOLUÇÃO */
+.product-intro {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+.product-image { flex-basis: 40%; }
+.product-image img { width: 100%; }
+.product-text { flex-basis: 60%; }
+
+.transformation-preview {
+    text-align: center;
+    margin-top: 80px;
+    font-size: 1.6rem;
+}
+
+/* SEÇÃO 6: ARSENAL */
+.secao-6-arsenal { background-color: #111; }
+.accordion { max-width: 900px; margin: 50px auto 0 auto; }
+.accordion-item { border-bottom: 1px solid #444; }
+.accordion-header {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 20px;
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    color: var(--text-color);
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s;
+}
+.accordion-header::after {
+    content: '+';
+    position: absolute;
+    right: 20px;
+    font-size: 2rem;
+    color: var(--accent-color);
+    transition: transform 0.3s;
+}
+.accordion-header.active::after { transform: rotate(45deg); }
+.accordion-header:hover { background-color: #252525; }
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+    padding: 0 20px;
+}
+.accordion-content p { margin-bottom: 20px; }
+
+.bonus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+.bonus-card { text-align: center; }
+.bonus-card img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+.bonus-card h4 { color: var(--accent-color); }
+
+
+/* SEÇÃO 7: CHAMADO */
+.two-paths {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+}
+.path-card {
+    flex-basis: 45%;
+    padding: 30px;
+    border: 1px solid #444;
+    border-radius: 5px;
+}
+.path-weak { background: #151515; }
+.path-strong { border-color: var(--accent-color); }
+.path-card h3 { margin-bottom: 15px; color: var(--accent-color); }
+
+
+/* SEÇÃO 8: OFERTA */
+.offer-box {
+    background: #111;
+    border: 2px solid var(--accent-color);
+    border-radius: 10px;
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.offer-summary {
+    text-align: left;
+    max-width: 500px;
+    margin: 30px auto;
+}
+.offer-summary ul { list-style: none; }
+.offer-summary li { margin-bottom: 10px; font-size: 1.1rem; }
+
+.price-section { margin: 40px 0; }
+.price-section p { font-size: 1.2rem; }
+.price-section h3 { font-size: 4rem; color: var(--accent-color); }
+
+/* Novo estilo para o cronômetro dentro da caixa de oferta */
+.offer-countdown {
+    margin: 40px auto;
+    padding: 15px;
+    border: 2px dashed var(--accent-color);
+    border-radius: 5px;
+    max-width: 450px;
+}
+.offer-countdown p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+.offer-countdown #countdown-timer {
+    font-family: var(--font-headline);
+    font-size: 3rem;
+    color: var(--accent-color);
+}
+#progress-bar-inner {
+    height: 100%;
+    width: 34%; /* 17/50 */
+    background: var(--accent-color);
+    border-radius: 10px;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: #111;
+    font-family: var(--font-headline);
+    font-size: 1.3rem;
+    padding: 20px 60px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-shadow: none;
+}
+.cta-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(196, 170, 131, 0.5);
+}
+.secure-checkout-text { margin-top: 20px; font-size: 0.9rem; }
+
+/* SEÇÃO 9: P.S. */
+.secao-9-ps { text-align: center; font-size: 0.9rem; color: #888; }
+.secao-9-ps a { color: var(--accent-color); text-decoration: none; }
+
+
+/* --- ANIMAÇÕES ON-SCROLL --- */
+.anim-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.anim-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- RODAPÉ --- */
+.footer {
+    background-color: #111; /* Um pouco mais claro que o fundo principal para diferenciar */
+    color: #888;
+    padding: 60px 0;
+    text-align: center;
+    font-size: 0.9rem;
+    border-top: 1px solid #333; /* Linha sutil de separação */
+}
+
+.footer-logo {
+    max-width: 150px;
+    margin-bottom: 30px;
+    opacity: 0.8;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: #aaa;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--accent-color); /* Usa a cor de destaque no hover */
+}
+
+.footer-copyright {
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.footer-disclaimer {
+    font-size: 0.8rem;
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0.6;
+    line-height: 1.6;
+}
+
+/* --- ESTILOS DA NOTIFICAÇÃO DE PROVA SOCIAL --- */
+/* ESTILOS DA NOTIFICAÇÃO DE PROVA SOCIAL */
+.notification {
+    position: fixed; 
+    bottom: 20px;
+    right: 20px; /* <<< ALTERADO AQUI: Posição no canto direito */
+    left: auto;   /* <<< ADICIONADO PARA GARANTIA: Remove a posição da esquerda */
+    background-color: #252525;
+    color: var(--text-color);
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--accent-color);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 2000; /* Garante que fique acima de tudo */
+
+    /* Estado inicial (escondido) */
+    opacity: 0;
+    transform: translateY(20px);
+    visibility: hidden;
+    transition: opacity 0.5s, transform 0.5s, visibility 0.5s;
+}
+
+/* Classe que torna a notificação visível */
+.notification.show {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.notification p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.notification-name {
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+/* Delay para animações sequenciais */
+.anim-on-scroll:nth-child(2) { transition-delay: 0.1s; }
+.anim-on-scroll:nth-child(3) { transition-delay: 0.2s; }
+.anim-on-scroll:nth-child(4) { transition-delay: 0.3s; }
+.anim-on-scroll:nth-child(5) { transition-delay: 0.4s; }
+
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+    body { font-size: 16px; }
+    .secao { padding: 60px 0; }
+    .product-intro, .two-paths { flex-direction: column; }
+    .product-text { text-align: center; }
+}
+/* Dentro de @media (max-width: 768px) { ... } */
+
+/* Ajuste da Posição da Notificação para Mobile */
+.notification {
+    top: 15px;          /* Posiciona a 15px do topo */
+    bottom: auto;       /* Remove o posicionamento inferior que vem do desktop */
+    left: 15px;         /* Mantém um espaçamento lateral */
+    right: 15px;        /* Mantém um espaçamento lateral */
+    width: auto;          /* Permite que a largura se ajuste ao espaço */
+    
+    /* Altera a animação para que ela deslize de cima para baixo */
+    transform: translateY(-150%); 
+}
