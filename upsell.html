@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sua Transformação Começou. Não a Sabote.</title>
+    <title>Sua Primeira Caçada - Missão Primordial</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     
-    <link rel="icon" href="img/Favicon.png" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
 </head>
 <body class="protocolo-body">
+
+    <div class="upsell-pre-header">
+        <p>⚠️ PRIVILÉGIO DE INICIAÇÃO: ESTA OFERTA EXPIRA EM <span id="upsell-countdown-timer">09:59</span> ⚠️</p>
+    </div>
 
     <div id="alert-overlay" class="visible">
         <div class="alert-content">
@@ -25,79 +29,68 @@
         <section class="secao">
             <div class="conteudo-secao container">
 
-                <h1 class="section-title">ALTO. SUA EVOLUÇÃO COMEÇOU. NÃO A SABOTE.</h1>
-                <p class="protocolo-subtitle">Parabéns por garantir seu acesso ao Primordial. Você agora possui o sistema completo para reescrever sua identidade masculina. Mas eu preciso ser brutalmente honesto com você.</p>
-                <p>O Primordial é um arsenal. E diante de um arsenal, 99% dos homens cometem o mesmo erro fatal: eles tentam usar todas as armas ao mesmo tempo. Eles se afogam em informação e acabam não dominando NADA.</p>
-                <p>Você não vai cometer esse erro. Porque, nesta página, e somente agora, você terá a chance de transformar esse vasto arsenal em um <span class="highlight">ataque cirúrgico.</span></p>
+                <h1 class="section-title">PARABÉNS, GUERREIRO. O ARSENAL ESTÁ EM SUAS MÃOS. AGORA, A MÁ NOTÍCIA...</h1>
+                <p class="protocolo-subtitle">Você acaba de tomar uma das decisões mais importantes da sua vida. O Código Primordial é a arma mais potente que um homem pode ter para forjar sua realidade. Mas imagine isto por um segundo...</p>
+                
+                <blockquote class="manifesto">
+                    Imagine que eu te dei um mapa, a melhor faca de caça e te joguei de paraquedas no coração da Floresta Amazônica. Você tem tudo para dominar. Mas qual é o seu primeiro passo? Sem uma diretriz clara, o homem mais bem equipado do mundo morre de exaustão, andando em círculos.
+                </blockquote>
 
-                <h2 class="section-title" style="margin-top: 80px;">Apresento o <span class="highlight-strong">Protocolo de Ativação de 30 Dias</span>.</h2>
-                <p>Isto não é mais conteúdo. É um plano de batalha focado. Sua tarefa é simples. Você vai me dizer: qual é a sua dor mais latente AGORA?</p>
+                <p>Este é o erro que 99% dos homens cometem. Eles se afogam no oceano de informações que deveria salvá-los. O cérebro congela e o ímpeto inicial morre.</p>
+                <p>Eu não vou deixar isso acontecer com você. Eu vou te dar a <span class="highlight">Estrela do Norte</span>.</p>
+
+                <h2 class="section-title" style="margin-top: 80px;">Apresento o Protocolo de Ativação: <span class="highlight-strong">A Sua Primeira Caçada</span>.</h2>
+                <p>Chega de adivinhar por onde começar. Sua única tarefa agora é escolher qual animal você vai caçar primeiro.</p>
 
                 <div class="missoes-container">
-                    <h3 class="missoes-title">ESCOLHA SUA MISSÃO (O PODER É SEU):</h3>
+                    <h3 class="missoes-title">ESCOLHA SUA PRIMEIRA CAÇA (A DECISÃO DEFINE SEU LEGADO):</h3>
                     <div class="missoes-grid">
-    <div class="missao-card" data-mission="1" data-kiwify-trigger-id="kiwify-upsell-trigger-62y1KqH">
-        <h3>MISSÃO 1: O DESTRUIDOR DE HESITAÇÃO</h3>
-        <p>Clique aqui se sua mente congela na hora de agir...</p>
-    </div>
-    <div class="missao-card" data-mission="2" data-kiwify-trigger-id="kiwify-upsell-trigger-3rEAq0R">
-        <h3>MISSÃO 2: O ARQUITETO DA TENSÃO</h3>
-        <p>Clique aqui se suas conversas sempre terminam na "friendzone"...</p>
-    </div>
-    <div class="missao-card" data-mission="3" data-kiwify-trigger-id="kiwify-upsell-trigger-y5JUHxB">
-        <h3>MISSÃO 3: O ALFA SILENCIOSO</h3>
-        <p>Clique aqui se você sente que não impõe respeito...</p>
-    </div>
-</div>
+                        <div class="missao-card" data-mission="1" data-kiwify-trigger-id="SEU_ID_DA_MISSAO_1">
+                            <div class="missao-header">MISSÃO ALFA</div>
+                            <h3>A TRILHA DO CAÇADOR SOCIAL</h3>
+                            <p>Para o homem que hesita. Um treinamento intensivo de 30 dias para destruir a ansiedade de abordagem e iniciar conversas magnéticas com mulheres de alto valor, sem medo, sem roteiros.</p>
+                        </div>
+                        <div class="missao-card" data-mission="2" data-kiwify-trigger-id="SEU_ID_DA_MISSAO_2">
+                            <div class="missao-header">MISSÃO BETA</div>
+                            <h3>A FAGULHA DA TENSÃO</h3>
+                            <p>Para o "bom moço". Este protocolo treina a arte sutil de injetar tensão sexual em qualquer conversa, usando o olhar, pausas e ambiguidade para transformar interações previsíveis em uma caçada sedutora.</p>
+                        </div>
+                        <div class="missao-card" data-mission="3" data-kiwify-trigger-id="SEU_ID_DA_MISSAO_3">
+                            <div class="missao-header">MISSÃO GAMA</div>
+                            <h3>O TRONO SILENCIOSO</h3>
+                            <p>Para o homem cuja presença não é sentida. Um mergulho na psicologia do poder não-verbal para dominar o espaço e comandar respeito sem precisar dizer uma única palavra.</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="offer-box protocolo-offer-box">
-                    <p>Uma vitória nos próximos 30 dias vai te dar o ímpeto para dominar todo o resto. Normalmente, um plano focado como este custaria R$ 1.500.</p>
+                    <p>Pense no custo do tempo. Quanto vale 6 meses da sua vida que você passaria patinando? Este plano de batalha focado é um privilégio para você que já está dentro.</p>
                     <div class="price-section">
-                        <p class="price-prefix">Sua taxa de acesso para este plano de batalha focado é de apenas</p>
+                        <p class="price-prefix">Seu investimento para ter um mapa claro para sua primeira vitória é de apenas</p>
                         <h3 class="price-value-upsell">R$ 159</h3>
                     </div>
 
                     <div class="cta-container">
-                        <a id="kiwify-upsell-trigger-62y1KqH" class="cta-button upsell-cta-button hidden-cta" data-mission-target="1">
-    SIM, QUERO O PROTOCOLO "DESTRUIDOR DE HESITAÇÃO" POR + R$ 159
-</a>
-
-<a id="kiwify-upsell-trigger-3rEAq0R" class="cta-button upsell-cta-button hidden-cta" data-mission-target="2">
-    SIM, QUERO O PROTOCOLO "ARQUITETO DA TENSÃO" POR + R$ 159
-</a>
-
-<a id="kiwify-upsell-trigger-y5JUHxB" class="cta-button upsell-cta-button hidden-cta" data-mission-target="3">
-    SIM, QUERO O PROTOCOLO "ALFA SILENCIOSO" POR + R$ 159
-</a>
-
-<a id="kiwify-upsell-cancel-trigger" class="decline-link"><u>Não, obrigado. Eu dispenso o plano focado e prefiro tentar aplicar tudo sozinho, correndo o risco da sobrecarga de informação.</u></a>
+                        <a class="cta-button upsell-cta-button cta-disabled">ESCOLHA SUA MISSÃO ACIMA</a>
                         
+                        <a id="kiwify-upsell-trigger-SEU_ID_DA_MISSAO_1" class="cta-button upsell-cta-button hidden-cta" data-mission-target="1">
+                            SIM, EU ACEITO A MISSÃO ALFA POR + R$ 159
+                        </a>
+                        <a id="kiwify-upsell-trigger-SEU_ID_DA_MISSAO_2" class="cta-button upsell-cta-button hidden-cta" data-mission-target="2">
+                            SIM, EU ACEITO A MISSÃO BETA POR + R$ 159
+                        </a>
+                        <a id="kiwify-upsell-trigger-SEU_ID_DA_MISSAO_3" class="cta-button upsell-cta-button hidden-cta" data-mission-target="3">
+                            SIM, EU ACEITO A MISSÃO GAMA POR + R$ 159
+                        </a>
+
+                        <a id="kiwify-upsell-cancel-trigger" class="decline-link"><u>Não, obrigado. Eu recuso o mapa e escolho entrar na floresta sozinho, assumindo o risco de me perder.</u></a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
     
-    <script>
-        // Script para o Alerta de Sobreposição
-        document.addEventListener('DOMContentLoaded', () => {
-            const overlay = document.getElementById('alert-overlay');
-            if (overlay) {
-                function hideOverlay() {
-                    overlay.classList.remove('visible');
-                }
-                const autoHide = setTimeout(hideOverlay, 5000);
-                overlay.addEventListener('click', () => {
-                    clearTimeout(autoHide);
-                    hideOverlay();
-                });
-            }
-        });
-    </script>
-    <script src="script.js"></script>
-
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <script>
         let nextUpsellURL = "";
         let nextDownsellURL = "";
