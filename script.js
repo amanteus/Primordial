@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Prova Social e Escassez Dinâmica
         if (onlineCountElement && vagasHeaderElement && notificationElement && progressBar) {
-            let onlineCount = 137;
+            let onlineCount = 157;
             function updateOnlineCount() {
                 const variation = Math.floor(Math.random() * 7) - 3;
                 onlineCount += variation;
@@ -382,7 +382,7 @@ const fakePurchases = [
             }
 
             function scheduleNextNotification() {
-                const randomDelay = Math.random() * (25000 - 8000) + 8000;
+                const randomDelay = Math.random() * (30000 - 8000) + 8000;
                 setTimeout(showNotification, randomDelay);
             }
 
