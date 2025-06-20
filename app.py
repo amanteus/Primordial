@@ -6,6 +6,10 @@ app = Flask(__name__)
 def sales_page():
     return render_template('index.html')
 
+@app.route('/obrigado')
+def thank_you_page():
+    return render_template('obrigado.html')
+
 # ADICIONE ESTA NOVA ROTA
 @app.route('style.css')
 def serve_css():

@@ -228,6 +228,18 @@ h1, h2, h3, h4 {
     background-color: #111;
 }
 
+/* Adicione estas DUAS novas regras no lugar da anterior */
+
+/* 1. Define um espaçamento PEQUENO para TODOS os parágrafos da introdução */
+.secao-2-epidemia .conteudo-secao > p {
+    margin-bottom: 25px; /* Espaçamento padrão de 10px entre parágrafos */
+}
+
+/* 2. Define um espaçamento MAIOR especificamente para o ÚLTIMO parágrafo */
+.secao-2-epidemia .conteudo-secao > p:last-of-type {
+    margin-bottom: 30px; /* Espaçamento de 30px para separar do próximo bloco */
+}
+
 .stats-container {
     display: flex;
     justify-content: center;
@@ -413,9 +425,57 @@ h1, h2, h3, h4 {
 .offer-summary ul { list-style: none; }
 .offer-summary li { margin-bottom: 10px; font-size: 1.1rem; }
 
-.price-section { margin: 40px 0; }
-.price-section p { font-size: 1.2rem; }
-.price-section h3 { font-size: 4rem; color: var(--accent-color); }
+.price-section {
+    margin: 40px 0;
+    text-align: center;
+}
+
+.price-old {
+    font-size: 1.1rem;
+    opacity: 0.7;
+}
+
+/* Estilo para o "Por apenas" */
+.price-prefix {
+    font-size: 1.2rem;
+    color: var(--text-color); /* Cor #e0e0e0, como solicitado */
+    margin-top: 15px;
+}
+
+/* Container principal do preço (12x R$ 10,24) */
+.price-main {
+    display: flex;
+    justify-content: center;
+    align-items: baseline; /* Alinha pela base do texto, fica melhor */
+    gap: 15px;
+    margin: 5px 0;
+    color: var(--accent-color); /* Cor de destaque para o conjunto */
+}
+
+/* Estilo para o "12x" */
+.price-installments {
+    font-family: var(--font-primary);
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+/* Estilo para o "R$ 10,24" */
+.price-value {
+    font-family: var(--font-headline);
+    font-size: 5rem; /* Destaque máximo para o valor */
+    line-height: 1;
+}
+
+/* Estilo para o "ou R$ 99,00 à vista" */
+.price-descriptor {
+    font-size: 1rem;
+    color: #aaa;
+}
+
+.price-warning {
+    font-size: 0.5rem;
+    color: #aaa;
+}
 
 /* Novo estilo para o container de vagas na caixa de oferta */
 .vagas-variaveis-container {
@@ -428,14 +488,14 @@ h1, h2, h3, h4 {
 }
 
 .vagas-variaveis-container p {
-    font-size: 0.9rem;
+    font-size: 0.6rem;
     opacity: 0.8;
     margin-bottom: 10px;
 }
 
 .vagas-variaveis-container span {
     font-family: var(--font-headline);
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     color: var(--accent-color);
 }
 #progress-bar-inner {
@@ -445,13 +505,21 @@ h1, h2, h3, h4 {
     border-radius: 10px;
 }
 
+/* Adicione esta nova regra */
+.cta-container {
+    display: flex;
+    flex-direction: column; /* Empilha os itens verticalmente */
+    align-items: center;    /* Centraliza os itens horizontalmente */
+    margin-top: 40px;       /* Mantém um espaço acima do botão */
+}
+
 .cta-button {
     display: inline-block;
     background-color: var(--accent-color);
     color: #111;
     font-family: var(--font-headline);
-    font-size: 1.4rem;
-    padding: 20px 60px;
+    font-size: 1rem;
+    padding: 5px 10px;
     text-decoration: none;
     border-radius: 5px;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -526,6 +594,137 @@ h1, h2, h3, h4 {
     line-height: 1.6;
 }
 
+/* --- ESTILOS DA PÁGINA DE OBRIGADO --- */
+
+.obrigado-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.obrigado-container {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+}
+
+.obrigado-header {
+    margin-bottom: 60px;
+}
+
+.obrigado-logo {
+    max-width: 120px;
+    margin-bottom: 30px;
+    opacity: 0.8;
+}
+
+.obrigado-title {
+    font-family: var(--font-headline);
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--accent-color);
+    line-height: 1.2;
+}
+
+.obrigado-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-top: 15px;
+    opacity: 0.9;
+}
+
+.instrucoes-box {
+    background-color: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 60px;
+}
+
+.instrucoes-box h2 {
+    font-family: var(--font-headline);
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+}
+
+.instrucoes-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    text-align: left;
+}
+
+.instrucao-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.instrucao-numero {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.instrucao-texto h3 {
+    font-family: var(--font-headline);
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.instrucao-texto p {
+    font-size: 0.95rem;
+    color: #aaa;
+    line-height: 1.5;
+}
+
+.chamada-irmandade h2 {
+    font-family: var(--font-headline);
+    color: var(--accent-color);
+    font-size: 1.5rem;
+}
+
+.chamada-irmandade p {
+    max-width: 600px;
+    margin: 15px auto;
+}
+
+.botao-irmandade {
+    display: inline-block;
+    background-color: #25D366; /* Cor do WhatsApp */
+    color: #fff;
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    padding: 15px 40px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-weight: bold;
+}
+
+.botao-irmandade:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+}
+
+.aviso-link {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 15px;
+}
+
 /* --- ESTILOS DA NOTIFICAÇÃO DE PROVA SOCIAL --- */
 /* ESTILOS DA NOTIFICAÇÃO DE PROVA SOCIAL */
 .notification {
@@ -591,4 +790,22 @@ h1, h2, h3, h4 {
     
     /* Altera a animação para que ela deslize de cima para baixo */
     transform: translateY(-150%); 
+}
+
+/* Dentro de @media (max-width: 768px) { ... } */
+
+/* --- Ajustes no Bloco de Preço para Mobile --- */
+.price-main {
+    gap: 10px; /* Reduz o espaço entre "12x" e o valor */
+    flex-wrap: wrap; /* Permite que quebre a linha se necessário */
+    justify-content: center;
+}
+.price-installments {
+    font-size: 2rem; /* Reduz o tamanho do "12x" */
+}
+.price-value {
+    font-size: 4rem; /* Reduz drasticamente o tamanho do valor principal */
+}
+.price-prefix, .price-descriptor {
+    font-size: 1rem; /* Ajusta os textos de apoio */
 }
