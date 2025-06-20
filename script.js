@@ -396,35 +396,37 @@ const fakePurchases = [
 });
 
     // ==========================================================
-// --- LÓGICA DA PÁGINA DE UPSELL (PROTOCOLO) - VERSÃO FINAL ---
-// ==========================================================
+    // --- LÓGICA DA PÁGINA DE UPSELL (PROTOCOLO) ---
+    // Esta é a parte que precisa ser corrigida
+    // ==========================================================
 
-const missoes = document.querySelectorAll('.missao-card');
-// Seleciona TODOS os botões de compra de uma vez
-const upsellButtons = document.querySelectorAll('.upsell-cta-button');
+    const missoes = document.querySelectorAll('.missao-card');
+    const upsellButtons = document.querySelectorAll('.upsell-cta-button'); // Seleciona TODOS os botões
 
-// Este código só roda se encontrar os elementos das missões
-if (missoes.length > 0 && upsellButtons.length > 0) {
+    // Este código só roda se encontrar os elementos das missões na página
+    if (missoes.length > 0 && upsellButtons.length > 0) {
+        
+        missoes.forEach(missao => {
+            missao.addEventListener('click', (event) => {
+                // Pega o número da missão que foi clicada (ex: "1", "2" ou "3")
+                const selectedMission = event.currentTarget.dataset.mission;
 
-    missoes.forEach(missao => {
-        missao.addEventListener('click', (event) => {
-            // Pega a missão que foi clicada (ex: "1", "2" ou "3")
-            const selectedMission = event.currentTarget.dataset.mission;
+                // 1. Remove o estilo de 'selecionado' de todos os cards
+                missoes.forEach(m => m.classList.remove('selected'));
 
-            // 1. Remove a seleção de todos os outros cards
-            missoes.forEach(m => m.classList.remove('selected'));
+                // 2. Adiciona o estilo de 'selecionado' apenas ao card clicado
+                event.currentTarget.classList.add('selected');
 
-            // 2. Adiciona a seleção ao card clicado
-            event.currentTarget.classList.add('selected');
-
-            // 3. Esconde TODOS os botões de compra para garantir
-            upsellButtons.forEach(button => button.classList.add('hidden-cta'));
-            
-            // 4. Encontra e REVELA apenas o botão correto
-            const correctButton = document.querySelector(`.upsell-cta-button[data-mission-target="${selectedMission}"]`);
-            if (correctButton) {
-                correctButton.classList.remove('hidden-cta');
-            }
+                // 3. Esconde TODOS os botões de compra para garantir um estado limpo
+                upsellButtons.forEach(button => button.classList.add('hidden-cta'));
+                
+                // 4. Encontra e REVELA apenas o botão correto que corresponde à missão
+                const correctButton = document.querySelector(`.upsell-cta-button[data-mission-target="${selectedMission}"]`);
+                if (correctButton) {
+                    correctButton.classList.remove('hidden-cta');
+                }
+            });
         });
-    });
-}
+    }
+
+});
