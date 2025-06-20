@@ -6,6 +6,10 @@ app = Flask(__name__)
 def sales_page():
     return render_template('index.html')
 
+@app.route('/upsell')
+def upsell_page():
+    return render_template('upsell.html')
+
 @app.route('/obrigado')
 def thank_you_page():
     return render_template('obrigado.html')

@@ -1,61 +1,62 @@
+// Espera todo o conteúdo da página carregar antes de executar o código
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- FUNÇÃO DO ACORDEÃO ---
-    const accordionItems = document.querySelectorAll('.accordion-item');
-    accordionItems.forEach(item => {
-        const header = item.querySelector('.accordion-header');
-        header.addEventListener('click', () => {
-            const content = item.querySelector('.accordion-content');
-            header.classList.toggle('active');
-            if (header.classList.contains('active')) {
-                content.style.maxHeight = content.scrollHeight + "px";
-                content.style.padding = "20px";
-            } else {
-                content.style.maxHeight = null;
-                content.style.padding = "0 20px";
-            }
-        });
-    });
-
-    // --- FUNÇÃO PARA ANIMAÇÕES AO ROLAR A PÁGINA ---
-    const animatedElements = document.querySelectorAll('.anim-on-scroll');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-    animatedElements.forEach(element => {
-        observer.observe(element);
-    });
-
     // ==========================================================
-    // --- SISTEMA DINÂMICO DE PROVA SOCIAL E ESCASSEZ (VERSÃO CORRIGIDA) ---
+    // --- FUNÇÃO DE INICIALIZAÇÃO PARA A PÁGINA DE VENDAS ---
     // ==========================================================
+    function setupSalesPage() {
+        // Seleciona elementos específicos da página de vendas
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        const animatedElements = document.querySelectorAll('.anim-on-scroll');
+        const onlineCountElement = document.getElementById('pessoas-online');
+        const vagasHeaderElement = document.getElementById('vagas-restantes-header');
+        const notificationElement = document.getElementById('social-proof-notification');
+        const progressBar = document.getElementById('progress-bar-inner');
 
-    const onlineCountElement = document.getElementById('pessoas-online');
-    const vagasHeaderElement = document.getElementById('vagas-restantes-header');
-    const notificationElement = document.getElementById('social-proof-notification');
-    const progressBar = document.getElementById('progress-bar-inner');
-
-    // Verifica se TODOS os elementos necessários existem antes de rodar a lógica
-    if (onlineCountElement && vagasHeaderElement && notificationElement && progressBar) {
-
-        // --- LÓGICA DO CONTADOR DE PESSOAS ONLINE ---
-        let onlineCount = 137;
-        function updateOnlineCount() {
-            const variation = Math.floor(Math.random() * 7) - 3;
-            onlineCount += variation;
-            if (onlineCount < 110) onlineCount = 110;
-            if (onlineCount > 190) onlineCount = 190;
-            onlineCountElement.textContent = onlineCount;
+        // Acordeão
+        if (accordionItems.length > 0) {
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    const content = item.querySelector('.accordion-content');
+                    header.classList.toggle('active');
+                    if (header.classList.contains('active')) {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        content.style.padding = "20px";
+                    } else {
+                        content.style.maxHeight = null;
+                        content.style.padding = "0 20px";
+                    }
+                });
+            });
         }
-        setInterval(updateOnlineCount, 2500);
-        
-        // --- LÓGICA DAS VAGAS E NOTIFICAÇÕES ---
-        // Banco de dados FAKE de compras (versão com 100 entradas)
+
+        // Animações ao Rolar
+        if (animatedElements.length > 0) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        // Prova Social e Escassez Dinâmica
+        if (onlineCountElement && vagasHeaderElement && notificationElement && progressBar) {
+            let onlineCount = 137;
+            function updateOnlineCount() {
+                const variation = Math.floor(Math.random() * 7) - 3;
+                onlineCount += variation;
+                if (onlineCount < 110) onlineCount = 110;
+                if (onlineCount > 190) onlineCount = 190;
+                onlineCountElement.textContent = onlineCount;
+            }
+            setInterval(updateOnlineCount, 2500);
 const fakePurchases = [
     // Seus 20 originais
     { name: 'João Paulo', location: 'São Paulo, SP' },
@@ -355,42 +356,81 @@ const fakePurchases = [
 ];
 
         const totalVagas = 50;
-        let vagasAtuais = Math.floor(Math.random() * (24 - 12 + 1)) + 12;
+            let vagasAtuais = Math.floor(Math.random() * (24 - 12 + 1)) + 12;
 
-        function updateVagasDisplay() {
-            vagasHeaderElement.textContent = vagasAtuais;
-            const vagasPreenchidas = totalVagas - vagasAtuais;
-            const percentualPreenchido = (vagasPreenchidas / totalVagas) * 100;
-            progressBar.style.width = percentualPreenchido + '%';
+            function updateVagasDisplay() {
+                vagasHeaderElement.textContent = vagasAtuais;
+                const vagasPreenchidas = totalVagas - vagasAtuais;
+                const percentualPreenchido = (vagasPreenchidas / totalVagas) * 100;
+                progressBar.style.width = percentualPreenchido + '%';
+            }
+
+            updateVagasDisplay();
+
+            function showNotification() {
+                if (vagasAtuais <= 3) return;
+                const randomIndex = Math.floor(Math.random() * fakePurchases.length);
+                const purchase = fakePurchases[randomIndex];
+                notificationElement.innerHTML = `<p><span class="notification-name">${purchase.name}</span> de ${purchase.location} acaba de garantir sua vaga na Irmandade Primordial.</p>`;
+                notificationElement.classList.add('show');
+                vagasAtuais--;
+                updateVagasDisplay();
+                setTimeout(() => {
+                    notificationElement.classList.remove('show');
+                }, 5000);
+                scheduleNextNotification();
+            }
+
+            function scheduleNextNotification() {
+                const randomDelay = Math.random() * (25000 - 8000) + 8000;
+                setTimeout(showNotification, randomDelay);
+            }
+
+            setTimeout(scheduleNextNotification, 8000);
         }
-
-        // Define o estado inicial assim que a página carrega
-        updateVagasDisplay();
-
-        function showNotification() {
-            if (vagasAtuais <= 3) return;
-
-            const randomIndex = Math.floor(Math.random() * fakePurchases.length);
-            const purchase = fakePurchases[randomIndex];
-            
-            notificationElement.innerHTML = `<p><span class="notification-name">${purchase.name}</span> de ${purchase.location} acaba de garantir sua vaga na Irmandade Primordial.</p>`;
-            notificationElement.classList.add('show');
-
-            vagasAtuais--;
-            updateVagasDisplay(); // Atualiza tanto o número quanto a barra
-
-            setTimeout(() => {
-                notificationElement.classList.remove('show');
-            }, 5000);
-            
-            scheduleNextNotification();
-        }
-
-        function scheduleNextNotification() {
-            const randomDelay = Math.random() * (25000 - 8000) + 8000;
-            setTimeout(showNotification, randomDelay);
-        }
-
-        setTimeout(scheduleNextNotification, 8000);
     }
+
+    // ==========================================================
+    // --- LÓGICA DA PÁGINA DE UPSELL (VERSÃO CORRIGIDA) ---
+    // ==========================================================
+
+    // 1. Lógica do Alerta de Sobreposição
+    const overlay = document.getElementById('alert-overlay');
+    if (overlay) { 
+        function hideOverlay() {
+            overlay.classList.remove('visible');
+        }
+        const autoHide = setTimeout(hideOverlay, 3000);
+        overlay.addEventListener('click', () => {
+            clearTimeout(autoHide);
+            hideOverlay();
+        });
+    }
+
+    // 2. Lógica da Seleção de Missão
+    const missoes = document.querySelectorAll('.missao-card');
+    const upsellButtons = document.querySelectorAll('.upsell-cta-button');
+    const escolhaMissaoTexto = document.querySelector('.escolha-missao-texto');
+
+    if (missoes.length > 0 && upsellButtons.length > 0 && escolhaMissaoTexto) {
+        missoes.forEach((missao, index) => {
+            missao.addEventListener('click', () => {
+                missoes.forEach(m => m.classList.remove('selected'));
+                missao.classList.add('selected');
+
+                escolhaMissaoTexto.style.display = 'none';
+
+                upsellButtons.forEach(button => button.classList.add('hidden-cta'));
+                
+                if (upsellButtons[index]) {
+                    upsellButtons[index].classList.remove('hidden-cta');
+                }
+            });
+        });
+    }
+    // --- EXECUTA AS FUNÇÕES DE INICIALIZAÇÃO ---
+    // Cada função verifica internamente se os elementos de sua página existem
+    setupSalesPage();
+    setupUpsellPage();
+
 });
