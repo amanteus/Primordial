@@ -665,6 +665,19 @@ h1, h2, h3, h4 {
     position: relative;
     overflow: hidden;
 }
+
+/* Estilo para o texto de instrução */
+.escolha-missao-texto {
+    font-family: var(--font-headline);
+    color: #888;
+    font-size: 1.2rem;
+    padding: 20px 0;
+    border: 2px dashed #444;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 500px; /* Adapte se necessário */
+}
+
 .missao-header {
     position: absolute;
     top: 15px;
