@@ -396,29 +396,44 @@ const fakePurchases = [
 });
 
     // ==========================================================
-    // --- LÓGICA DA PÁGINA DE UPSELL (PROTOCOLOS) ---
+    // --- LÓGICA DA PÁGINA DE UPSELL (VERSÃO FINAL E ROBUSTA) ---
     // ==========================================================
 
+    // 1. Lógica do Alerta de Sobreposição
+    const overlay = document.getElementById('alert-overlay');
+    if (overlay) {
+        function hideOverlay() {
+            overlay.classList.remove('visible');
+        }
+        const autoHide = setTimeout(hideOverlay, 5000);
+        overlay.addEventListener('click', () => {
+            clearTimeout(autoHide);
+            hideOverlay();
+        });
+    }
+
+    // 2. Lógica da Seleção de Missão
     const missoes = document.querySelectorAll('.missao-card');
     const upsellButtons = document.querySelectorAll('.upsell-cta-button');
 
     if (missoes.length > 0 && upsellButtons.length > 0) {
-        
-        missoes.forEach(missao => {
-            missao.addEventListener('click', (event) => {
-                const selectedMission = event.currentTarget.dataset.mission;
 
+        // Adicionamos o 'index' para saber a posição do item clicado (0, 1 ou 2)
+        missoes.forEach((missao, index) => {
+            missao.addEventListener('click', () => {
+                // Remove o estilo 'selected' de todos os outros cards
                 missoes.forEach(m => m.classList.remove('selected'));
-                event.currentTarget.classList.add('selected');
+                // Adiciona o estilo 'selected' apenas ao card que foi clicado
+                missao.classList.add('selected');
 
+                // Esconde TODOS os botões de compra para garantir um estado limpo
                 upsellButtons.forEach(button => button.classList.add('hidden-cta'));
-                
-                const correctButton = document.querySelector(`.upsell-cta-button[data-mission-target="${selectedMission}"]`);
-                if (correctButton) {
-                    correctButton.classList.remove('hidden-cta');
+
+                // Revela apenas o botão que está na MESMA POSIÇÃO (índice) do card clicado
+                if (upsellButtons[index]) {
+                    upsellButtons[index].classList.remove('hidden-cta');
                 }
             });
         });
     }
-
 });
