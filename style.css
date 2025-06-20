@@ -666,18 +666,6 @@ h1, h2, h3, h4 {
     overflow: hidden;
 }
 
-/* Estilo para o texto de instrução */
-.escolha-missao-texto {
-    font-family: var(--font-headline);
-    color: #888;
-    font-size: 1.2rem;
-    padding: 20px 0;
-    border: 2px dashed #444;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 500px; /* Adapte se necessário */
-}
-
 .missao-header {
     position: absolute;
     top: 15px;
@@ -703,9 +691,15 @@ h1, h2, h3, h4 {
 .protocolo-offer-box { margin-top: 80px; }
 .price-value-upsell { font-family: var(--font-headline); font-size: 4rem; color: var(--accent-color); line-height: 1; }
 
-.cta-button.cta-disabled {
-    background-color: #444; color: #888; cursor: not-allowed;
-    border-color: #444;
+.escolha-missao-texto {
+    font-family: var(--font-headline);
+    color: #888;
+    font-size: 1.2rem;
+    padding: 20px 0;
+    border: 2px dashed #444;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 500px; /* Adapte se necessário */
 }
 .cta-button.cta-disabled:hover { transform: none; box-shadow: none; }
 
