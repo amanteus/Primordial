@@ -3,7 +3,7 @@
     --text-color: #e0e0e0;
     --accent-color: #c4aa83;
     --font-primary: 'Roboto', sans-serif;      /* <<< ALTERADO AQUI */
-    --font-headline: 'Boldonse', cursive;   /* <<< ALTERADO AQUI */
+    --font-headline: 'Abril Fatface', cursive;   /* <<< ALTERADO AQUI */
 }
 
 * {
