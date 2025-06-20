@@ -400,7 +400,7 @@ const fakePurchases = [
         function hideOverlay() {
             overlay.classList.remove('visible');
         }
-        const autoHide = setTimeout(hideOverlay, 5000);
+        const autoHide = setTimeout(hideOverlay, 3000);
         overlay.addEventListener('click', () => {
             clearTimeout(autoHide);
             hideOverlay();
