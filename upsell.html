@@ -72,9 +72,10 @@
                         <p class="price-prefix">Sua taxa de acesso para este diagnóstico final é de apenas</p>
                         <h3 class="price-value-upsell">R$ 189</h3>
                     </div>
-                    <a href="#" class="cta-button upsell-cta">SIM, EU EXIJO MEU DIAGNÓSTICO. GERAR MEU DOSSIÊ AGORA POR + R$ 189</a>
+                    <a id="kiwify-upsell-trigger-TYhYpcp" class="cta-button upsell-cta">SIM, EU EXIJO MEU DIAGNÓSTICO. GERAR MEU DOSSIÊ AGORA POR + R$ 129</a>
                     <p class="secure-checkout-text">(Acesso instantâneo ao Questionário. Dossiê pessoal gerado e enviado ao seu e-mail em minutos)</p>
-                    <a href="{{ url_for('thank_you_page') }}" class="decline-link"><u>Não, obrigado. Recuso o diagnóstico e prefiro continuar lutando uma batalha no escuro, sem conhecer meu verdadeiro inimigo.</u></a>
+
+                    <a id="kiwify-upsell-cancel-trigger" class="decline-link"><u>Não, obrigado. Recuso o diagnóstico e prefiro continuar lutando uma batalha no escuro, sem conhecer meu verdadeiro inimigo.</u></a>
                 </div>
             </div>
         </section>
@@ -98,5 +99,12 @@
             });
         });
     </script>
+    <script>
+            let nextUpsellURL = "";
+            let nextDownsellURL = "";
+        </script>
+        <script src="https://snippets.kiwify.com/upsell/upsell.min.js"></script>
+    </body>
+</html>
 </body>
 </html>
