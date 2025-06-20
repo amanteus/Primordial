@@ -655,6 +655,23 @@ h1, h2, h3, h4 {
     letter-spacing: 0.5px; /* Opcional: Melhora a legibilidade de texto em caixa alta */
 }
 
+/* Novo estilo para o link de recusa */
+.decline-link {
+    display: block;
+    margin-top: 30px;
+    font-size: 0.8rem;
+    color: #aaa; /* Cor um pouco mais clara, mas ainda sutil */
+    text-decoration: none; /* Remove o sublinhado padrão */
+    font-style: italic; /* Adiciona um toque de estilo */
+    opacity: 0.8; /* Levemente transparente */
+    transition: all 0.3s ease; /* Transição suave para todas as propriedades */
+}
+
+.decline-link:hover {
+    color: var(--accent-color); /* Usa a cor de destaque no hover */
+    opacity: 1; /* Fica totalmente opaco */
+    text-decoration: underline; /* Adiciona o sublinhado no hover */
+}
 /* Estilo para o botão desativado */
 /* Adicione esta regra aos estilos do Upsell */
 .hidden-cta {
