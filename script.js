@@ -396,37 +396,35 @@ const fakePurchases = [
 });
 
     // ==========================================================
-// --- LÓGICA DA PÁGINA DE UPSELL (PROTOCOLOS) ---
+// --- LÓGICA DA PÁGINA DE UPSELL (PROTOCOLO) - VERSÃO FINAL ---
 // ==========================================================
 
 const missoes = document.querySelectorAll('.missao-card');
-// Mudamos a forma de selecionar o botão para uma classe, pois o ID será dinâmico
-const upsellButton = document.querySelector('.upsell-cta-button'); 
-const declineButton = document.getElementById('kiwify-upsell-cancel-trigger'); // Seleciona o botão de recusa
+// Seleciona TODOS os botões de compra de uma vez
+const upsellButtons = document.querySelectorAll('.upsell-cta-button');
 
-if (missoes.length > 0 && upsellButton) {
-
-    // Texto original do botão quando ativado
-    const activeButtonText = "SIM, QUERO MEU PROTOCOLO DE ATIVAÇÃO POR + R$ 197";
+// Este código só roda se encontrar os elementos das missões
+if (missoes.length > 0 && upsellButtons.length > 0) {
 
     missoes.forEach(missao => {
-        missao.addEventListener('click', () => {
-            // Remove a seleção de todas as outras missões
+        missao.addEventListener('click', (event) => {
+            // Pega a missão que foi clicada (ex: "1", "2" ou "3")
+            const selectedMission = event.currentTarget.dataset.mission;
+
+            // 1. Remove a seleção de todos os outros cards
             missoes.forEach(m => m.classList.remove('selected'));
 
-            // Adiciona a seleção à missão clicada
-            missao.classList.add('selected');
+            // 2. Adiciona a seleção ao card clicado
+            event.currentTarget.classList.add('selected');
 
-            // --- A MÁGICA ACONTECE AQUI ---
-            // 1. Pega o ID de gatilho específico da missão clicada
-            const triggerId = missao.dataset.kiwifyTriggerId;
+            // 3. Esconde TODOS os botões de compra para garantir
+            upsellButtons.forEach(button => button.classList.add('hidden-cta'));
             
-            // 2. ATUALIZA o ID do botão de compra dinamicamente
-            upsellButton.id = triggerId;
-
-            // 3. Ativa o botão de compra
-            upsellButton.classList.remove('cta-disabled');
-            upsellButton.textContent = activeButtonText;
+            // 4. Encontra e REVELA apenas o botão correto
+            const correctButton = document.querySelector(`.upsell-cta-button[data-mission-target="${selectedMission}"]`);
+            if (correctButton) {
+                correctButton.classList.remove('hidden-cta');
+            }
         });
     });
 }
