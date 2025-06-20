@@ -14,6 +14,10 @@ def upsell_page():
 def thank_you_page():
     return render_template('obrigado.html')
 
+@app.route('/parceria')
+def affiliate_page():
+    return render_template('afiliados.html')
+
 # ADICIONE ESTA NOVA ROTA
 @app.route('style.css')
 def serve_css():
