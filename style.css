@@ -646,7 +646,7 @@ h1, h2, h3, h4 {
 .missao-card p { font-size: 0.95rem; text-align: left; max-width: 100%; }
 
 .protocolo-offer-box { margin-top: 80px; }
-.price-value-upsell { font-family: var(--font-headline); font-size: 4rem; color: var(--accent-color); line-height: 1; }
+.price-value-upsell { font-family: var(--font-headline); font-size: 2rem; color: var(--accent-color); line-height: 1; }
 
 /* Estilo para o botão desativado */
 /* Adicione esta regra aos estilos do Upsell */
