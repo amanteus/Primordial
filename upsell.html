@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Um Passo Adicional é Necessário - Primordial</title>
+    <title>Sua Transformação Começou. Não a Sabote.</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="img/Favicon.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 </head>
-<body class="upsell-body">
+<body class="protocolo-body">
 
     <div id="alert-overlay" class="visible">
         <div class="alert-content">
@@ -19,89 +21,76 @@
         </div>
     </div>
 
-    <main class="upsell-page">
+    <main class="protocolo-page">
         <section class="secao">
             <div class="conteudo-secao container">
 
-                <h2 class="section-title">Você tem o sistema. Mas você não conhece o inimigo que vive <span class="highlight">DENTRO</span> de você.</h2>
-                <p>Vamos ser brutalmente honestos um com o outro. Você não comprou o Primordial por acaso. Você comprou porque sentiu um padrão se repetindo na sua vida. Um ciclo de frustração.</p>
+                <h1 class="section-title">ALTO. SUA EVOLUÇÃO COMEÇOU. NÃO A SABOTE.</h1>
+                <p class="protocolo-subtitle">Parabéns por garantir seu acesso ao Primordial. Você agora possui o sistema completo para reescrever sua identidade masculina. Mas eu preciso ser brutalmente honesto com você.</p>
+                <p>O Primordial é um arsenal. E diante de um arsenal, 99% dos homens cometem o mesmo erro fatal: eles tentam usar todas as armas ao mesmo tempo. Eles se afogam em informação e acabam não dominando NADA.</p>
+                <p>Você não vai cometer esse erro. Porque, nesta página, e somente agora, você terá a chance de transformar esse vasto arsenal em um <span class="highlight">ataque cirúrgico.</span></p>
 
-                <div class="padrao-fracasso">
-                    <h3>Qual é o seu Padrão de Fracasso?</h3>
-                    <p>Pense bem...</p>
-                    <ul>
-                        <li>É o padrão do <span class="highlight">"Bom Moço"</span>, que invariavelmente termina na friendzone?</li>
-                        <li>É o padrão do <span class="highlight">"Intelectual"</span>, que sabe tudo mas congela na hora de agir?</li>
-                        <li>Ou é o padrão do <span class="highlight">"Reativo"</span>, que explode com agressividade e sabota qualquer chance?</li>
-                    </ul>
-                </div>
+                <h2 class="section-title" style="margin-top: 80px;">Apresento o <span class="highlight-strong">Protocolo de Ativação de 30 Dias</span>.</h2>
+                <p>Isto não é mais conteúdo. É um plano de batalha focado. Sua tarefa é simples. Você vai me dizer: qual é a sua dor mais latente AGORA?</p>
 
-                <blockquote class="manifesto">
-                    Existe um código de autossabotagem rodando no seu sistema operacional neste exato momento. Você pode ter o motor de uma Ferrari, mas com esse pneu furado, você vai continuar rodando em círculos.
-                </blockquote>
-
-                <h2 class="section-title" style="margin-top: 80px;">Eu não vou deixar isso acontecer.<br>Apresento o <span class="highlight-strong">Dossiê de Inteligência Primordial</span>.</h2>
-                <p>Isto não é mais um curso. É o seu espelho. Um sistema de diagnóstico que vai <span class="highlight">NOMEAR</span> o seu inimigo interno e te entregar o plano de batalha para executá-lo.</p>
-                
-                <div class="dossie-features">
-                    <p>Através de um questionário de calibragem cirúrgico, nosso sistema gera um relatório pessoal e instantâneo que revela:</p>
-                    <ul>
-                        <li>✅ <span class="highlight">Seu Arquétipo de Sombra:</span> O nome e a descrição exata do padrão que te sabota.</li>
-                        <li>✅ <span class="highlight">A Origem da Falha:</span> De onde vem esse bug? Vamos expor a ferida original.</li>
-                        <li>✅ <span class="highlight">O Antídoto Personalizado:</span> Seu plano de ataque de 30 dias para destruir esse padrão.</li>
-                    </ul>
-                </div>
-
-                <div class="caminhos-container">
-                    <div class="path-card path-weak">
-                        <h3>Caminho 1: Ignorar</h3>
-                        <p>Você fecha esta página. Tenta instalar o Primordial por cima de um sistema corrompido. Você sentirá alguma melhora, mas o "bug" continuará lá, escondido, esperando para te sabotar no momento mais crucial.</p>
-                    </div>
-                    <div class="path-card path-strong">
-                        <h3>Caminho 2: Clareza Cirúrgica</h3>
-                        <p>Você investe em clareza. Você recebe seu dossiê. Você descobre o nome do seu demônio. Você recebe as coordenadas exatas para o ataque. Você para de lutar no escuro e começa a operar com a precisão de um sniper.</p>
+                <div class="missoes-container">
+                    <h3 class="missoes-title">ESCOLHA SUA MISSÃO (O PODER É SEU):</h3>
+                    <div class="missoes-grid">
+                        <div class="missao-card" data-mission="1">
+                            <h3>MISSÃO 1: O DESTRUIDOR DE HESITAÇÃO</h3>
+                            <p>Clique aqui se sua mente congela na hora de agir. Este protocolo é focado 100% em ação e abordagem, transformando a paralisia em poder de iniciativa.</p>
+                        </div>
+                        <div class="missao-card" data-mission="2">
+                            <h3>MISSÃO 2: O ARQUITETO DA TENSÃO</h3>
+                            <p>Clique aqui se suas conversas sempre terminam na "friendzone". Este protocolo é focado em calibrar sua comunicação para criar tensão sexual e desejo.</p>
+                        </div>
+                        <div class="missao-card" data-mission="3">
+                            <h3>MISSÃO 3: O ALFA SILENCIOSO</h3>
+                            <p>Clique aqui se você sente que não impõe respeito em um ambiente. Este protocolo é focado em linguagem corporal, postura e energia para comandar respeito sem dizer uma palavra.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="offer-box upsell-offer-box">
-                    <p class="price-prefix">Quanto vale saber exatamente por que você falha?</p>
-                    <p>O acesso ao sistema de diagnóstico e a geração do seu dossiê pessoal não será por R$500, nem R$300.</p>
+                <div class="offer-box protocolo-offer-box">
+                    <p>Uma vitória nos próximos 30 dias vai te dar o ímpeto para dominar todo o resto. Normalmente, um plano focado como este custaria R$ 1.500.</p>
                     <div class="price-section">
-                        <p class="price-prefix">Sua taxa de acesso para este diagnóstico final é de apenas</p>
-                        <h3 class="price-value-upsell">R$ 129</h3>
+                        <p class="price-prefix">Sua taxa de acesso para este plano de batalha focado é de apenas</p>
+                        <h3 class="price-value-upsell">R$ 197</h3>
                     </div>
-                    <a id="kiwify-upsell-trigger-TYhYpcp" class="cta-button upsell-cta">SIM, EU EXIJO MEU DIAGNÓSTICO. GERAR MEU DOSSIÊ AGORA POR + R$ 129</a>
-                    <p class="secure-checkout-text">(Acesso instantâneo ao Questionário. Dossiê pessoal gerado e enviado ao seu e-mail em minutos)</p>
 
-                    <a id="kiwify-upsell-cancel-trigger" class="decline-link"><u>Não, obrigado. Recuso o diagnóstico e prefiro continuar lutando uma batalha no escuro, sem conhecer meu verdadeiro inimigo.</u></a>
+                    <div class="cta-container">
+                        <a id="kiwify-upsell-trigger-TYhYpcp" class="cta-button cta-disabled">ESCOLHA UMA MISSÃO ACIMA</a>
+                        
+                        <a id="kiwify-upsell-cancel-trigger" class="decline-link"><u>Não, obrigado. Eu dispenso o plano focado e prefiro tentar aplicar tudo sozinho, correndo o risco da sobrecarga de informação.</u></a>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
     
     <script>
+        // Script para o Alerta de Sobreposição
         document.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('alert-overlay');
-
-            function hideOverlay() {
-                overlay.classList.remove('visible');
+            if (overlay) {
+                function hideOverlay() {
+                    overlay.classList.remove('visible');
+                }
+                const autoHide = setTimeout(hideOverlay, 5000);
+                overlay.addEventListener('click', () => {
+                    clearTimeout(autoHide);
+                    hideOverlay();
+                });
             }
-
-            // Esconde após 5 segundos
-            const autoHide = setTimeout(hideOverlay, 5000);
-
-            // Esconde com um clique
-            overlay.addEventListener('click', () => {
-                clearTimeout(autoHide); // Cancela o timer se o usuário clicar antes
-                hideOverlay();
-            });
         });
     </script>
-            let nextUpsellURL = "";
-            let nextDownsellURL = "";
-        </script>
-        <script src="https://snippets.kiwify.com/upsell/upsell.min.js"></script>
-    </body>
-</html>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+    <script>
+        let nextUpsellURL = "";
+        let nextDownsellURL = "";
+    </script>
+    <script src="https://snippets.kiwify.com/upsell/upsell.min.js"></script>
+
 </body>
 </html>
