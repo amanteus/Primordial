@@ -648,6 +648,13 @@ h1, h2, h3, h4 {
 .protocolo-offer-box { margin-top: 80px; }
 .price-value-upsell { font-family: var(--font-headline); font-size: 2rem; color: var(--accent-color); line-height: 1; }
 
+/* Adicione esta regra para ajustar os botões do upsell */
+.upsell-cta-button {
+    font-size: 1.2rem;    /* Tamanho da fonte reduzido */
+    padding: 18px 35px;   /* Padding ajustado para o novo tamanho da fonte */
+    letter-spacing: 0.5px; /* Opcional: Melhora a legibilidade de texto em caixa alta */
+}
+
 /* Estilo para o botão desativado */
 /* Adicione esta regra aos estilos do Upsell */
 .hidden-cta {
