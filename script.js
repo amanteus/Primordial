@@ -391,40 +391,36 @@ const fakePurchases = [
     }
 
     // ==========================================================
-    // --- FUNÇÃO DE INICIALIZAÇÃO PARA A PÁGINA DE UPSELL ---
-    // ==========================================================
-    function setupUpsellPage() {
-        const overlay = document.getElementById('alert-overlay');
-        const missoes = document.querySelectorAll('.missao-card');
-        const upsellButtons = document.querySelectorAll('.upsell-cta-button');
+// --- LÓGICA DA PÁGINA DE UPSELL (VERSÃO FINAL CORRIGIDA) ---
+// ==========================================================
 
-        // Lógica do Alerta de Sobreposição
-        if (overlay) {
-            function hideOverlay() {
-                overlay.classList.remove('visible');
+const missoes = document.querySelectorAll('.missao-card');
+const upsellButtons = document.querySelectorAll('.upsell-cta-button');
+const escolhaMissaoTexto = document.querySelector('.escolha-missao-texto'); // Seleciona o novo texto
+
+// Este código só roda se encontrar os elementos das missões na página
+if (missoes.length > 0 && upsellButtons.length > 0 && escolhaMissaoTexto) {
+
+    missoes.forEach((missao, index) => {
+        missao.addEventListener('click', () => {
+            // Remove o estilo 'selected' de todos os outros cards
+            missoes.forEach(m => m.classList.remove('selected'));
+            // Adiciona o estilo 'selected' apenas ao card que foi clicado
+            missao.classList.add('selected');
+
+            // ESCONDE o texto "Escolha sua missão"
+            escolhaMissaoTexto.style.display = 'none';
+
+            // Esconde TODOS os botões de compra para garantir um estado limpo
+            upsellButtons.forEach(button => button.classList.add('hidden-cta'));
+
+            // Revela apenas o botão que está na MESMA POSIÇÃO (índice) do card clicado
+            if (upsellButtons[index]) {
+                upsellButtons[index].classList.remove('hidden-cta');
             }
-            const autoHide = setTimeout(hideOverlay, 5000);
-            overlay.addEventListener('click', () => {
-                clearTimeout(autoHide);
-                hideOverlay();
-            });
-        }
-
-        // Lógica da Seleção de Missão
-        if (missoes.length > 0 && upsellButtons.length > 0) {
-            missoes.forEach((missao, index) => {
-                missao.addEventListener('click', () => {
-                    missoes.forEach(m => m.classList.remove('selected'));
-                    missao.classList.add('selected');
-                    upsellButtons.forEach(button => button.classList.add('hidden-cta'));
-                    if (upsellButtons[index]) {
-                        upsellButtons[index].classList.remove('hidden-cta');
-                    }
-                });
-            });
-        }
-    }
-
+        });
+    });
+}
     // --- EXECUTA AS FUNÇÕES DE INICIALIZAÇÃO ---
     // Cada função verifica internamente se os elementos de sua página existem
     setupSalesPage();
