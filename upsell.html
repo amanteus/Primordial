@@ -8,14 +8,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="style.css">
     
-    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="img/Favicon.png" type="image/x-icon">
 </head>
 <body class="protocolo-body">
 
     <div class="upsell-pre-header">
-        <p>⚠️ PRIVILÉGIO DE INICIAÇÃO: ESTA OFERTA EXPIRA EM <span id="upsell-countdown-timer">09:59</span> ⚠️</p>
+        <p>⚠️ PRIVILÉGIO DE INICIAÇÃO: NÃO FECHE OU ATUALIZE ESSA PÁGINA ⚠️</p>
     </div>
 
     <div id="alert-overlay" class="visible">
@@ -45,17 +45,17 @@
                 <div class="missoes-container">
                     <h3 class="missoes-title">ESCOLHA SUA PRIMEIRA CAÇA (A DECISÃO DEFINE SEU LEGADO):</h3>
                     <div class="missoes-grid">
-                        <div class="missao-card" data-mission="1" data-kiwify-trigger-id="SEU_ID_DA_MISSAO_1">
+                        <div class="missao-card" data-mission="1" data-kiwify-trigger-id="kiwify-upsell-trigger-62y1KqH">
                             <div class="missao-header">MISSÃO ALFA</div>
                             <h3>A TRILHA DO CAÇADOR SOCIAL</h3>
                             <p>Para o homem que hesita. Um treinamento intensivo de 30 dias para destruir a ansiedade de abordagem e iniciar conversas magnéticas com mulheres de alto valor, sem medo, sem roteiros.</p>
                         </div>
-                        <div class="missao-card" data-mission="2" data-kiwify-trigger-id="SEU_ID_DA_MISSAO_2">
+                        <div class="missao-card" data-mission="2" data-kiwify-trigger-id="kiwify-upsell-trigger-3rEAq0R">
                             <div class="missao-header">MISSÃO BETA</div>
                             <h3>A FAGULHA DA TENSÃO</h3>
                             <p>Para o "bom moço". Este protocolo treina a arte sutil de injetar tensão sexual em qualquer conversa, usando o olhar, pausas e ambiguidade para transformar interações previsíveis em uma caçada sedutora.</p>
                         </div>
-                        <div class="missao-card" data-mission="3" data-kiwify-trigger-id="SEU_ID_DA_MISSAO_3">
+                        <div class="missao-card" data-mission="3" data-kiwify-trigger-id="kiwify-upsell-trigger-y5JUHxB">
                             <div class="missao-header">MISSÃO GAMA</div>
                             <h3>O TRONO SILENCIOSO</h3>
                             <p>Para o homem cuja presença não é sentida. Um mergulho na psicologia do poder não-verbal para dominar o espaço e comandar respeito sem precisar dizer uma única palavra.</p>
@@ -73,13 +73,13 @@
                     <div class="cta-container">
                         <a class="cta-button upsell-cta-button cta-disabled">ESCOLHA SUA MISSÃO ACIMA</a>
                         
-                        <a id="kiwify-upsell-trigger-SEU_ID_DA_MISSAO_1" class="cta-button upsell-cta-button hidden-cta" data-mission-target="1">
+                        <a id="kiwify-upsell-trigger-y5JUHxB" class="cta-button upsell-cta-button hidden-cta" data-mission-target="1">
                             SIM, EU ACEITO A MISSÃO ALFA POR + R$ 159
                         </a>
-                        <a id="kiwify-upsell-trigger-SEU_ID_DA_MISSAO_2" class="cta-button upsell-cta-button hidden-cta" data-mission-target="2">
+                        <a id="kiwify-upsell-trigger-3rEAq0R" class="cta-button upsell-cta-button hidden-cta" data-mission-target="2">
                             SIM, EU ACEITO A MISSÃO BETA POR + R$ 159
                         </a>
-                        <a id="kiwify-upsell-trigger-SEU_ID_DA_MISSAO_3" class="cta-button upsell-cta-button hidden-cta" data-mission-target="3">
+                        <a id="kiwify-upsell-trigger-y5JUHxB" class="cta-button upsell-cta-button hidden-cta" data-mission-target="3">
                             SIM, EU ACEITO A MISSÃO GAMA POR + R$ 159
                         </a>
 
@@ -90,7 +90,7 @@
         </section>
     </main>
     
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="script.js"></script>
     <script>
         let nextUpsellURL = "";
         let nextDownsellURL = "";
