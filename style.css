@@ -626,8 +626,19 @@ h1, h2, h3, h4 {
     opacity: 0; visibility: hidden; transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 #alert-overlay.visible { opacity: 1; visibility: visible; }
-#alert-overlay .alert-content h1 { font-family: var(--font-headline); font-size: clamp(4rem, 10vw, 8rem); color: #fff; animation: pulse-alert 1.5s infinite; }
+#alert-overlay .alert-content h1 {
+    font-family: var(--font-headline);
+    font-size: clamp(4rem, 10vw, 8rem);
+    color: #fff;
+    animation: pulse-alert 1.5s infinite; /* <<< RESGATE ESTA LINHA */
+}
 #alert-overlay .alert-content p { font-size: 1.2rem; color: #fff; max-width: 600px; }
+
+/* Verifique se este bloco ainda está no seu CSS */
+@keyframes pulse-alert {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
 
 .protocolo-page {
     opacity: 1; /* A página já começa visível, o overlay cobre ela */
