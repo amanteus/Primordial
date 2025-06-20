@@ -593,12 +593,32 @@ h1, h2, h3, h4 {
     line-height: 1.6;
 }
 
-/* --- ESTILOS DA PÁGINA DE UPSELL - PROTOCOLO --- */
+/* --- ESTILOS DA PÁGINA DE UPSELL - A PRIMEIRA CAÇADA --- */
+
 .protocolo-body {
     background-color: #151515;
+    padding-top: 50px; /* Adiciona espaço para o pre-header não sobrepor o conteúdo */
+}
+
+/* Novo Pre-Header Fixo */
+.upsell-pre-header {
+    position: fixed; /* Fica fixo no topo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--accent-color); /* Cor de destaque */
+    color: #111;
+    text-align: center;
+    padding: 10px;
+    font-size: 1rem;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
 #alert-overlay {
+    /* ... a regra do alert-overlay continua a mesma ... */
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-color: rgba(208, 0, 0, 0.95);
     z-index: 9999; display: flex; justify-content: center; align-items: center;
@@ -608,23 +628,21 @@ h1, h2, h3, h4 {
 #alert-overlay.visible { opacity: 1; visibility: visible; }
 #alert-overlay .alert-content h1 { font-family: var(--font-headline); font-size: clamp(4rem, 10vw, 8rem); color: #fff; animation: pulse-alert 1.5s infinite; }
 #alert-overlay .alert-content p { font-size: 1.2rem; color: #fff; max-width: 600px; }
-@keyframes pulse-alert { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
 .protocolo-page {
-    opacity: 0; animation: fadeInPage 0.8s ease 0.3s forwards;
+    opacity: 1; /* A página já começa visível, o overlay cobre ela */
 }
-@keyframes fadeInPage { to { opacity: 1; } }
 
-.protocolo-page .section-title { margin-bottom: 20px; }
-.protocolo-subtitle { margin-bottom: 40px; }
-.protocolo-page p { max-width: 800px; margin-left: auto; margin-right: auto; text-align: center; }
+.protocolo-subtitle { margin-bottom: 40px; color: #aaa; }
+.protocolo-page p { max-width: 800px; margin-left: auto; margin-right: auto; text-align: center; line-height: 1.8; }
+.protocolo-page .manifesto { border-left-color: rgba(196, 170, 131, 0.5); }
 
 .missoes-container { margin-top: 60px; }
-.missoes-title { text-align: center; color: var(--accent-color); margin-bottom: 30px; }
+.missoes-title { text-align: center; color: var(--accent-color); margin-bottom: 30px; font-size: 1.8rem; }
 .missoes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
 }
 .missao-card {
     border: 2px solid #444;
@@ -632,56 +650,49 @@ h1, h2, h3, h4 {
     border-radius: 8px;
     cursor: pointer;
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    background: #1f1f1f;
+    position: relative;
+    overflow: hidden;
+}
+.missao-header {
+    position: absolute;
+    top: 15px;
+    right: -50px;
+    transform: rotate(45deg);
+    background-color: var(--accent-color);
+    color: #111;
+    padding: 5px 50px;
+    font-family: var(--font-headline);
+    font-size: 1rem;
 }
 .missao-card:hover {
     transform: translateY(-10px);
-    border-color: var(--accent-color);
 }
 .missao-card.selected {
     border-color: var(--accent-color);
-    box-shadow: 0 0 25px rgba(196, 170, 131, 0.4);
-    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 0 30px rgba(196, 170, 131, 0.4);
+    transform: translateY(-10px) scale(1.03);
 }
-.missao-card h3 { font-family: var(--font-headline); font-size: 1.5rem; color: var(--text-color); margin-bottom: 15px; }
-.missao-card p { font-size: 0.95rem; text-align: left; max-width: 100%; }
+.missao-card h3 { font-family: var(--font-headline); font-size: 1.8rem; color: var(--text-color); margin-top: 20px; margin-bottom: 15px; }
+.missao-card p { font-size: 1rem; text-align: left; max-width: 100%; }
 
 .protocolo-offer-box { margin-top: 80px; }
-.price-value-upsell { font-family: var(--font-headline); font-size: 2rem; color: var(--accent-color); line-height: 1; }
+.price-value-upsell { font-family: var(--font-headline); font-size: 4rem; color: var(--accent-color); line-height: 1; }
 
-/* Adicione esta regra para ajustar os botões do upsell */
-.upsell-cta-button {
-    font-size: 1.2rem;    /* Tamanho da fonte reduzido */
-    padding: 18px 35px;   /* Padding ajustado para o novo tamanho da fonte */
-    letter-spacing: 0.5px; /* Opcional: Melhora a legibilidade de texto em caixa alta */
+.cta-button.cta-disabled {
+    background-color: #444; color: #888; cursor: not-allowed;
+    border-color: #444;
 }
+.cta-button.cta-disabled:hover { transform: none; box-shadow: none; }
 
-/* Novo estilo para o link de recusa */
+.hidden-cta { display: none; }
+
 .decline-link {
-    display: block;
-    margin-top: 30px;
-    font-size: 0.8rem;
-    color: #aaa; /* Cor um pouco mais clara, mas ainda sutil */
-    text-decoration: none; /* Remove o sublinhado padrão */
-    font-style: italic; /* Adiciona um toque de estilo */
-    opacity: 0.8; /* Levemente transparente */
-    transition: all 0.3s ease; /* Transição suave para todas as propriedades */
+    display: block; margin-top: 30px; font-size: 0.9rem;
+    color: #aaa; text-decoration: none; font-style: italic;
+    opacity: 0.8; transition: all 0.3s ease;
 }
-
-.decline-link:hover {
-    color: var(--accent-color); /* Usa a cor de destaque no hover */
-    opacity: 1; /* Fica totalmente opaco */
-    text-decoration: underline; /* Adiciona o sublinhado no hover */
-}
-/* Estilo para o botão desativado */
-/* Adicione esta regra aos estilos do Upsell */
-.hidden-cta {
-    display: none;
-}
-.cta-button.cta-disabled:hover {
-    transform: none;
-    box-shadow: none;
-}
-
+.decline-link:hover { color: var(--accent-color); opacity: 1; text-decoration: underline; }
 
 /* --- ESTILOS DA PÁGINA DE OBRIGADO --- */
 
