@@ -394,3 +394,30 @@ const fakePurchases = [
         setTimeout(scheduleNextNotification, 8000);
     }
 });
+
+    // ==========================================================
+    // --- LÓGICA DA PÁGINA DE UPSELL (PROTOCOLOS) ---
+    // ==========================================================
+    
+    const missoes = document.querySelectorAll('.missao-card');
+    const upsellButton = document.getElementById('kiwify-upsell-trigger-TYhYpcp');
+
+    // Verifica se os elementos da página de upsell existem
+    if (missoes.length > 0 && upsellButton) {
+
+        const originalButtonText = "SIM, QUERO MEU PROTOCOLO DE ATIVAÇÃO POR + R$ 197";
+
+        missoes.forEach(missao => {
+            missao.addEventListener('click', () => {
+                // Remove a seleção de todas as outras missões
+                missoes.forEach(m => m.classList.remove('selected'));
+
+                // Adiciona a seleção à missão clicada
+                missao.classList.add('selected');
+
+                // Ativa o botão de compra
+                upsellButton.classList.remove('cta-disabled');
+                upsellButton.textContent = originalButtonText;
+            });
+        });
+    }
