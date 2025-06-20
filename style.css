@@ -915,7 +915,11 @@ h1, h2, h3, h4 {
     transform: translateY(-150%); 
 }
 
-/* Dentro de @media (max-width: 768px) { ... } */
+/* Garante que a Seção 1 alinhe ao topo também no mobile */
+.secao-1-impacto {
+    justify-content: flex-start; /* Alinha o conteúdo no topo */
+    padding-top: 100px;           /* Define um padding superior adequado para mobile */
+}
 
 /* --- Ajustes no Bloco de Preço para Mobile --- */
 .price-main {
