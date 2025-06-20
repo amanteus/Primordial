@@ -393,7 +393,6 @@ const fakePurchases = [
 
         setTimeout(scheduleNextNotification, 8000);
     }
-});
 
     // ==========================================================
     // --- LÓGICA DA PÁGINA DE UPSELL (VERSÃO FINAL E ROBUSTA) ---
