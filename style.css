@@ -649,11 +649,9 @@ h1, h2, h3, h4 {
 .price-value-upsell { font-family: var(--font-headline); font-size: 4rem; color: var(--accent-color); line-height: 1; }
 
 /* Estilo para o botão desativado */
-.cta-button.cta-disabled {
-    background-color: #444;
-    color: #888;
-    cursor: not-allowed;
-    border: 1px solid #444;
+/* Adicione esta regra aos estilos do Upsell */
+.hidden-cta {
+    display: none;
 }
 .cta-button.cta-disabled:hover {
     transform: none;
