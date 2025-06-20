@@ -712,6 +712,155 @@ h1, h2, h3, h4 {
 }
 .decline-link:hover { color: var(--accent-color); opacity: 1; text-decoration: underline; }
 
+/* --- ESTILOS DA PÁGINA DE AFILIADOS --- */
+
+.afiliados-body {
+    background-color: #111; /* Um fundo um pouco diferente */
+}
+
+.afiliados-page .container {
+    padding: 0 20px;
+}
+
+.afiliados-header {
+    text-align: center;
+    padding: 100px 0;
+    background-color: var(--bg-color);
+}
+
+.afiliados-header p {
+    max-width: 700px;
+    margin: 30px auto 0 auto;
+    color: #aaa;
+}
+
+.afiliados-section-title {
+    font-family: var(--font-headline);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--text-color);
+}
+
+.secao-pilares {
+    background-color: var(--bg-color);
+}
+
+.pilares-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 30px;
+}
+
+.pilar-card {
+    border: 1px solid #333;
+    padding: 30px;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    position: relative;
+    overflow: hidden;
+}
+
+.pilar-number {
+    position: absolute;
+    top: -20px;
+    right: 10px;
+    font-family: var(--font-headline);
+    font-size: 5rem;
+    color: rgba(255, 255, 255, 0.05);
+    z-index: 1;
+}
+
+.pilar-card h4 {
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.pilar-card ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 20px 0;
+    position: relative;
+    z-index: 2;
+}
+.pilar-card li { margin-bottom: 10px; }
+
+.highlight-data {
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
+.pilar-result {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #333;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+}
+
+.seletividade-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.seletividade-box {
+    padding: 30px;
+    border-radius: 8px;
+}
+
+.seletividade-box h4 {
+    font-family: var(--font-headline);
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+.seletividade-box ul {
+    list-style: none;
+    padding-left: 0;
+}
+.seletividade-box li {
+    padding-left: 30px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.seletividade-box li::before {
+    position: absolute;
+    left: 0;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.seletividade-nao { background-color: rgba(208, 0, 0, 0.1); }
+.seletividade-nao li::before { content: '❌'; }
+
+.seletividade-sim { background-color: rgba(196, 170, 131, 0.1); }
+.seletividade-sim li::before { content: '✅'; }
+
+.secao-afiliados-cta {
+    background-color: var(--bg-color);
+}
+.afiliados-cta {
+    font-size: 1.3rem; /* Um pouco menor para ser mais sóbrio */
+}
+
+/* Responsividade para a seção */
+@media (max-width: 768px) {
+    .seletividade-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+
 /* --- ESTILOS DA PÁGINA DE OBRIGADO --- */
 
 .obrigado-body {
