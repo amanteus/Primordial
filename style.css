@@ -593,127 +593,71 @@ h1, h2, h3, h4 {
     line-height: 1.6;
 }
 
-/* --- ESTILOS DA PÁGINA DE UPSELL --- */
-
-.upsell-body {
-    background-color: #0a0a0a; /* Um preto ainda mais escuro para o alerta */
+/* --- ESTILOS DA PÁGINA DE UPSELL - PROTOCOLO --- */
+.protocolo-body {
+    background-color: #151515;
 }
 
-/* A Sobreposição de Alerta */
 #alert-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(208, 0, 0, 0.95); /* Vermelho translúcido agressivo */
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-    cursor: pointer;
-
-    /* Controle de visibilidade */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(208, 0, 0, 0.95);
+    z-index: 9999; display: flex; justify-content: center; align-items: center;
+    text-align: center; padding: 20px; cursor: pointer;
+    opacity: 0; visibility: hidden; transition: opacity 0.5s ease, visibility 0.5s ease;
 }
+#alert-overlay.visible { opacity: 1; visibility: visible; }
+#alert-overlay .alert-content h1 { font-family: var(--font-headline); font-size: clamp(4rem, 10vw, 8rem); color: #fff; animation: pulse-alert 1.5s infinite; }
+#alert-overlay .alert-content p { font-size: 1.2rem; color: #fff; max-width: 600px; }
+@keyframes pulse-alert { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-#alert-overlay.visible {
-    opacity: 1;
-    visibility: visible;
+.protocolo-page {
+    opacity: 0; animation: fadeInPage 0.8s ease 0.3s forwards;
 }
+@keyframes fadeInPage { to { opacity: 1; } }
 
-#alert-overlay .alert-content h1 {
-    font-family: var(--font-headline);
-    font-size: clamp(4rem, 10vw, 8rem);
-    color: #fff;
-    animation: pulse-alert 1.5s infinite;
+.protocolo-page .section-title { margin-bottom: 20px; }
+.protocolo-subtitle { margin-bottom: 40px; }
+.protocolo-page p { max-width: 800px; margin-left: auto; margin-right: auto; text-align: center; }
+
+.missoes-container { margin-top: 60px; }
+.missoes-title { text-align: center; color: var(--accent-color); margin-bottom: 30px; }
+.missoes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
 }
-
-#alert-overlay .alert-content p {
-    font-size: 1.2rem;
-    color: #fff;
-    max-width: 600px;
-}
-
-@keyframes pulse-alert {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-/* Conteúdo principal da página */
-.upsell-page {
-    /* Começa invisível e aparece quando o overlay some */
-    opacity: 0;
-    animation: fadeInPage 0.8s ease 0.3s forwards;
-}
-
-@keyframes fadeInPage {
-    to { opacity: 1; }
-}
-
-.padrao-fracasso {
-    margin: 60px auto;
+.missao-card {
+    border: 2px solid #444;
     padding: 30px;
-    border: 1px solid #333;
-    max-width: 900px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
-.padrao-fracasso h3 { color: var(--accent-color); margin-bottom: 20px; }
-.padrao-fracasso ul { list-style: none; padding-left: 0; }
-.padrao-fracasso li { margin-bottom: 10px; padding-left: 1.5em; position: relative; }
-.padrao-fracasso li::before {
-    content: '✖'; /* Ícone de "bug" */
-    position: absolute;
-    left: 0;
-    color: #D00000;
+.missao-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-color);
 }
+.missao-card.selected {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 25px rgba(196, 170, 131, 0.4);
+    transform: translateY(-10px) scale(1.02);
+}
+.missao-card h3 { font-family: var(--font-headline); font-size: 1.5rem; color: var(--text-color); margin-bottom: 15px; }
+.missao-card p { font-size: 0.95rem; text-align: left; max-width: 100%; }
 
-.dossie-features {
-    margin-top: 40px;
-}
+.protocolo-offer-box { margin-top: 80px; }
+.price-value-upsell { font-family: var(--font-headline); font-size: 4rem; color: var(--accent-color); line-height: 1; }
 
-.dossie-features ul {
-    list-style: none;
-    padding-left: 0;
-    max-width: 800px;
-    margin: 20px auto 0 auto;
-    text-align: left;
-}
-.dossie-features li {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-}
-
-.caminhos-container {
-    margin-top: 80px;
-}
-
-.price-value-upsell {
-    font-family: var(--font-headline);
-    font-size: 4rem;
-    color: var(--accent-color);
-    line-height: 1;
-}
-
-.upsell-offer-box {
-    margin-top: 80px;
-    background-color: #1a1a1a;
-}
-
-.decline-link {
-    display: block;
-    margin-top: 30px;
-    font-size: 0.9rem;
+/* Estilo para o botão desativado */
+.cta-button.cta-disabled {
+    background-color: #444;
     color: #888;
-    text-decoration: underline;
-    transition: color 0.3s;
+    cursor: not-allowed;
+    border: 1px solid #444;
 }
-
-.decline-link:hover {
-    color: #fff;
+.cta-button.cta-disabled:hover {
+    transform: none;
+    box-shadow: none;
 }
 
 
