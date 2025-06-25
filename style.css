@@ -1044,39 +1044,23 @@ h1, h2, h3, h4 {
     .secao { padding: 60px 0; }
     .product-intro, .two-paths { flex-direction: column; }
     .product-text { text-align: center; }
-}
-/* Dentro de @media (max-width: 768px) { ... } */
-
-/* Ajuste da Posição da Notificação para Mobile */
-.notification {
+    .notification {
     top: 15px;          /* Posiciona a 15px do topo */
     bottom: auto;       /* Remove o posicionamento inferior que vem do desktop */
     left: 15px;         /* Mantém um espaçamento lateral */
     right: 15px;        /* Mantém um espaçamento lateral */
     width: auto;          /* Permite que a largura se ajuste ao espaço */
-    
-    /* Altera a animação para que ela deslize de cima para baixo */
-    transform: translateY(-150%); 
-}
-
-/* Garante que a Seção 1 alinhe ao topo também no mobile */
-.secao-1-impacto {
+    transform: translateY(-150%); }
+    .secao-1-impacto {
     justify-content: flex-start; /* Alinha o conteúdo no topo */
-    padding-top: 100px;           /* Define um padding superior adequado para mobile */
-}
-
-/* --- Ajustes no Bloco de Preço para Mobile --- */
-.price-main {
+    padding-top: 100px; }
+    .price-main {
     gap: 10px; /* Reduz o espaço entre "12x" e o valor */
     flex-wrap: wrap; /* Permite que quebre a linha se necessário */
-    justify-content: center;
-}
-.price-installments {
-    font-size: 2rem; /* Reduz o tamanho do "12x" */
-}
-.price-value {
-    font-size: 4rem; /* Reduz drasticamente o tamanho do valor principal */
-}
-.price-prefix, .price-descriptor {
-    font-size: 1rem; /* Ajusta os textos de apoio */
-}
+    justify-content: center;} 
+    .price-installments {
+    font-size: 2rem;}
+    .price-value {
+    font-size: 4rem;}
+    .price-prefix, .price-descriptor {
+    font-size: 1rem;}
