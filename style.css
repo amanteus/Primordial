@@ -529,6 +529,11 @@ h1, h2, h3, h4 {
 }
 .secure-checkout-text { margin-top: 20px; font-size: 0.9rem; }
 
+/* --- NOVA SEÇÃO DE FAQ - PRIMORDIAL --- */
+.secao-faq-primordial {
+    background-color: var(--bg-color);
+}
+
 /* SEÇÃO 9: P.S. */
 .secao-9-ps { text-align: center; font-size: 0.9rem; color: #888; }
 .secao-9-ps a { color: var(--accent-color); text-decoration: none; }
