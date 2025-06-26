@@ -390,6 +390,126 @@ const fakePurchases = [
         }
     }
 
+    /**
+ * Função da Prova Social com Comentários (PRIMORDIAL)
+ * Lógica independente para não afetar outras funcionalidades.
+ */
+function initCommentSystem() {
+    const commentsList = document.getElementById('primordial-comments-list');
+    if (!commentsList) return; // Só roda se a caixa de comentários existir
+
+    // Base de dados de todos os relatos
+    const allRelatos = [
+        { name: 'Ricardo A.', text: "Apliquei o conceito do Módulo 3 na mesma noite. A mudança na reação dela foi... palpável. Deixei de ser o 'cara legal' pra ser o cara que ela não conseguia decifrar. Jogo virou." },
+        { name: 'Bruno C.', text: "A parte da 'recalibração neurobiológica' parecia papo de maluco, mas funciona. Minha ansiedade de abordagem simplesmente SUMIU. Não é que eu 'finjo' confiança, eu simplesmente não sinto mais a hesitação." },
+        { name: 'Fernando M.', text: "O mais poderoso pra mim foi o Bônus da Mulher Magnética. Parei de perder tempo com mulheres que só drenavam minha energia. O 'filtro' que isso cria na sua vida social é absurdo." },
+        { name: 'Lucas G.', text: "Dois meses depois de entrar. A postura muda, a voz muda. As pessoas no trabalho começaram a me tratar diferente, com mais respeito. É bizarro como a mudança interna reflete no externo." },
+        { name: 'Thiago L.', text: "Eu era o rei da 'friendzone'. Entendia tudo de conversa, mas zero de atração. O Módulo sobre Tensão Sexual é ouro puro. É o que separa os meninos dos homens." },
+        { name: 'André B.', text: 'A Irmandade é o pilar. Ver outros homens na mesma jornada, com resultados reais, te impede de desistir. É um ambiente de pura testosterona e evolução, sem mimimi.' },
+        { name: 'Carlos E.', text: 'Eu achava que precisava de mais 'cantadas'. O Primordial me ensinou que o silêncio e o olhar certo são mais poderosos que mil palavras. Hoje eu entendo o que é 'impor presença'.'},
+        { name: 'Daniel R.', text: 'O ritual de ruptura com o personagem infantil foi a coisa mais difícil e mais libertadora que eu já fiz. Você literalmente mata o 'você' antigo.'},
+        { name: 'Fábio S.', text: 'O Mapa da Neurodominância sozinho já vale o investimento. Entender como a dopamina funciona e parar de se sabotar com prazeres baratos mudou meu foco e minha disciplina em tudo.'},
+        { name: 'Marcos P.', text: 'A sensação de entrar num lugar e não se sentir invisível. De ver ela te olhando ANTES de você olhar. Não tem preço. É isso. O resto é consequência.'},
+        { name: 'Rafael A.', text: 'Cansei de ser o 'porto seguro' que elas procuram pra desabafar sobre os caras que elas realmente desejam. Hoje, eu sou o cara.'},
+        { name: 'Sérgio K.', text: 'O mais louco é que funciona com todas as idades. Apliquei os princípios com mulheres mais novas e mais velhas. A resposta do cérebro reptiliano delas é a mesma. É biologia, não tem como argumentar.'},
+        { name: 'Pedro H.', text: 'Minha ex me viu numa festa outro dia... o jeito que ela me olhou, tentando entender o que tinha mudado... aquele olhar valeu cada centavo. Ela sentiu a diferença.'},
+        // ... adicione mais relatos se tiver ...
+    ];
+
+    // Função para gerar uma data fixa baseada no nome do autor
+    function generateConsistentDate(name) {
+        let hash = 0;
+        for (let i = 0; i < name.length; i++) {
+            hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const daysAgo = (Math.abs(hash) % 25) + 2; // Gera um número consistente de dias atrás (entre 2 e 26)
+        const date = new Date();
+        date.setDate(date.getDate() - daysAgo);
+        return date;
+    }
+
+    function formatTimeAgo(date) {
+        const now = new Date();
+        const seconds = Math.floor((now - date) / 1000);
+        
+        let interval = seconds / 31536000;
+        if (interval > 1) return `há ${Math.floor(interval)} anos`;
+        interval = seconds / 2592000;
+        if (interval > 1) return `há ${Math.floor(interval)} meses`;
+        interval = seconds / 86400;
+        if (interval > 1) return `há ${Math.floor(interval)} dias`;
+        interval = seconds / 3600;
+        if (interval > 1) return `há ${Math.floor(interval)} horas`;
+        interval = seconds / 60;
+        if (interval > 1) return `há ${Math.floor(interval)} minutos`;
+        return 'há poucos segundos';
+    }
+
+    function addCommentToUI(comment, isNew = false) {
+        const commentDiv = document.createElement('div');
+        commentDiv.className = 'primordial-comment-item';
+        
+        // Se for um comentário novo, o tempo é "agora". Se for antigo, calcula baseado na data fixa.
+        const timeAgo = isNew ? formatTimeAgo(new Date()) : formatTimeAgo(generateConsistentDate(comment.name));
+        
+        commentDiv.innerHTML = `
+            <div class="primordial-comment-avatar"><img src="/static/img/avatar-placeholder.png" alt="avatar"></div>
+            <div class="primordial-comment-body">
+                <p><strong>${comment.name}</strong> ${comment.text}</p>
+                <div class="primordial-comment-actions">${timeAgo}</div>
+            </div>`;
+        
+        if (isNew) {
+            commentDiv.style.display = 'none';
+            commentsList.prepend(commentDiv);
+            // Animação de entrada (slide e fade)
+            // Usando requestAnimationFrame para garantir que a transição funcione
+            requestAnimationFrame(() => {
+                const height = commentDiv.scrollHeight;
+                commentDiv.style.display = 'flex';
+                commentDiv.style.height = 0;
+                commentDiv.style.opacity = 0;
+                requestAnimationFrame(() => {
+                    commentDiv.style.transition = 'height 0.5s ease, opacity 0.5s ease';
+                    commentDiv.style.height = height + 'px';
+                    commentDiv.style.opacity = 1;
+                });
+            });
+        } else {
+            commentsList.appendChild(commentDiv);
+        }
+    }
+
+    // Separa os comentários e prepara para a exibição aleatória
+    const initialComments = allRelatos.slice(0, 10);
+    let remainingComments = allRelatos.slice(10);
+    shuffleArray(remainingComments);
+    let newCommentIndex = 0;
+
+    // Popula a página com os 10 comentários iniciais fixos
+    initialComments.forEach(c => addCommentToUI(c, false));
+
+    // Agenda a aparição dos 5 comentários aleatórios
+    function scheduleNextComment() {
+        // Frequência bem reduzida: entre 40s e 90s
+        const randomDelay = Math.random() * (90000 - 40000) + 40000;
+        
+        setTimeout(() => {
+            if (newCommentIndex < 5 && newCommentIndex < remainingComments.length) {
+                const newComment = remainingComments[newCommentIndex];
+                addCommentToUI(newComment, true);
+                // Não vamos mais mostrar a notificação pop-up para comentários, para dar prioridade às compras.
+                newCommentIndex++;
+                scheduleNextComment(); // Agenda o próximo comentário
+            }
+            // Para após 5 comentários novos.
+        }, randomDelay);
+    }
+
+    // Inicia o ciclo de novos comentários após um tempo
+    setTimeout(scheduleNextComment, 25000);
+}
+
     // ==========================================================
     // --- LÓGICA DA PÁGINA DE UPSELL (VERSÃO CORRIGIDA) ---
     // ==========================================================
@@ -432,5 +552,6 @@ const fakePurchases = [
     // Cada função verifica internamente se os elementos de sua página existem
     setupSalesPage();
     setupUpsellPage();
+    initCommentSystem();
 
 });
