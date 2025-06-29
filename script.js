@@ -474,14 +474,25 @@ const commentTemplates = [
         };
 
         let state = getFromStorage(STORAGE_KEY);
-        if (state) {
-            const tempoDecorrido = Date.now() - state.timestamp;
-            const vendasSimuladas = Math.floor(tempoDecorrido / (1000 * 60 * VENDA_A_CADA_X_MINUTOS));
-            vagasAtuais = Math.max(VAGAS_MINIMAS, Math.min(state.lastSeenVagas, state.initialVagas - vendasSimuladas));
-        } else {
-            vagasAtuais = Math.floor(Math.random() * (VAGAS_INICIAIS_MAX - VAGAS_INICIAIS_MIN + 1)) + VAGAS_INICIAIS_MIN;
-            state = { initialVagas: vagasAtuais, timestamp: Date.now(), lastSeenVagas: vagasAtuais };
-        }
+        // Substitua pelo bloco corrigido
+if (state) {
+    // --- LÓGICA PARA USUÁRIO RECORRENTE ---
+    const tempoDecorrido = Date.now() - state.timestamp;
+    const vendasSimuladas = Math.floor(tempoDecorrido / (1000 * 60 * VENDA_A_CADA_X_MINUTOS));
+    const vagasCalculadas = state.initialVagas - vendasSimuladas;
+
+    vagasAtuais = Math.max(VAGAS_MINIMAS, Math.min(state.lastSeenVagas, vagasCalculadas));
+
+    // CORREÇÃO CRÍTICA: "Rebasa" o estado para a visita atual.
+    // Isso trata a contagem atual como o novo ponto de partida para o futuro.
+    state.initialVagas = vagasAtuais;
+    state.timestamp = Date.now();
+    
+} else {
+    // --- LÓGICA PARA PRIMEIRA VISITA (inalterada) ---
+    vagasAtuais = Math.floor(Math.random() * (VAGAS_INICIAIS_MAX - VAGAS_INICIAIS_MIN + 1)) + VAGAS_INICIAIS_MIN;
+    state = { initialVagas: vagasAtuais, timestamp: Date.now(), lastSeenVagas: vagasAtuais };
+}
         activeMembersCount = TOTAL_VAGAS - vagasAtuais + 37;
         activeMembersElement.textContent = `+${activeMembersCount}`;
         saveToStorage(STORAGE_KEY, state);
@@ -511,7 +522,6 @@ const commentTemplates = [
         const template = document.getElementById('comment-template');
         const filterContainer = document.getElementById('comment-filter-container');
         const notificationElement = document.getElementById('social-proof-notification');
-        const recentCommentsCountElement = document.getElementById('recent-comments-count');
         if (!listElement || !template || !filterContainer || !notificationElement || !recentCommentsCountElement) return;
 
         const SEEN_KEY = 'primordial_seen_comments', LIKED_KEY = 'primordial_liked_comments', CACHE_KEY = 'primordial_likes_cache', VISIT_KEY = 'primordial_last_visit';
@@ -595,7 +605,6 @@ const commentTemplates = [
     // Atualiza o contador de comentários recentes ANTES de filtrar para a exibição
     const oneDayAgo = Date.now() - (24 * 3600 * 1000);
     const recentCount = allVisibleComments.filter(c => new Date(c.timestamp).getTime() > oneDayAgo && c.type === 'impulso').length;
-    recentCommentsCountElement.textContent = `+${recentCount}`;
 
     let commentsToDisplay;
 
@@ -652,29 +661,28 @@ const commentTemplates = [
             setTimeout(() => notificationElement.classList.remove('show'), 5000);
         };
 
-        const scheduleNewComments = (timeSince) => {
-            if(timeSince < MIN_TIME_NEW) return;
-            const seen = getFromStorage(SEEN_KEY) || {};
-            const unseen = dynamicCommentPool.filter(c => !seen[c.id]);
-            if(unseen.length === 0) return;
+        // Substitua pela função corrigida:
+const scheduleNewComments = () => {
+    const seen = getFromStorage(SEEN_KEY) || {};
+    const unseen = dynamicImpulseComments.filter(c => !seen[c.id]);
+    
+    // Se não houver mais comentários novos para mostrar, a função para aqui.
+    if (unseen.length === 0) return;
 
-            const toShow = unseen.sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 3) + 2);
-            let delay = 15000;
-            toShow.forEach(comment => {
-                setTimeout(() => {
-                    const currentSeen = getFromStorage(SEEN_KEY) || {};
-                    currentSeen[comment.id] = Date.now();
-                    saveToStorage(SEEN_KEY, currentSeen);
-                    showNewCommentNotification(comment);
-                    renderMural(activeFilter);
-                }, delay);
-                delay += Math.random() * (30000 - 15000) + 15000;
-            });
-        };
+    // A lógica para agendar de 2 a 4 comentários continua a mesma.
+    const toShow = unseen.sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 3) + 2);
+    let delay = 20000; // Primeiro comentário após 20 segundos
+    toShow.forEach(comment => {
+        setTimeout(() => {
+            showNewDynamicComment(comment);
+        }, delay);
+        delay += Math.random() * (40000 - 20000) + 20000; // Próximos em intervalos de 20-40s
+    });
+};
         
         const lastVisit = getFromStorage(VISIT_KEY);
         renderMural(activeFilter);
-        scheduleNewComments(Date.now() - (lastVisit || 0));
+        scheduleNewComments(lastVisit ? Date.now() - lastVisit : Infinity);
         listElement.addEventListener('click', handleLike);
         filterContainer.addEventListener('click', handleFilter);
         saveToStorage(VISIT_KEY, Date.now());
