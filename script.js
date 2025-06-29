@@ -429,95 +429,181 @@ const fakePurchases = [
         });
     }
 
-    /**
- * Função da Prova Social com Comentários (PRIMORDIAL)
- * Lógica independente para não afetar outras funcionalidades.
- */
+    // ==========================================================
+// --- NOVO SISTEMA DE COMENTÁRIOS PERSISTENTE ---
+// ==========================================================
 function initCommentSystem() {
-    const commentsList = document.getElementById('primordial-comments-list');
-    if (!commentsList) return; // Só roda se a caixa de comentários existir
+    const commentListElement = document.getElementById('primordial-comments-list');
+    const commentTemplate = document.getElementById('comment-template');
+    const notificationElement = document.getElementById('social-proof-notification');
 
-    const allRelatos = [
-        { username: 'Ricardo M.', text: "Apliquei o conceito do Módulo 3 na mesma noite. A mudança na reação dela foi... palpável. Deixei de ser o 'cara legal' pra ser o cara que ela não conseguia decifrar. Jogo virou." },
-        { username: 'Lobo_Alfa_7', text: "Aquele 'nó na garganta' que eu sentia antes de abordar uma mulher? Sumiu. Não sei explicar. É como se o medo da rejeição simplesmente se tornasse irrelevante. Consegui o número daquela morena da academia hoje." },
-        { username: 'Fernando S.', text: "O mais louco não é nem as mulheres. É como outros homens mudaram o jeito que me tratam. No trabalho, na roda de amigos. A postura muda, a voz muda, e o mundo responde." },
-        { username: 'Bruno C.', text: "Alerta de resultado: 3 semanas no Primordial. Tinha uma conversa empacada no WhatsApp. Usei o princípio da 'imprevisibilidade' do módulo 3. A conversa que tava morta virou um encontro marcado pra sexta." },
-        { username: 'Marcos T.', text: "Eu era o 'bom moço'. O terapeuta das minhas amigas. Depois de executar o 'Ritual de Ruptura', uma amiga que sempre me contava dos caras que ela saía me olhou diferente e disse 'nossa, você tá... diferente'." },
-        { username: 'Tiago P.', text: "Pra quem tá na dúvida: o dinheiro que eu gastava com bebida no fim de semana pra tentar 'criar coragem' já pagou o Primordial. Só que a coragem que eu tenho agora não passa na segunda-feira." },
-        { username: 'André V.', text: "O bônus do 'Mapa da Neurodominância' sozinho já vale o investimento. Entender o ciclo da dopamina e como o celular e a pornografia estavam me transformando num zumbi apático... abriu meus olhos." },
-        { username: 'Caio L.', text: "O 'não' que eu dei pro meu pai hoje, sem me sentir culpado, foi a maior vitória da minha vida adulta até agora. Obrigado por isso." },
-        { username: 'Fábio S.', text: 'O Mapa da Neurodominância sozinho já vale o investimento. Entender como a dopamina funciona e parar de se sabotar com prazeres baratos mudou meu foco e minha disciplina em tudo.'},
-        { username: 'Marcos P.', text: 'A sensação de entrar num lugar e não se sentir invisível. De ver ela te olhando ANTES de você olhar. Não tem preço. É isso. O resto é consequência.'},
-        { username: 'Rafael A.', text: 'Cansei de ser o \'porto seguro\' que elas procuram pra desabafar sobre os caras que elas realmente desejam. Hoje, eu sou o cara.'},
-        { username: 'Sérgio K.', text: 'O mais louco é que funciona com todas as idades. Apliquei os princípios com mulheres mais novas e mais velhas. É biologia, não tem como argumentar.'},
-        { username: 'Pedro H.', text: 'Minha ex me viu numa festa outro dia... o jeito que ela me olhou, tentando entender o que tinha mudado... aquele olhar valeu cada centavo.'}
+    // Se os elementos essenciais não existirem, não execute a função.
+    if (!commentListElement || !commentTemplate || !notificationElement) {
+        return;
+    }
+    
+    const LOCAL_STORAGE_KEY = 'primordial_seen_comments';
+
+    // --- BASE DE DADOS DE COMENTÁRIOS ---
+    // Comentários que sempre aparecem.
+    const staticComments = [
+        { id: 101, username: 'Ricardo.M', text: 'Mudei completamente a forma como me apresento. As pessoas notam. Chega de ser o "bonzinho".', originalTimestamp: '2025-06-25T10:00:00Z' },
+        { id: 102, username: 'F_Guimarães', text: 'O módulo 2 foi um soco no estômago. Percebi o quanto eu estava me sabotando. Recomendo.', originalTimestamp: '2025-06-24T18:30:00Z' },
+        { id: 103, username: 'Vitor_S', text: 'Finalmente entendi a diferença entre ser agressivo e ser um babaca. O Primordial te ensina a ser perigoso, não tóxico.', originalTimestamp: '2025-06-24T11:45:00Z' },
+        // Adicione mais 7 comentários fixos aqui para totalizar 10
+        { id: 104, username: 'Leo_Costa', text: 'A chave virou. Não peço mais desculpas por querer mais da vida. Energia renovada.', originalTimestamp: '2025-06-23T22:10:00Z' },
+        { id: 105, username: 'Danilo.Ribeiro', text: 'Impressionante. O conteúdo sobre linguagem corporal silenciosa já valeu o investimento todo.', originalTimestamp: '2025-06-23T15:00:00Z' },
+        { id: 106, username: 'G_Alves', text: 'Parei de buscar validação e comecei a construir meu próprio valor. Isso muda o jogo.', originalTimestamp: '2025-06-22T20:05:00Z' },
+        { id: 107, username: 'Marcos.P', text: 'Não é mágica, é protocolo. Segui os passos e a mudança na minha rotina foi brutal.', originalTimestamp: '2025-06-22T09:00:00Z' },
+        { id: 108, username: 'Thiago.Nunes', text: 'O acesso à "Irmandade" é o maior bônus. Trocar ideia com outros homens na mesma jornada não tem preço.', originalTimestamp: '2025-06-21T19:20:00Z' },
+        { id: 109, username: 'Caio.F', text: 'Sentia que algo estava errado, mas não sabia o quê. O Primordial deu nome ao problema e entregou a solução.', originalTimestamp: '2025-06-21T14:15:00Z' },
+        { id: 110, username: 'Bruno.Siqueira', text: 'Nunca mais serei o mesmo. E agradeço por isso. Recomendo a todos que sentem que podem ser mais.', originalTimestamp: '2025-06-20T23:55:00Z' }
     ];
 
-    function generateConsistentDate(name) {
-        let hash = 0;
-        for (let i = 0; i < name.length; i++) { hash = name.charCodeAt(i) + ((hash << 5) - hash); }
-        const daysAgo = (Math.abs(hash) % 25) + 2;
-        const date = new Date();
-        date.setDate(date.getDate() - daysAgo);
-        return date;
-    }
+    // Pool de comentários para serem adicionados dinamicamente.
+    const dynamicCommentPool = [
+        { id: 201, username: 'Lucas.G', text: 'Acabei de entrar. A energia da comunidade já é diferente de tudo que já vi.' },
+        { id: 202, username: 'Rafael.O', text: 'A notificação da compra apareceu e decidi pular pra dentro. Vamos ver qual é.' },
+        { id: 203, username: 'Matheus.C', text: 'Minha vaga tá garantida. Hora de começar a desconstrução que tanto falam.' },
+        { id: 204, username: 'Guilherme.T', text: 'Chega de procrastinar. Investimento feito. O primeiro passo foi dado.' },
+        { id: 205, username: 'Felipe.A', text: 'Assisti a apresentação e fez todo sentido. Me juntei à alcateia.' },
+        { id: 206, username: 'Rodrigo.V', text: 'Garantido! Ansioso pra começar o Módulo 1 e quebrar essa casca.' },
+        { id: 207, username: 'Eduardo.P', text: 'Tava em cima do muro, mas a prova social aqui me convenceu. Mais um na área.' },
+        { id: 208, username: 'Sérgio.L', text: 'Comprado. Chega de ser o último a ser escolhido. Hora da virada.' }
+    ];
 
+    // --- FUNÇÕES HELPER ---
+
+    /** Formata o tempo para "há 5 minutos", "ontem", etc. */
     function formatTimeAgo(date) {
         const now = new Date();
-        const seconds = Math.floor((now - date) / 1000);
-        let interval = seconds / 86400;
-        if (interval > 1) return `há ${Math.floor(interval)} dias`;
-        interval = seconds / 3600;
-        if (interval > 1) return `há ${Math.floor(interval)} horas`;
+        const seconds = Math.round((now - date) / 1000);
+
+        if (seconds < 5) {
+            return 'agora mesmo';
+        }
+
+        const intervals = [
+            { value: 31536000, unit: 'year' },
+            { value: 2592000, unit: 'month' },
+            { value: 86400, unit: 'day' },
+            { value: 3600, unit: 'hour' },
+            { value: 60, unit: 'minute' },
+            { value: 1, unit: 'second' }
+        ];
+
+        const rtf = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
+
+        for (const interval of intervals) {
+            const amount = Math.floor(seconds / interval.value);
+            if (amount >= 1) {
+                return rtf.format(-amount, interval.unit);
+            }
+        }
         return 'há poucos segundos';
     }
 
-    function addPrimordialComment(post, isNew = false) {
-        const postDiv = document.createElement('div');
-        postDiv.className = 'mural-post';
-        const timeAgo = isNew ? formatTimeAgo(new Date()) : formatTimeAgo(generateConsistentDate(post.username));
-        postDiv.innerHTML = `
-            <div class="post-header">
-                <img src="/static/img/avatar-placeholder.png" alt="Avatar" class="post-avatar">
-                <span class="post-username">${post.username}</span>
-                <span class="post-timestamp">${timeAgo}</span>
-            </div>
-            <div class="post-body"><p>"${post.text}"</p></div>`;
+    /** Busca os dados salvos no localStorage */
+    function getSeenCommentsData() {
+        const data = localStorage.getItem(LOCAL_STORAGE_KEY);
+        return data ? JSON.parse(data) : {};
+    }
+
+    /** Salva os dados no localStorage */
+    function setSeenCommentsData(data) {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+    }
+
+    /** Cria e renderiza um post de comentário no mural */
+    function renderComment(commentData, timestamp) {
+        const commentElement = commentTemplate.content.cloneNode(true).querySelector('.mural-post');
         
-        if (isNew) {
-            commentsList.prepend(postDiv);
-        } else {
-            commentsList.appendChild(postDiv);
+        // Avatar (Melhoria)
+        const usernameInitial = commentData.username.charAt(0).toUpperCase();
+        const avatarImg = document.createElement('img');
+        // Usando um serviço de avatares com base nas iniciais para um realismo extra
+        avatarImg.src = `https://i.pravatar.cc/50?u=${commentData.id}`;
+        avatarImg.alt = `Avatar de ${commentData.username}`;
+        commentElement.querySelector('.post-avatar').appendChild(avatarImg);
+        
+        commentElement.querySelector('.post-username').textContent = commentData.username;
+        commentElement.querySelector('.post-body p').textContent = commentData.text;
+        commentElement.querySelector('.post-timestamp').textContent = formatTimeAgo(new Date(timestamp));
+        
+        // Adiciona o comentário no topo do mural
+        commentListElement.prepend(commentElement);
+        
+        // Força o navegador a recalcular o layout para a animação funcionar
+        void commentElement.offsetWidth; 
+        
+        commentElement.classList.add('is-visible');
+    }
+
+    // --- LÓGICA PRINCIPAL ---
+
+    // 1. Renderizar todos os comentários estáticos
+    staticComments.forEach(comment => {
+        renderComment(comment, comment.originalTimestamp);
+    });
+
+    // 2. Renderizar comentários dinâmicos que já foram vistos em sessões anteriores
+    const seenComments = getSeenCommentsData();
+    const seenCommentIds = Object.keys(seenComments).map(Number); // Pega os IDs dos já vistos
+
+    seenCommentIds.forEach(id => {
+        const comment = dynamicCommentPool.find(c => c.id === id);
+        if (comment) {
+            renderComment(comment, seenComments[id]);
         }
-        setTimeout(() => postDiv.classList.add('is-visible'), 50);
+    });
+
+    // 3. Agendar novos comentários dinâmicos para esta sessão
+    function scheduleNewComments() {
+        // Filtra para pegar apenas os comentários que o usuário AINDA NÃO VIU
+        const unseenComments = dynamicCommentPool.filter(c => !seenCommentIds.includes(c.id));
+        
+        if (unseenComments.length === 0) return; // Não há mais novos comentários para mostrar
+
+        // Sorteia de 3 a 5 novos comentários para esta sessão
+        const numberOfCommentsToShow = Math.floor(Math.random() * 3) + 3; // 3 a 5
+        const commentsToShow = unseenComments.sort(() => 0.5 - Math.random()).slice(0, numberOfCommentsToShow);
+
+        let initialDelay = 8000; // Começa após 8 segundos
+
+        commentsToShow.forEach(comment => {
+            const randomInterval = Math.random() * (25000 - 10000) + 10000; // Entre 10 e 25 segundos
+            setTimeout(() => {
+                showNewDynamicComment(comment);
+            }, initialDelay);
+            initialDelay += randomInterval;
+        });
+    }
+
+    // 4. Função para exibir a notificação e o novo comentário
+    function showNewDynamicComment(comment) {
+        // Mostra a notificação
+        notificationElement.innerHTML = `<p><span class="notification-name">${comment.username}</span> acaba de se juntar à Irmandade Primordial.</p>`;
+        notificationElement.classList.add('show');
+        
+        // Esconde a notificação após 5 segundos
+        setTimeout(() => {
+            notificationElement.classList.remove('show');
+        }, 5000);
+
+        // Renderiza o comentário no mural após um pequeno delay da notificação
+        setTimeout(() => {
+            const now = Date.now();
+            renderComment(comment, now);
+
+            // Atualiza o localStorage com o novo comentário visto e seu timestamp
+            const currentData = getSeenCommentsData();
+            currentData[comment.id] = now;
+            setSeenCommentsData(currentData);
+        }, 1000);
     }
     
-    const initialPosts = allRelatos.slice(0, 10);
-    let remainingPosts = allRelatos.slice(10);
-    shuffleArray(remainingPosts);
-    let newPostIndex = 0;
-
-    initialPosts.forEach(post => addPrimordialComment(post, false));
-
-    function scheduleNextPost() {
-        const randomDelay = Math.random() * (90000 - 45000) + 45000;
-        setTimeout(() => {
-            if (newPostIndex < 5 && newPostIndex < remainingPosts.length) {
-                addPrimordialComment(remainingPosts[newPostIndex], true);
-                newPostIndex++;
-                scheduleNextPost();
-            }
-        }, randomDelay);
-    }
-    setTimeout(scheduleNextPost, 25000);
-}
-
-// Função auxiliar para embaralhar, pode ser colocada aqui
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
+    // Inicia o processo
+    scheduleNewComments();
 }
     // --- EXECUTA AS FUNÇÕES DE INICIALIZAÇÃO ---
     // Cada função verifica internamente se os elementos de sua página existem
