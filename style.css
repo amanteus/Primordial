@@ -531,12 +531,65 @@ h1, h2, h3, h4 {
 
 /* --- ESTILOS DA SEÇÃO ECOS DA ALCATEIA (VERSÃO 2.0 - COMPACTA) --- */
 
-.alcateia-mural {
-    display: flex;
-    flex-direction: column-reverse; /* <<< ALTERADO: Novos comentários no topo! */
-    gap: 20px;
+/* --- ESTILOS DA SEÇÃO ECOS DA ALCATEIA (VERSÃO 4.0 - MÓDULO VIVO) --- */
+.secao-ecos-alcateia {
+    background: #111;
+    padding-top: 120px;
+    padding-bottom: 120px;
+}
+
+.community-module {
     max-width: 800px;
-    margin: 40px auto 0 auto;
+    margin: 0 auto;
+    background-color: var(--bg-color);
+    border: 1px solid #333;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    overflow: hidden; /* Garante que os cantos arredondados sejam aplicados nos filhos */
+}
+
+.community-header {
+    padding: 30px 30px 20px 30px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+}
+
+.community-header .section-title {
+    margin-bottom: 10px;
+}
+
+.community-subtitle {
+    color: #aaa;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 25px auto;
+}
+
+.live-stats {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    background-color: #1a1a1a;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.stat-item .stat-icon {
+    margin-right: 8px;
+}
+
+.alcateia-mural {
+    /* A caixa de rolagem agora está dentro do módulo */
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 20px;
+}
     
     /* A Mágica da Caixa de Rolagem */
     max-height: 500px; /* Altura máxima antes da rolagem começar */
