@@ -719,6 +719,45 @@ h1, h2, h3, h4 {
 .post-like-button.is-liked .like-icon {
     transform: scale(1.2);
 }
+
+/* ADICIONE ESTAS NOVAS REGRAS AO SEU ARQUIVO CSS */
+
+/* Estilos para o novo container de filtro */
+.comment-filter {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #2a2a2a;
+}
+
+.filter-button {
+    background-color: transparent;
+    border: 1px solid #444;
+    color: #aaa;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-button:hover {
+    background-color: #252525;
+    color: #fff;
+}
+
+/* Estilo do botão de filtro ativo */
+.filter-button.active {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--bg-color);
+    box-shadow: 0 0 15px rgba(196, 170, 131, 0.3);
+}
+
 /* --- NOVA SEÇÃO DE FAQ - PRIMORDIAL --- */
 .secao-faq-primordial {
     background-color: var(--bg-color);
