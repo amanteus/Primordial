@@ -272,6 +272,40 @@ h1, h2, h3, h4 {
     max-width: 700px;
 }
 
+/* ========================================================== */
+/* --- AJUSTES DE ESTILO E ANIMAÇÃO PARA A SEÇÃO 3-INIMIGO --- */
+/* ========================================================== */
+
+/* 1. Adiciona espaçamento vertical entre os parágrafos da seção */
+.secao-3-inimigo .conteudo-secao > p {
+    margin-bottom: 25px;
+}
+
+/* 2. Animação de "salto vibrante" para a palavra CHEGA */
+@keyframes chega-animation {
+    0% {
+        transform: scale(1);
+    }
+    10% {
+        transform: scale(0.9) rotate(-2deg);
+    }
+    20%, 40%, 60%, 80% {
+        transform: scale(1.15) rotate(2deg);
+    }
+    30%, 50%, 70%, 90% {
+        transform: scale(1.15) rotate(-2deg);
+    }
+    100% {
+        transform: scale(1) rotate(0);
+    }
+}
+
+/* 3. Aplica a animação ao elemento quando ele se torna visível */
+.chega-headline.is-visible {
+    /* A animação 'chega-animation' dura 1.2 segundos e tem uma curva de aceleração suave */
+    animation: chega-animation 1.2s ease-in-out;
+}
+
 /* SEÇÃO 4: REVELAÇÃO */
 .secao-4-revelacao {
     text-align: center;
