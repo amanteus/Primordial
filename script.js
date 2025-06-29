@@ -52,10 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
             animatedElements.forEach(element => observer.observe(element));
         }
         if (onlineCountElement) {
-            let onlineCount = 157;
+            let onlineCount = 1457;
             const updateOnlineCount = () => {
                 const variation = Math.floor(Math.random() * 7) - 3;
-                onlineCount = Math.max(110, Math.min(190, onlineCount + variation));
+                onlineCount = Math.max(710, Math.min(390, onlineCount + variation));
                 onlineCountElement.textContent = onlineCount;
             };
             setInterval(updateOnlineCount, 2500);
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeMembersElement = document.getElementById('active-members-count');
         if (!vagasElement || !progressElement || !notificationElement || !activeMembersElement) return;
 
-        const TOTAL_VAGAS = 250, VENDA_A_CADA_X_MINUTOS = 45, VAGAS_INICIAIS_MIN = 55, VAGAS_INICIAIS_MAX = 75, VAGAS_MINIMAS = 7;
+        const TOTAL_VAGAS = 250, VENDA_A_CADA_X_MINUTOS = 45, VAGAS_INICIAIS_MIN = 25, VAGAS_INICIAIS_MAX = 30, VAGAS_MINIMAS = 7;
         const STORAGE_KEY = 'primordial_scarcity_state';
         let vagasAtuais;
 
@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if(commentsToDisplay.length === 0) {
-                const message = filter === 'relevantes' ? "Nenhum testemunho encontrado." : "Nenhum comentário de impulso ainda. Fique de olho!";
+                const message = filter === 'relevantes' ? "Nenhum testemunho encontrado." : "Nenhum comentário adicionado ainda. Fique de olho!";
                 listElement.innerHTML = `<p class="no-comments-message">${message}</p>`;
             } else {
                 commentsToDisplay.forEach(c => {
