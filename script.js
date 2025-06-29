@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeMembersElement = document.getElementById('active-members-count');
         if (!vagasElement || !progressElement || !notificationElement || !activeMembersElement) return;
 
-        const TOTAL_VAGAS = 250, VENDA_A_CADA_X_MINUTOS = 45, VAGAS_INICIAIS_MIN = 25, VAGAS_INICIAIS_MAX = 30, VAGAS_MINIMAS = 7;
+        const TOTAL_VAGAS = 299, VENDA_A_CADA_X_MINUTOS = 15, VAGAS_INICIAIS_MIN = 25, VAGAS_INICIAIS_MAX = 30, VAGAS_MINIMAS = 7;
         const STORAGE_KEY = 'primordial_scarcity_state';
         let vagasAtuais;
 
@@ -123,13 +123,23 @@ document.addEventListener('DOMContentLoaded', () => {
             progressElement.style.width = percentual + '%';
         };
         
-        const simularVenda = () => {
-            if (vagasAtuais <= VAGAS_MINIMAS) return;
-            vagasAtuais--;
-            updateVagasDisplay();
-            const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
-            showNotification(`<span class="notification-name">${comprador.name}</span> de ${comprador.location} acaba de garantir sua vaga!`);
-        };
+        // Substitua pela função corrigida:
+const simularVenda = () => {
+    if (vagasAtuais <= VAGAS_MINIMAS) return;
+    
+    // Diminui vaga
+    vagasAtuais--;
+    updateVagasDisplay();
+
+    // Pega o contador atual de membros, converte para número e incrementa
+    let currentMembers = parseInt(activeMembersElement.textContent.replace('+', ''));
+    currentMembers++;
+    activeMembersElement.textContent = `+${currentMembers}`;
+
+    // Mostra a notificação de compra
+    const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
+    showNotification(`<span class="notification-name">${comprador.name}</span> de ${comprador.location} acaba de garantir sua vaga!`);
+};
         
         let state = getFromStorage(STORAGE_KEY);
         if (state) {
@@ -171,14 +181,14 @@ if (communityModule) {
         });
 
         const scheduleNextSale = () => {
-            const randomDelay = Math.random() * (75000 - 40000) + 40000;
+            const randomDelay = Math.random() * (45000 - 20000) + 20000;
             setTimeout(() => {
                 simularVenda();
                 scheduleNextSale();
             }, randomDelay);
         };
         
-        setTimeout(scheduleNextSale, 25000);
+        setTimeout(scheduleNextSale, 15000);
     }
 
     // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS COM FILTRO ---
