@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeMembersElement = document.getElementById('active-members-count');
         if (!vagasElement || !progressElement || !notificationElement || !activeMembersElement) return;
 
-        const TOTAL_VAGAS = 299, VENDA_A_CADA_X_MINUTOS = 15, VAGAS_INICIAIS_MIN = 25, VAGAS_INICIAIS_MAX = 30, VAGAS_MINIMAS = 7;
+        const TOTAL_VAGAS = 299, VENDA_A_CADA_X_MINUTOS = 15, VAGAS_INICIAIS_MIN = 54, VAGAS_INICIAIS_MAX = 67, VAGAS_MINIMAS = 7;
         const STORAGE_KEY = 'primordial_scarcity_state';
         let vagasAtuais;
 
