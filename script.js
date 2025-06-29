@@ -584,31 +584,44 @@ const commentTemplates = [
         };
 
         const renderMural = (filter) => {
-            listElement.innerHTML = '';
-            const seen = getFromStorage(SEEN_KEY) || {};
-            let comments = [...staticComments, ...dynamicCommentPool.filter(c => seen[c.id])].map(c => ({
-                ...c,
-                timestamp: seen[c.id] || c.originalTimestamp,
-                likeCount: (getFromStorage(CACHE_KEY) || {})[c.id] || simulateLikes(c.initialLikes, seen[c.id] || c.originalTimestamp)
-            }));
-            
-            const oneDayAgo = Date.now() - (24 * 3600 * 1000);
-            const recentCount = comments.filter(c => new Date(c.timestamp).getTime() > oneDayAgo).length;
-            recentCommentsCountElement.textContent = `+${recentCount}`;
+    listElement.innerHTML = '';
+    const seen = getFromStorage(SEEN_KEY) || {};
+    let allVisibleComments = [...staticComments, ...dynamicCommentPool.filter(c => seen[c.id])].map(c => ({
+        ...c,
+        timestamp: seen[c.id] || c.originalTimestamp,
+        likeCount: (getFromStorage(CACHE_KEY) || {})[c.id] || simulateLikes(c.initialLikes, seen[c.id] || c.originalTimestamp)
+    }));
+    
+    // Atualiza o contador de comentários recentes ANTES de filtrar para a exibição
+    const oneDayAgo = Date.now() - (24 * 3600 * 1000);
+    const recentCount = allVisibleComments.filter(c => new Date(c.timestamp).getTime() > oneDayAgo && c.type === 'impulso').length;
+    recentCommentsCountElement.textContent = `+${recentCount}`;
 
-            if (filter === 'relevantes') {
-                comments.sort((a, b) => b.likeCount - a.likeCount);
-            } else {
-                comments = comments.filter(c => new Date(c.timestamp).getTime() > oneDayAgo).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            }
+    let commentsToDisplay;
 
-            if(comments.length === 0 && filter === 'recentes') listElement.innerHTML = `<p class="no-comments-message">Nenhum comentário nas últimas 24 horas.</p>`;
-            else comments.forEach(c => {
-                const el = createCommentEl(c);
-                listElement.appendChild(el);
-                setTimeout(() => el.classList.add('is-visible'), 50);
-            });
-        };
+    if (filter === 'relevantes') {
+        // Filtra por "transformacao" e ordena por mais curtidas
+        commentsToDisplay = allVisibleComments
+            .filter(c => c.type === 'transformacao')
+            .sort((a, b) => b.likeCount - a.likeCount);
+    } else { // 'recentes'
+        // Filtra por "impulso", depois por tempo, e ordena por mais recente
+        commentsToDisplay = allVisibleComments
+            .filter(c => c.type === 'impulso' && new Date(c.timestamp).getTime() > oneDayAgo)
+            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    }
+
+    if(commentsToDisplay.length === 0) {
+        const message = filter === 'relevantes' ? "Nenhum testemunho de transformação ainda." : "Nenhum comentário de impulso nas últimas 24 horas.";
+        listElement.innerHTML = `<p class="no-comments-message">${message}</p>`;
+    } else {
+        commentsToDisplay.forEach(c => {
+            const el = createCommentEl(c);
+            listElement.appendChild(el);
+            setTimeout(() => el.classList.add('is-visible'), 50);
+        });
+    }
+};
 
         const handleLike = ({target}) => {
             const btn = target.closest('.post-like-button');
