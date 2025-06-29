@@ -554,12 +554,37 @@ h1, h2, h3, h4 {
     opacity: 1;
     transform: translateY(0);
 }
-.post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
-.post-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; }
-.post-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.post-username { font-weight: 700; color: var(--text-color); }
-.post-timestamp { font-size: 0.8rem; color: #888; margin-left: auto; }
-.post-body p { font-style: italic; color: #ccc; text-align: left; }
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.post-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.post-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.post-username {
+    font-weight: 700;
+    color: var(--text-color);
+}
+.post-timestamp {
+    font-size: 0.8rem;
+    color: #888;
+    margin-left: auto;
+}
+.post-body p {
+    font-style: italic;
+    color: #ccc;
+    text-align: left; /* Garante que o texto do post seja alinhado à esquerda */
+}
 /* --- NOVA SEÇÃO DE FAQ - PRIMORDIAL --- */
 .secao-faq-primordial {
     background-color: var(--bg-color);
