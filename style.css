@@ -529,15 +529,50 @@ h1, h2, h3, h4 {
 }
 .secure-checkout-text { margin-top: 20px; font-size: 0.9rem; }
 
-/* --- ESTILOS DA SEÇÃO ECOS DA ALCATEIA (VERSÃO MELHORADA) --- */
+/* --- ESTILOS DA SEÇÃO ECOS DA ALCATEIA (VERSÃO 2.0 - COMPACTA) --- */
+
 .alcateia-mural {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse; /* <<< ALTERADO: Novos comentários no topo! */
     gap: 20px;
     max-width: 800px;
     margin: 40px auto 0 auto;
+    
+    /* A Mágica da Caixa de Rolagem */
+    max-height: 500px; /* Altura máxima antes da rolagem começar */
+    overflow-y: auto; /* Adiciona a rolagem vertical quando necessário */
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #111; /* Um fundo para delimitar a caixa */
+    border: 1px solid #333;
 }
 
+/* Estilização da Barra de Rolagem (para navegadores WebKit como Chrome/Safari) */
+.alcateia-mural::-webkit-scrollbar {
+    width: 8px;
+}
+
+.alcateia-mural::-webkit-scrollbar-track {
+    background: #111;
+    border-radius: 10px;
+}
+
+.alcateia-mural::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 10px;
+    border: 2px solid #111;
+}
+
+/* Animação de Destaque para Novos Comentários */
+@keyframes new-comment-flash {
+    0% { background-color: rgba(196, 170, 131, 0.2); }
+    100% { background-color: var(--bg-color); }
+}
+
+/* Classe temporária para o destaque */
+.mural-post--new {
+    animation: new-comment-flash 1.5s ease-out;
+}
 .mural-post {
     background-color: var(--bg-color);
     border: 1px solid #333;
