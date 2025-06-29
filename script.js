@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // FONTE DE DADOS ÚNICA PARA CONSISTÊNCIA
     const compradoresDB = [
-    // Seus 20 originais
     { name: 'João Paulo', location: 'São Paulo, SP' },
     { name: 'Lucas Gonçalves', location: 'João Monlevade, MG' },
     { name: 'Matheus Francisco', location: 'Caxias do Sul, RS' },
