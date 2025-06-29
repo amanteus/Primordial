@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateVagasDisplay();
 
             const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
-            showNotification(`<span class="notification-name">${comprador.name}</span> de ${comprador.location} acaba de garantir sua vaga!`);
+            showNotification(`<span class="notification-name">${comprador.name}</span> de ${comprador.location} acaba de garantir sua vaga na Irmandade Primordial!`);
 
             setTimeout(() => {
                 activeMembersCount++;
