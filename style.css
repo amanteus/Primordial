@@ -534,6 +534,14 @@ h1, h2, h3, h4 {
     background: #111;
     padding: 120px 0;
 }
+
+/* Estilo elegante para o contador de membros ativos */
+#active-members-count {
+    color: #f0e6d2; /* Um dourado um pouco mais claro */
+    font-weight: 700;
+    text-shadow: 0 0 5px rgba(240, 230, 210, 0.2);
+}
+
 .community-module {
     max-width: 800px;
     margin: 0 auto;
