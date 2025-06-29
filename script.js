@@ -89,108 +89,125 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- MÓDULO 3: SISTEMA DE ESCASSEZ E PROVA SOCIAL ---
-    function initScarcityAndSocialProof() {
-        const vagasElement = document.getElementById('vagas-restantes-header');
-        const progressElement = document.getElementById('progress-bar-inner');
-        const notificationElement = document.getElementById('social-proof-notification');
-        const activeMembersElement = document.getElementById('active-members-count');
-        if (!vagasElement || !progressElement || !notificationElement || !activeMembersElement) return;
+   // ==========================================================
+// --- MÓDULO 3: SISTEMA DE ESCASSEZ (VERSÃO FINAL CORRIGIDA) ---
+// ==========================================================
+function initScarcityAndSocialProof() {
+    // --- Seleção de Elementos ---
+    const vagasElement = document.getElementById('vagas-restantes-header');
+    const progressElement = document.getElementById('progress-bar-inner');
+    const notificationElement = document.getElementById('social-proof-notification');
+    const activeMembersElement = document.getElementById('active-members-count');
+    if (!vagasElement || !progressElement || !notificationElement || !activeMembersElement) return;
 
-        const TOTAL_VAGAS = 299, VENDA_A_CADA_X_MINUTOS = 15, VAGAS_INICIAIS_MIN = 54, VAGAS_INICIAIS_MAX = 67, VAGAS_MINIMAS = 7;
-        const STORAGE_KEY = 'primordial_scarcity_state';
-        let vagasAtuais;
+    // --- Configurações ---
+    const TOTAL_VAGAS = 350, VENDA_A_CADA_X_MINUTOS = 35, VAGAS_INICIAIS_MIN = 45, VAGAS_INICIAIS_MAX = 75, VAGAS_MINIMAS = 7;
+    const STORAGE_KEY = 'primordial_scarcity_state';
 
-        const animateCountUp = (element, finalValue, duration = 1500) => {
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                element.textContent = `+${Math.floor(progress * finalValue)}`;
-                if (progress < 1) { window.requestAnimationFrame(step); }
-            };
-            window.requestAnimationFrame(step);
-        };
+    // O objeto 'state' será nossa única fonte da verdade
+    let state; 
 
-        const showNotification = (message) => {
-            notificationElement.innerHTML = `<p>${message}</p>`;
-            notificationElement.classList.add('show');
-            setTimeout(() => notificationElement.classList.remove('show'), 5000);
-        };
-        
-        const updateVagasDisplay = () => {
-            vagasElement.textContent = vagasAtuais;
-            const percentual = ((TOTAL_VAGAS - vagasAtuais) / TOTAL_VAGAS) * 100;
-            progressElement.style.width = percentual + '%';
-        };
-        
-        // Substitua pela função corrigida:
-const simularVenda = () => {
-    if (vagasAtuais <= VAGAS_MINIMAS) return;
+    // --- Funções Helper ---
+    const showNotification = (message) => {
+        notificationElement.innerHTML = `<p>${message}</p>`;
+        notificationElement.classList.add('show');
+        setTimeout(() => notificationElement.classList.remove('show'), 5000);
+    };
     
-    // Diminui vaga
-    vagasAtuais--;
-    updateVagasDisplay();
+    const updateDisplay = () => {
+        vagasElement.textContent = state.vagasAtuais;
+        const percentual = ((TOTAL_VAGAS - state.vagasAtuais) / TOTAL_VAGAS) * 100;
+        progressElement.style.width = percentual + '%';
+        activeMembersElement.textContent = `+${state.membrosAtivos}`;
+    };
 
-    // Pega o contador atual de membros, converte para número e incrementa
-    let currentMembers = parseInt(activeMembersElement.textContent.replace('+', ''));
-    currentMembers++;
-    activeMembersElement.textContent = `+${currentMembers}`;
-
-    // Mostra a notificação de compra
-    const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
-    showNotification(`<span class="notification-name">${comprador.name}</span> de ${comprador.location} acaba de garantir sua vaga!`);
-};
-        
-        let state = getFromStorage(STORAGE_KEY);
-        if (state) {
-            const tempoDecorrido = Date.now() - state.timestamp;
-            const vendasSimuladas = Math.floor(tempoDecorrido / (1000 * 60 * VENDA_A_CADA_X_MINUTOS));
-            vagasAtuais = Math.max(VAGAS_MINIMAS, Math.min(state.lastSeenVagas, state.initialVagas - vendasSimuladas));
-            state.initialVagas = vagasAtuais;
-            state.timestamp = Date.now();
-        } else {
-            vagasAtuais = Math.floor(Math.random() * (VAGAS_INICIAIS_MAX - VAGAS_INICIAIS_MIN + 1)) + VAGAS_INICIAIS_MIN;
-            state = { initialVagas: vagasAtuais, timestamp: Date.now(), lastSeenVagas: vagasAtuais };
-        }
-        
-        // Substitua pelo novo bloco corrigido:
-const activeMembersCount = TOTAL_VAGAS - vagasAtuais + 12;
-updateVagasDisplay(); // Atualiza as vagas imediatamente
-saveToStorage(STORAGE_KEY, state);
-
-// Lógica do Observer para animar o contador apenas quando visível
-const communityModule = document.getElementById('community-module');
-if (communityModule) {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // O elemento está visível, então disparamos a animação
-                animateCountUp(activeMembersElement, activeMembersCount);
-                // Paramos de observar para não animar novamente
-                observer.unobserve(entry.target);
+    const animateCountUp = (element, startValue, finalValue, duration = 1500) => {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const currentValue = Math.floor(progress * (finalValue - startValue) + startValue);
+            element.textContent = `+${currentValue}`;
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
             }
-        });
-    }, { threshold: 0.5 }); // Dispara quando 50% do elemento estiver visível
-
-    observer.observe(communityModule);
-}
-
-        window.addEventListener('beforeunload', () => {
-            state.lastSeenVagas = vagasAtuais;
-            saveToStorage(STORAGE_KEY, state);
-        });
-
-        const scheduleNextSale = () => {
-            const randomDelay = Math.random() * (45000 - 20000) + 20000;
-            setTimeout(() => {
-                simularVenda();
-                scheduleNextSale();
-            }, randomDelay);
         };
+        window.requestAnimationFrame(step);
+    };
+
+    const simularVenda = () => {
+        if (state.vagasAtuais <= VAGAS_MINIMAS) return;
         
-        setTimeout(scheduleNextSale, 15000);
+        // Atualiza o estado
+        state.vagasAtuais--;
+        state.membrosAtivos++;
+        
+        // Salva o estado imediatamente após a mudança
+        saveToStorage(STORAGE_KEY, state);
+
+        // Atualiza a UI
+        updateDisplay();
+
+        // Mostra a notificação
+        const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
+        showNotification(`<span class="notification-name">${comprador.name}</span> de ${comprador.location} acaba de garantir sua vaga!`);
+    };
+
+    // --- Lógica de Inicialização ---
+    const currentState = getFromStorage(STORAGE_KEY);
+    
+    if (currentState) {
+        // --- LÓGICA PARA USUÁRIO RECORRENTE ---
+        state = currentState;
+        const tempoDecorrido = Date.now() - state.lastUpdate;
+        const vendasSimuladas = Math.floor(tempoDecorrido / (1000 * 60 * VENDA_A_CADA_X_MINUTOS));
+        
+        if (vendasSimuladas > 0) {
+            state.vagasAtuais = Math.max(VAGAS_MINIMAS, state.vagasAtuais - vendasSimuladas);
+            state.membrosAtivos = TOTAL_VAGAS - state.vagasAtuais + 12;
+        }
+
+    } else {
+        // --- LÓGICA PARA PRIMEIRA VISITA ---
+        const vagasIniciais = Math.floor(Math.random() * (VAGAS_INICIAIS_MAX - VAGAS_INICIAIS_MIN + 1)) + VAGAS_INICIAIS_MIN;
+        state = {
+            vagasAtuais: vagasIniciais,
+            membrosAtivos: TOTAL_VAGAS - vagasIniciais + 37,
+            lastUpdate: Date.now()
+        };
     }
+    
+    // Anima o contador apenas quando a seção se torna visível
+    const communityModule = document.getElementById('community-module');
+    if (communityModule) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const startValue = parseInt(activeMembersElement.textContent.replace('+', ''));
+                    animateCountUp(activeMembersElement, startValue, state.membrosAtivos);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        observer.observe(communityModule);
+    }
+    
+    // Atualiza a UI e salva o estado inicial/calculado
+    updateDisplay();
+    state.lastUpdate = Date.now(); // Atualiza o timestamp da última interação
+    saveToStorage(STORAGE_KEY, state);
+
+    // Agenda vendas futuras
+    const scheduleNextSale = () => {
+        const randomDelay = Math.random() * (35000 - 20000) + 20000;
+        setTimeout(() => {
+            simularVenda();
+            scheduleNextSale();
+        }, randomDelay);
+    };
+    
+    setTimeout(scheduleNextSale, 15000);
+}
 
     // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS COM FILTRO ---
     function initCommentSystem() {
