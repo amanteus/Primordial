@@ -185,21 +185,22 @@
 </div>
 
 <template id="comment-template">
-    <div class="mural-post anim-on-scroll">
+    <div class="mural-post" data-id=""> 
         <div class="post-header">
-            <div class="post-avatar">
-                </div>
+            <div class="post-avatar"></div>
             <div class="post-user-info">
-                <span class="post-username">Nome do Usuário</span>
-                <span class="post-timestamp">há 2 dias</span>
+                <span class="post-username"></span>
+                <span class="post-timestamp"></span>
             </div>
         </div>
         <div class="post-body">
-            <p>Texto do comentário aqui.</p>
+            <p></p>
         </div>
         <div class="post-actions">
-            <span>❤️</span>
-            <span>💬</span>
+            <button class="post-like-button">
+                <span class="like-icon">❤️</span>
+                <span class="like-count">0</span>
+            </button>
         </div>
     </div>
 </template>
