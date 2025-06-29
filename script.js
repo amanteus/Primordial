@@ -907,20 +907,18 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         
         const simularVenda = () => {
-            if (vagasAtuais <= VAGAS_MINIMAS) return;
-            vagasAtuais--;
-            updateVagasDisplay();
+    if (vagasAtuais <= VAGAS_MINIMAS) return;
+    vagasAtuais--;
+    updateVagasDisplay();
 
-            const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
-            showNotification(`<span class="notification-name">${comprador.name}</span> de ${comprador.location} acaba de garantir sua vaga no PRIMORDIAL!`);
+    // Incrementa o número de membros junto com a vaga diminuída.
+    activeMembersCount++;
+    activeMembersElement.textContent = `+${activeMembersCount}`;
 
-            setTimeout(() => {
-                activeMembersCount++;
-                activeMembersElement.textContent = `+${activeMembersCount}`;
-                const username = comprador.name.split(' ')[0] + '.' + (comprador.name.split(' ')[1] ? comprador.name.split(' ')[1].charAt(0) : '');
-                showNotification(`<span class="notification-name">${username}</span> está ativo na comunidade.`);
-            }, Math.random() * (45000 - 25000) + 8000);
-        };
+    // Apenas a notificação de compra é exibida.
+    const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
+    showNotification(`<span class="notification-name">${comprador.name}</span> de ${comprador.location} acaba de garantir sua vaga!`);
+};
         
         const updateVagasDisplay = () => {
             vagasElement.textContent = vagasAtuais;
