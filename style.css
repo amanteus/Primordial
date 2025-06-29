@@ -385,7 +385,29 @@ h1, h2, h3, h4 {
     margin-bottom: 15px;
 }
 .bonus-card h4 { color: var(--accent-color); }
+/* --- AJUSTE PARA LISTAS DE BENEFÍCIOS NO ACORDEÃO --- */
 
+/* Este seletor mira especificamente nas listas (ul) 
+  dentro do conteúdo do acordeão da seção "arsenal".
+*/
+.secao-6-arsenal .accordion-content ul {
+    /* Remove o marcador de lista (o pontinho) */
+    list-style: none;
+    
+    /* Remove o preenchimento padrão à esquerda que o navegador adiciona */
+    padding: 0;
+    margin: 0; /* Garante que não haja margens indesejadas */
+}
+
+.secao-6-arsenal .accordion-content li {
+    /* Adiciona um espaçamento entre os itens da lista para melhor legibilidade */
+    margin-bottom: 12px;
+}
+
+.secao-6-arsenal .accordion-content li:last-child {
+    /* Remove a margem do último item para um espaçamento perfeito */
+    margin-bottom: 0;
+}
 /* SEÇÃO 7: CHAMADO */
 .two-paths {
     display: flex;
