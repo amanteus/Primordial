@@ -268,7 +268,7 @@ function initScarcityAndSocialProof() {
             el.querySelector('.post-timestamp').textContent = formatTime(comment.timestamp);
             el.querySelector('.post-like-button .like-count').textContent = likeCount;
             if (liked) el.querySelector('.post-like-button').classList.add('is-liked');
-            el.querySelector('.post-avatar').innerHTML = `<img src="https://i.pravatar.cc/50?u=${comment.id}" alt="Avatar">`;
+            el.querySelector('.post-avatar').innerHTML = `<img src="https://loremflickr.com/50/50/man,portrait/all?lock=${comment.id}" alt="Avatar de ${comment.username}">`;
             saveToStorage(CACHE_KEY, likesCache);
             return el;
         };
