@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 onlineCount = Math.max(281, Math.min(2811, onlineCount + variation));
                 onlineCountElement.textContent = onlineCount;
             };
-            setInterval(updateOnlineCount, 2500);
+            setInterval(updateOnlineCount, 1500);
         }
     }
 
@@ -89,9 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-   // ==========================================================
-// --- MÓDULO 3: SISTEMA DE ESCASSEZ (VERSÃO FINAL CORRIGIDA) ---
-// ==========================================================
+   // =================================================================
+// --- MÓDULO 3: SISTEMA DE ESCASSEZ (VERSÃO FINAL COM VALIDAÇÃO) ---
+// =================================================================
 function initScarcityAndSocialProof() {
     // --- Seleção de Elementos ---
     const vagasElement = document.getElementById('vagas-restantes-header');
@@ -101,13 +101,13 @@ function initScarcityAndSocialProof() {
     if (!vagasElement || !progressElement || !notificationElement || !activeMembersElement) return;
 
     // --- Configurações ---
-    const TOTAL_VAGAS = 350, VENDA_A_CADA_X_MINUTOS = 35, VAGAS_INICIAIS_MIN = 45, VAGAS_INICIAIS_MAX = 75, VAGAS_MINIMAS = 7;
+    const TOTAL_VAGAS = 250, VENDA_A_CADA_X_MINUTOS = 45, VAGAS_INICIAIS_MIN = 55, VAGAS_INICIAIS_MAX = 75, VAGAS_MINIMAS = 7;
     const STORAGE_KEY = 'primordial_scarcity_state';
 
     // O objeto 'state' será nossa única fonte da verdade
     let state; 
 
-    // --- Funções Helper ---
+    // --- Funções Auxiliares ---
     const showNotification = (message) => {
         notificationElement.innerHTML = `<p>${message}</p>`;
         notificationElement.classList.add('show');
@@ -115,6 +115,13 @@ function initScarcityAndSocialProof() {
     };
     
     const updateDisplay = () => {
+        // Verificação para garantir que não exibimos NaN
+        if (isNaN(state.vagasAtuais) || isNaN(state.membrosAtivos)) {
+            console.error("ERRO: Tentativa de exibir NaN. Resetando o estado.");
+            localStorage.removeItem(STORAGE_KEY); // Limpa o estado corrompido
+            location.reload(); // Recarrega a página para um novo começo
+            return;
+        }
         vagasElement.textContent = state.vagasAtuais;
         const percentual = ((TOTAL_VAGAS - state.vagasAtuais) / TOTAL_VAGAS) * 100;
         progressElement.style.width = percentual + '%';
@@ -138,37 +145,33 @@ function initScarcityAndSocialProof() {
     const simularVenda = () => {
         if (state.vagasAtuais <= VAGAS_MINIMAS) return;
         
-        // Atualiza o estado
         state.vagasAtuais--;
         state.membrosAtivos++;
+        state.lastUpdate = Date.now(); // Atualiza o timestamp a cada venda
         
-        // Salva o estado imediatamente após a mudança
-        saveToStorage(STORAGE_KEY, state);
-
-        // Atualiza a UI
+        saveToStorage(STORAGE_KEY, state); // Salva o estado imediatamente
         updateDisplay();
 
-        // Mostra a notificação
         const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
         showNotification(`<span class="notification-name">${comprador.name}</span> de ${comprador.location} acaba de garantir sua vaga!`);
     };
 
-    // --- Lógica de Inicialização ---
+    // --- Lógica de Inicialização Robusta ---
     const currentState = getFromStorage(STORAGE_KEY);
     
-    if (currentState) {
-        // --- LÓGICA PARA USUÁRIO RECORRENTE ---
+    // Validação: O estado existe e tem as propriedades que esperamos como números?
+    if (currentState && typeof currentState.vagasAtuais === 'number' && typeof currentState.membrosAtivos === 'number') {
+        // --- LÓGICA PARA USUÁRIO RECORRENTE COM ESTADO VÁLIDO ---
         state = currentState;
         const tempoDecorrido = Date.now() - state.lastUpdate;
         const vendasSimuladas = Math.floor(tempoDecorrido / (1000 * 60 * VENDA_A_CADA_X_MINUTOS));
         
         if (vendasSimuladas > 0) {
             state.vagasAtuais = Math.max(VAGAS_MINIMAS, state.vagasAtuais - vendasSimuladas);
-            state.membrosAtivos = TOTAL_VAGAS - state.vagasAtuais + 12;
+            state.membrosAtivos = TOTAL_VAGAS - state.vagasAtuais + 37; // Recalcula membros com base nas novas vagas
         }
-
     } else {
-        // --- LÓGICA PARA PRIMEIRA VISITA ---
+        // --- LÓGICA PARA PRIMEIRA VISITA OU ESTADO CORROMPIDO ---
         const vagasIniciais = Math.floor(Math.random() * (VAGAS_INICIAIS_MAX - VAGAS_INICIAIS_MIN + 1)) + VAGAS_INICIAIS_MIN;
         state = {
             vagasAtuais: vagasIniciais,
@@ -183,7 +186,7 @@ function initScarcityAndSocialProof() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const startValue = parseInt(activeMembersElement.textContent.replace('+', ''));
+                    const startValue = parseInt(activeMembersElement.textContent.replace('+', '')) || state.membrosAtivos - 10; // Valor inicial seguro
                     animateCountUp(activeMembersElement, startValue, state.membrosAtivos);
                     observer.unobserve(entry.target);
                 }
@@ -194,7 +197,7 @@ function initScarcityAndSocialProof() {
     
     // Atualiza a UI e salva o estado inicial/calculado
     updateDisplay();
-    state.lastUpdate = Date.now(); // Atualiza o timestamp da última interação
+    state.lastUpdate = Date.now();
     saveToStorage(STORAGE_KEY, state);
 
     // Agenda vendas futuras
