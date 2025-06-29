@@ -524,13 +524,17 @@ const commentTemplates = [
             return parts.length > 1 ? `${parts[0]}.${parts[1].charAt(0)}` : parts[0];
         };
 
-        const allCommentsData = compradoresDB.map((comprador, index) => ({
-            id: 101 + index,
-            username: generateUsername(comprador.name),
-            text: commentTemplates[index % commentTemplates.length],
-            originalTimestamp: new Date(Date.now() - ((2 + (index % 28)) * 24 * 3600 * 1000) - (Math.random() * 12 * 3600 * 1000)).toISOString(),
-            initialLikes: 15 + Math.floor(Math.random() * 200)
-        }));
+        const allCommentsData = compradoresDB.map((comprador, index) => {
+    const template = commentTemplates[index % commentTemplates.length];
+    return {
+        id: 101 + index,
+        username: generateUsername(comprador.name),
+        text: template.text,
+        type: template.type, // Atribui o tipo
+        originalTimestamp: new Date(Date.now() - ((2 + (index % 28)) * 24 * 3600 * 1000) - (Math.random() * 12 * 3600 * 1000)).toISOString(),
+        initialLikes: 15 + Math.floor(Math.random() * 200)
+    };
+});
         
         const staticComments = allCommentsData.slice(0, 30);
         const dynamicCommentPool = allCommentsData.slice(30);
