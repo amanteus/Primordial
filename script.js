@@ -430,161 +430,202 @@ const fakePurchases = [
     }
 
     // ==========================================================
-// --- SISTEMA DE COMENTÁRIOS PERSISTENTE (VERSÃO 2.0) ---
+// --- SISTEMA DE COMENTÁRIOS PERSISTENTE (VERSÃO 3.0) ---
 // ==========================================================
 function initCommentSystem() {
     const commentListElement = document.getElementById('primordial-comments-list');
     const commentTemplate = document.getElementById('comment-template');
     const notificationElement = document.getElementById('social-proof-notification');
 
-    if (!commentListElement || !commentTemplate || !notificationElement) {
-        return;
-    }
-    
-    const LOCAL_STORAGE_KEY = 'primordial_seen_comments';
+    if (!commentListElement || !commentTemplate || !notificationElement) return;
 
-    // --- BASE DE DADOS DE COMENTÁRIOS ---
+    const SEEN_COMMENTS_KEY = 'primordial_seen_comments';
+    const LIKED_COMMENTS_KEY = 'primordial_liked_comments';
+
+    // --- BASE DE DADOS EXPANDIDA ---
     const staticComments = [
-        // Seus 10 comentários estáticos permanecem os mesmos...
-        { id: 101, username: 'Ricardo.M', text: 'Mudei completamente a forma como me apresento. As pessoas notam. Chega de ser o "bonzinho".', originalTimestamp: '2025-06-28T10:00:00Z' },
-        { id: 102, username: 'F_Guimarães', text: 'O módulo 2 foi um soco no estômago. Percebi o quanto eu estava me sabotando. Recomendo.', originalTimestamp: '2025-06-27T18:30:00Z' },
-        { id: 103, username: 'Vitor_S', text: 'Finalmente entendi a diferença entre ser agressivo e ser um babaca. O Primordial te ensina a ser perigoso, não tóxico.', originalTimestamp: '2025-06-27T11:45:00Z' },
-        { id: 104, username: 'Leo_Costa', text: 'A chave virou. Não peço mais desculpas por querer mais da vida. Energia renovada.', originalTimestamp: '2025-06-26T22:10:00Z' },
-        { id: 105, username: 'Danilo.Ribeiro', text: 'Impressionante. O conteúdo sobre linguagem corporal silenciosa já valeu o investimento todo.', originalTimestamp: '2025-06-26T15:00:00Z' },
-        { id: 106, username: 'G_Alves', text: 'Parei de buscar validação e comecei a construir meu próprio valor. Isso muda o jogo.', originalTimestamp: '2025-06-25T20:05:00Z' },
-        { id: 107, username: 'Marcos.P', text: 'Não é mágica, é protocolo. Segui os passos e a mudança na minha rotina foi brutal.', originalTimestamp: '2025-06-25T09:00:00Z' },
-        { id: 108, username: 'Thiago.Nunes', text: 'O acesso à "Irmandade" é o maior bônus. Trocar ideia com outros homens na mesma jornada não tem preço.', originalTimestamp: '2025-06-24T19:20:00Z' },
-        { id: 109, username: 'Caio.F', text: 'Sentia que algo estava errado, mas não sabia o quê. O Primordial deu nome ao problema e entregou a solução.', originalTimestamp: '2025-06-24T14:15:00Z' },
-        { id: 110, username: 'Bruno.Siqueira', text: 'Nunca mais serei o mesmo. E agradeço por isso. Recomendo a todos que sentem que podem ser mais.', originalTimestamp: '2025-06-23T23:55:00Z' }
+        // Adicionei mais 20 comentários aqui para totalizar 30
+        // As datas estão mais espalhadas para maior realismo
+        { id: 101, username: 'Ricardo.M', text: 'Mudei completamente a forma como me apresento. As pessoas notam. Chega de ser o "bonzinho".', originalTimestamp: '2025-06-28T10:00:00Z', initialLikes: 112 },
+        { id: 102, username: 'F_Guimarães', text: 'O módulo 2 foi um soco no estômago. Percebi o quanto eu estava me sabotando. Recomendo.', originalTimestamp: '2025-06-27T18:30:00Z', initialLikes: 98 },
+        { id: 103, username: 'Vitor_S', text: 'Finalmente entendi a diferença entre ser agressivo e ser um babaca. O Primordial te ensina a ser perigoso, não tóxico.', originalTimestamp: '2025-06-27T11:45:00Z', initialLikes: 154 },
+        { id: 104, username: 'Leo_Costa', text: 'A chave virou. Não peço mais desculpas por querer mais da vida. Energia renovada.', originalTimestamp: '2025-06-26T22:10:00Z', initialLikes: 89 },
+        { id: 105, username: 'Danilo.Ribeiro', text: 'Impressionante. O conteúdo sobre linguagem corporal silenciosa já valeu o investimento todo.', originalTimestamp: '2025-06-26T15:00:00Z', initialLikes: 210 },
+        { id: 106, username: 'G_Alves', text: 'Parei de buscar validação e comecei a construir meu próprio valor. Isso muda o jogo.', originalTimestamp: '2025-06-25T20:05:00Z', initialLikes: 77 },
+        { id: 107, username: 'Marcos.P', text: 'Não é mágica, é protocolo. Segui os passos e a mudança na minha rotina foi brutal.', originalTimestamp: '2025-06-25T09:00:00Z', initialLikes: 132 },
+        { id: 108, username: 'Thiago.Nunes', text: 'O acesso à "Irmandade" é o maior bônus. Trocar ideia com outros homens na mesma jornada não tem preço.', originalTimestamp: '2025-06-24T19:20:00Z', initialLikes: 188 },
+        { id: 109, username: 'Caio.F', text: 'Sentia que algo estava errado, mas não sabia o quê. O Primordial deu nome ao problema e entregou a solução.', originalTimestamp: '2025-06-24T14:15:00Z', initialLikes: 121 },
+        { id: 110, username: 'Bruno.Siqueira', text: 'Nunca mais serei o mesmo. E agradeço por isso. Recomendo a todos que sentem que podem ser mais.', originalTimestamp: '2025-06-23T23:55:00Z', initialLikes: 253 },
+        { id: 111, username: 'Alex.J', text: 'A forma como o curso aborda a biologia da atração é algo que nunca vi em nenhum outro lugar. Fascinante.', originalTimestamp: '2025-06-22T17:00:00Z', initialLikes: 93 },
+        { id: 112, username: 'Reinivaldo.C', text: 'A confiança que eu sinto agora ao entrar em uma sala... é palpável. Elas sentem.', originalTimestamp: '2025-06-21T12:30:00Z', initialLikes: 140 },
+        { id: 113, username: 'Pedro.H', text: 'Deixei de ser reativo e passei a ser o que dita o ritmo das interações. Mudança de paradigma total.', originalTimestamp: '2025-06-20T09:00:00Z', initialLikes: 111 },
+        { id: 114, username: 'Diego.L', text: 'O ritual final de integração do módulo 4 é poderoso. Solidifica tudo que foi aprendido.', originalTimestamp: '2025-06-19T21:00:00Z', initialLikes: 84 },
+        { id: 115, username: 'Gustavo.R', text: 'Minha produtividade no trabalho aumentou. O foco laser que eles ensinam se aplica a todas as áreas da vida.', originalTimestamp: '2025-06-18T16:45:00Z', initialLikes: 102 },
+        { id: 116, username: 'Leandro.D', text: 'A mentalidade de escassez foi eliminada. Hoje eu entendo que eu sou o prêmio.', originalTimestamp: '2025-06-17T11:20:00Z', initialLikes: 176 },
+        { id: 117, username: 'André.B', text: 'Cada centavo valeu a pena. Na verdade, paguei barato pela transformação que está acontecendo.', originalTimestamp: '2025-06-16T20:00:00Z', initialLikes: 230 },
+        { id: 118, username: 'Marcelo.V', text: 'A clareza mental que ganhei é o maior benefício. Sei o que quero e sei como buscar.', originalTimestamp: '2025-06-15T14:00:00Z', initialLikes: 99 },
+        { id: 119, username: 'Roberto.A', text: 'O conceito de "agressividade saudável" foi libertador. Permissão para ser homem de novo.', originalTimestamp: '2025-06-14T10:10:00Z', initialLikes: 165 },
+        { id: 120, username: 'Fernando.M', text: 'As mulheres não reagem mais a mim, elas iniciam. É bizarro e incrível.', originalTimestamp: '2025-06-13T22:50:00Z', initialLikes: 301 },
+        { id: 121, username: 'Elias.V', text: 'Demorei pra entrar, me arrependo de não ter feito antes. Não espere.', originalTimestamp: '2025-06-12T19:00:00Z', initialLikes: 128 },
+        { id: 122, username: 'Alan.S', text: 'Minha postura mudou, minha voz mudou, meus resultados mudaram.', originalTimestamp: '2025-06-11T15:30:00Z', initialLikes: 108 },
+        { id: 123, username: 'Cauã.C', text: 'Finalmente entendi o que significa "energia masculina". Não é algo que se explica, se vive. Este curso te mostra o caminho.', originalTimestamp: '2025-06-10T11:00:00Z', initialLikes: 194 },
+        { id: 124, username: 'Davi.M', text: 'O Manual da Mulher Magnética é ouro puro. Entender a psicologia delas te dá um poder absurdo.', originalTimestamp: '2025-06-09T20:40:00Z', initialLikes: 280 },
+        { id: 125, username: 'Gabriel.P', text: 'O melhor investimento que fiz em anos. Ponto final.', originalTimestamp: '2025-06-08T18:00:00Z', initialLikes: 159 },
+        { id: 126, username: 'Carlos.E', text: 'Reaprendi a liderar minha própria vida. O resto é consequência.', originalTimestamp: '2025-06-07T13:15:00Z', initialLikes: 115 },
+        { id: 127, username: 'Júlio.C', text: 'A comunidade é forte. Ninguém te julga, todo mundo se ajuda. É uma verdadeira irmandade.', originalTimestamp: '2025-06-06T21:20:00Z', initialLikes: 205 },
+        { id: 128, username: 'Renato.M', text: 'Recomendo. Se você está sentindo um vazio, uma falta de propósito, aqui está o mapa de volta.', originalTimestamp: '2025-06-05T16:00:00Z', initialLikes: 148 },
+        { id: 129, username: 'Wesley.N', text: 'É denso. É direto. Sem enrolação. Exatamente como deveria ser.', originalTimestamp: '2025-06-04T10:00:00Z', initialLikes: 133 },
+        { id: 130, username: 'Benício.M', text: 'A sensação de controle e poder sobre meu próprio destino é algo que eu não sentia há anos. Grato.', originalTimestamp: '2025-06-03T23:00:00Z', initialLikes: 264 }
     ];
-
-    // Pool de comentários dinâmicos com textos mais engajadores
     const dynamicCommentPool = [
-        { id: 201, username: 'Lucas.G', text: 'Ok, entrei. Chega de ser espectador da minha própria vida. Hora de virar protagonista.' },
-        { id: 202, username: 'Rafael.O', text: 'Aquele manifesto mexeu comigo. Se for metade do que a página promete, já valeu. Vaga garantida.' },
-        { id: 203, username: 'Matheus.C', text: 'Tava cético, mas a quantidade de prova aqui é surreal. Decidi dar o passo. Mais um na alcateia.' },
-        { id: 204, username: 'Guilherme.T', text: 'Acabei de garantir meu acesso. O sentimento não é de comprar um curso, é de entrar pra uma guerra.' },
-        { id: 205, username: 'Felipe.A', text: 'É isso. Investimento feito na única coisa que importa: eu mesmo. Ansioso pra começar a transformação.' },
-        { id: 206, username: 'Rodrigo.V', text: 'Comprado! A parte de "recalibração neurobiológica" me pegou. Parece ser mais profundo que o resto.' },
-        { id: 207, username: 'Eduardo.P', text: 'Hesitei por 10 minutos. Pensei: "Daqui a um ano, vou me arrepender de não ter tentado?". A resposta foi óbvia. Estou dentro.' },
-        { id: 208, username: 'Sérgio.L', text: 'Chega de ser o "cara legal" que fica na friendzone. Se é pra ser perigoso, que comece agora. Inscrição feita.' }
+        // Os comentários dinâmicos permanecem os mesmos
+        { id: 201, username: 'Lucas.G', text: 'Ok, entrei. Chega de ser espectador da minha própria vida. Hora de virar protagonista.', initialLikes: 0 },
+        { id: 202, username: 'Rafael.O', text: 'Aquele manifesto mexeu comigo. Se for metade do que a página promete, já valeu. Vaga garantida.', initialLikes: 0 },
+        { id: 203, username: 'Matheus.C', text: 'Tava cético, mas a quantidade de prova aqui é surreal. Decidi dar o passo. Mais um na alcateia.', initialLikes: 0 },
+        { id: 204, username: 'Guilherme.T', text: 'Acabei de garantir meu acesso. O sentimento não é de comprar um curso, é de entrar pra uma guerra.', initialLikes: 0 },
+        { id: 205, username: 'Felipe.A', text: 'É isso. Investimento feito na única coisa que importa: eu mesmo. Ansioso pra começar a transformação.', initialLikes: 0 },
+        { id: 206, username: 'Rodrigo.V', text: 'Comprado! A parte de "recalibração neurobiológica" me pegou. Parece ser mais profundo que o resto.', initialLikes: 0 },
+        { id: 207, username: 'Eduardo.P', text: 'Hesitei por 10 minutos. Pensei: "Daqui a um ano, vou me arrepender de não ter tentado?". A resposta foi óbvia. Estou dentro.', initialLikes: 0 },
+        { id: 208, username: 'Sérgio.L', text: 'Chega de ser o "cara legal" que fica na friendzone. Se é pra ser perigoso, que comece agora. Inscrição feita.', initialLikes: 0 }
     ];
 
     // --- FUNÇÕES HELPER ---
+    const getFromStorage = (key) => JSON.parse(localStorage.getItem(key)) || {};
+    const saveToStorage = (key, data) => localStorage.setItem(key, JSON.stringify(data));
+    const getLikedIds = () => Object.keys(getFromStorage(LIKED_COMMENTS_KEY)).map(Number);
 
     function formatTimeAgo(date) {
         const now = new Date();
         const seconds = Math.round((now - new Date(date)) / 1000);
-
         if (seconds < 5) return 'agora mesmo';
-
+        const rtf = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
         const intervals = [
             { value: 31536000, unit: 'year' }, { value: 2592000, unit: 'month' },
             { value: 86400, unit: 'day' }, { value: 3600, unit: 'hour' },
             { value: 60, unit: 'minute' }, { value: 1, unit: 'second' }
         ];
-        const rtf = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
-
-        for (const interval of intervals) {
-            const amount = Math.floor(seconds / interval.value);
-            if (amount >= 1) return rtf.format(-amount, interval.unit);
+        for (const i of intervals) {
+            const amount = Math.floor(seconds / i.value);
+            if (amount >= 1) return rtf.format(-amount, i.unit);
         }
         return 'há poucos segundos';
     }
-
-    function getSeenCommentsData() {
-        const data = localStorage.getItem(LOCAL_STORAGE_KEY);
-        return data ? JSON.parse(data) : {};
-    }
-
-    function setSeenCommentsData(data) {
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
-    }
     
-    /** Trunca o texto para a notificação */
     function truncateText(text, maxLength = 60) {
-        if (text.length <= maxLength) return text;
-        return text.substring(0, maxLength) + '...';
+        return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
     }
 
-    function renderComment(commentData, timestamp, isNew = false) {
+    /** Cria o elemento DOM para um comentário, mas não o anexa */
+    function createCommentElement(comment, timestamp) {
         const commentElement = commentTemplate.content.cloneNode(true).querySelector('.mural-post');
-        
-        const avatarImg = document.createElement('img');
-        avatarImg.src = `https://i.pravatar.cc/50?u=${commentData.id}`;
-        avatarImg.alt = `Avatar de ${commentData.username}`;
-        commentElement.querySelector('.post-avatar').appendChild(avatarImg);
-        
-        commentElement.querySelector('.post-username').textContent = commentData.username;
-        commentElement.querySelector('.post-body p').textContent = commentData.text;
+        const likedIds = getLikedIds();
+        const isLiked = likedIds.includes(comment.id);
+        const likeCount = comment.initialLikes + (isLiked ? 1 : 0);
+
+        commentElement.dataset.id = comment.id;
+        commentElement.querySelector('.post-username').textContent = comment.username;
+        commentElement.querySelector('.post-body p').textContent = comment.text;
         commentElement.querySelector('.post-timestamp').textContent = formatTimeAgo(timestamp);
         
-        // Se for um comentário novo, adiciona a classe de destaque
-        if (isNew) {
-            commentElement.classList.add('mural-post--new');
+        const avatarImg = document.createElement('img');
+        avatarImg.src = `https://i.pravatar.cc/50?u=${comment.id}`;
+        avatarImg.alt = `Avatar de ${comment.username}`;
+        commentElement.querySelector('.post-avatar').appendChild(avatarImg);
+        
+        const likeButton = commentElement.querySelector('.post-like-button');
+        likeButton.querySelector('.like-count').textContent = likeCount;
+        if (isLiked) {
+            likeButton.classList.add('is-liked');
         }
 
-        commentListElement.prepend(commentElement);
-        void commentElement.offsetWidth; 
-        commentElement.classList.add('is-visible');
+        return commentElement;
     }
 
-    // --- LÓGICA PRINCIPAL ---
+    /** Limpa o mural, ordena todos os comentários e os renderiza na ordem correta */
+    function renderMural() {
+        commentListElement.innerHTML = ''; // Limpa o mural
+        const seenComments = getFromStorage(SEEN_COMMENTS_KEY);
+        
+        const allComments = [
+            ...staticComments.map(c => ({ ...c, timestamp: c.originalTimestamp })),
+            ...Object.keys(seenComments).map(id => {
+                const comment = dynamicCommentPool.find(c => c.id === parseInt(id));
+                return comment ? { ...comment, timestamp: seenComments[id] } : null;
+            }).filter(Boolean)
+        ];
 
-    // Renderiza comentários estáticos e os já vistos
-    const seenComments = getSeenCommentsData();
-    const allCommentsToRender = [
-        ...staticComments.map(c => ({...c, timestamp: c.originalTimestamp})),
-        ...Object.keys(seenComments).map(id => {
-            const comment = dynamicCommentPool.find(c => c.id === parseInt(id));
-            return comment ? { ...comment, timestamp: seenComments[id] } : null;
-        }).filter(Boolean) // Remove nulos se um comentário for removido do pool
-    ];
-    
-    // Ordena por timestamp para renderizar na ordem correta
-    allCommentsToRender.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-    allCommentsToRender.forEach(comment => {
-        renderComment(comment, comment.timestamp, false);
-    });
+        // Ordena do mais recente para o mais antigo
+        allComments.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
+        allComments.forEach(comment => {
+            const element = createCommentElement(comment, comment.timestamp);
+            commentListElement.appendChild(element);
+            void element.offsetWidth; // Força o reflow para a animação
+            element.classList.add('is-visible');
+        });
+    }
+
+    /** Lida com o clique no botão de curtir */
+    function handleLikeClick(event) {
+        const likeButton = event.target.closest('.post-like-button');
+        if (!likeButton) return;
+
+        const postElement = likeButton.closest('.mural-post');
+        const commentId = parseInt(postElement.dataset.id);
+        const likeCountElement = likeButton.querySelector('.like-count');
+        let currentLikes = parseInt(likeCountElement.textContent);
+
+        const likedComments = getFromStorage(LIKED_COMMENTS_KEY);
+
+        if (likedComments[commentId]) {
+            // Descurtir
+            delete likedComments[commentId];
+            likeButton.classList.remove('is-liked');
+            likeCountElement.textContent = currentLikes - 1;
+        } else {
+            // Curtir
+            likedComments[commentId] = true;
+            likeButton.classList.add('is-liked');
+            likeCountElement.textContent = currentLikes + 1;
+        }
+
+        saveToStorage(LIKED_COMMENTS_KEY, likedComments);
+    }
+
+    function showNewDynamicComment(comment) {
+        notificationElement.innerHTML = `<p><span class="notification-name">${comment.username}</span> comentou: "${truncateText(comment.text)}"</p>`;
+        notificationElement.classList.add('show');
+        setTimeout(() => notificationElement.classList.remove('show'), 5000);
+
+        setTimeout(() => {
+            const now = Date.now();
+            const seenComments = getFromStorage(SEEN_COMMENTS_KEY);
+            seenComments[comment.id] = now;
+            saveToStorage(SEEN_COMMENTS_KEY, seenComments);
+            renderMural(); // Re-renderiza todo o mural com o novo comentário na ordem correta
+        }, 1000);
+    }
 
     function scheduleNewComments() {
-        const seenCommentIds = Object.keys(getSeenCommentsData()).map(Number);
+        const seenCommentIds = Object.keys(getFromStorage(SEEN_COMMENTS_KEY)).map(Number);
         const unseenComments = dynamicCommentPool.filter(c => !seenCommentIds.includes(c.id));
-        
         if (unseenComments.length === 0) return;
 
-        const numberOfCommentsToShow = Math.floor(Math.random() * 3) + 3;
+        const numberOfCommentsToShow = Math.floor(Math.random() * 3) + 3; // 3 a 5
         const commentsToShow = unseenComments.sort(() => 0.5 - Math.random()).slice(0, numberOfCommentsToShow);
 
-        let initialDelay = 8000;
+        let initialDelay = 12000; // Aumentei o delay inicial para mais naturalidade
         commentsToShow.forEach(comment => {
-            const randomInterval = Math.random() * (25000 - 10000) + 10000;
+            const randomInterval = Math.random() * (35000 - 15000) + 15000;
             setTimeout(() => showNewDynamicComment(comment), initialDelay);
             initialDelay += randomInterval;
         });
     }
 
-    function showNewDynamicComment(comment) {
-        // ATUALIZAÇÃO DA NOTIFICAÇÃO
-        const truncatedText = truncateText(comment.text);
-        notificationElement.innerHTML = `<p><span class="notification-name">${comment.username}</span> comentou: "${truncatedText}"</p>`;
-        notificationElement.classList.add('show');
-        
-        setTimeout(() => notificationElement.classList.remove('show'), 5000);
-
-        setTimeout(() => {
-            const now = Date.now();
-            // Passa 'true' para indicar que é um novo comentário a ser destacado
-            renderComment(comment, now, true); 
-
-            const currentData = getSeenCommentsData();
-            currentData[comment.id] = now;
-            setSeenCommentsData(currentData);
-        }, 1000);
-    }
-    
+    // --- INICIALIZAÇÃO ---
+    renderMural();
     scheduleNewComments();
+    commentListElement.addEventListener('click', handleLikeClick);
 }
     // --- EXECUTA AS FUNÇÕES DE INICIALIZAÇÃO ---
     // Cada função verifica internamente se os elementos de sua página existem
