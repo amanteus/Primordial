@@ -845,13 +845,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (onlineCountElement) {
-            let onlineCount = 157;
+            let onlineCount = 428;
             const updateOnlineCount = () => {
                 const variation = Math.floor(Math.random() * 7) - 3;
-                onlineCount = Math.max(110, Math.min(190, onlineCount + variation));
+                onlineCount = Math.max(281, Math.min(811, onlineCount + variation));
                 onlineCountElement.textContent = onlineCount;
             };
-            setInterval(updateOnlineCount, 2500);
+            setInterval(updateOnlineCount, 1500);
         }
     }
 
@@ -896,7 +896,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeMembersElement = document.querySelector('.live-stats .stat-item:first-child strong');
         if (!vagasElement || !progressElement || !notificationElement || !activeMembersElement) return;
 
-        const TOTAL_VAGAS = 250, VENDA_A_CADA_X_MINUTOS = 45, VAGAS_INICIAIS_MIN = 55, VAGAS_INICIAIS_MAX = 75, VAGAS_MINIMAS = 7;
+        const TOTAL_VAGAS = 350, VENDA_A_CADA_X_MINUTOS = 55, VAGAS_INICIAIS_MIN = 65, VAGAS_INICIAIS_MAX = 85, VAGAS_MINIMAS = 9;
         const STORAGE_KEY = 'primordial_scarcity_state';
         let vagasAtuais;
         let activeMembersCount = 0;
@@ -920,7 +920,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeMembersElement.textContent = `+${activeMembersCount}`;
                 const username = comprador.name.split(' ')[0] + '.' + (comprador.name.split(' ')[1] ? comprador.name.split(' ')[1].charAt(0) : '');
                 showNotification(`<span class="notification-name">${username}</span> está ativo na comunidade.`);
-            }, Math.random() * (15000 - 8000) + 8000);
+            }, Math.random() * (45000 - 25000) + 8000);
         };
         
         const updateVagasDisplay = () => {
