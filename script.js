@@ -608,6 +608,6 @@ function initCommentSystem() {
     // --- EXECUTA AS FUNÇÕES DE INICIALIZAÇÃO ---
     // Cada função verifica internamente se os elementos de sua página existem
     setupSalesPage();
-    setupUpsellPage();
     initCommentSystem();
+    setupUpsellPage();
 });
