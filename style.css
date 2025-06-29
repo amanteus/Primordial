@@ -300,10 +300,10 @@ h1, h2, h3, h4 {
     }
 }
 
-/* 3. Aplica a animação ao elemento quando ele se torna visível */
+/* 3. Aplica a animação ao elemento de forma contínua enquanto ele estiver visível */
 .chega-headline.is-visible {
-    /* A animação 'chega-animation' dura 1.2 segundos e tem uma curva de aceleração suave */
-    animation: chega-animation 1.2s ease-in-out;
+    /* A animação 'chega-animation' dura 1.2s, tem uma curva suave e se repete INFINITAMENTE */
+    animation: chega-animation 1.2s ease-in-out infinite;
 }
 
 /* SEÇÃO 4: REVELAÇÃO */
