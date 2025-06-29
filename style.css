@@ -634,12 +634,47 @@ h1, h2, h3, h4 {
     margin: 0;
 }
 
+/* Adicione e ajuste estas regras no seu style.css */
+
 .post-actions {
     display: flex;
     gap: 15px;
     margin-top: 15px;
-    font-size: 0.9rem;
-    color: #888;
+    align-items: center;
+}
+
+.post-like-button {
+    background: none;
+    border: 1px solid #444;
+    border-radius: 20px;
+    padding: 5px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color);
+    transition: all 0.2s ease;
+}
+
+.post-like-button:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.post-like-button .like-icon {
+    font-size: 1rem;
+    transition: transform 0.2s ease;
+}
+
+/* Estado ativo/curtido */
+.post-like-button.is-liked {
+    background-color: rgba(255, 0, 0, 0.1);
+    border-color: #ff4d4d;
+    color: #ff4d4d;
+}
+
+.post-like-button.is-liked .like-icon {
+    transform: scale(1.2);
 }
 /* --- NOVA SEÇÃO DE FAQ - PRIMORDIAL --- */
 .secao-faq-primordial {
