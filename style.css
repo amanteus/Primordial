@@ -529,8 +529,6 @@ h1, h2, h3, h4 {
 }
 .secure-checkout-text { margin-top: 20px; font-size: 0.9rem; }
 
-/* --- ESTILOS DA SEÇÃO ECOS DA ALCATEIA (VERSÃO 2.0 - COMPACTA) --- */
-
 /* --- ESTILOS DA SEÇÃO ECOS DA ALCATEIA (VERSÃO 4.0 - MÓDULO VIVO) --- */
 .secao-ecos-alcateia {
     background: #111;
@@ -584,6 +582,14 @@ h1, h2, h3, h4 {
     margin-right: 8px;
 }
 
+.alcateia-mural::-webkit-scrollbar { width: 8px; }
+.alcateia-mural::-webkit-scrollbar-track { background: #1a1a1a; }
+.alcateia-mural::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 10px;
+    border: 2px solid #1a1a1a;
+
+
 .alcateia-mural {
     /* A caixa de rolagem agora está dentro do módulo */
     max-height: 500px;
@@ -598,22 +604,6 @@ h1, h2, h3, h4 {
     border-radius: 8px;
     background-color: #111; /* Um fundo para delimitar a caixa */
     border: 1px solid #333;
-}
-
-/* Estilização da Barra de Rolagem (para navegadores WebKit como Chrome/Safari) */
-.alcateia-mural::-webkit-scrollbar {
-    width: 8px;
-}
-
-.alcateia-mural::-webkit-scrollbar-track {
-    background: #111;
-    border-radius: 10px;
-}
-
-.alcateia-mural::-webkit-scrollbar-thumb {
-    background-color: var(--accent-color);
-    border-radius: 10px;
-    border: 2px solid #111;
 }
 
 /* Animação de Destaque para Novos Comentários */
