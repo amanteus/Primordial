@@ -143,11 +143,27 @@ document.addEventListener('DOMContentLoaded', () => {
             state = { initialVagas: vagasAtuais, timestamp: Date.now(), lastSeenVagas: vagasAtuais };
         }
         
-        const activeMembersCount = TOTAL_VAGAS - vagasAtuais + 12;
-        animateCountUp(activeMembersElement, activeMembersCount);
-        
-        saveToStorage(STORAGE_KEY, state);
-        updateVagasDisplay();
+        // Substitua pelo novo bloco corrigido:
+const activeMembersCount = TOTAL_VAGAS - vagasAtuais + 12;
+updateVagasDisplay(); // Atualiza as vagas imediatamente
+saveToStorage(STORAGE_KEY, state);
+
+// Lógica do Observer para animar o contador apenas quando visível
+const communityModule = document.getElementById('community-module');
+if (communityModule) {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // O elemento está visível, então disparamos a animação
+                animateCountUp(activeMembersElement, activeMembersCount);
+                // Paramos de observar para não animar novamente
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 }); // Dispara quando 50% do elemento estiver visível
+
+    observer.observe(communityModule);
+}
 
         window.addEventListener('beforeunload', () => {
             state.lastSeenVagas = vagasAtuais;
