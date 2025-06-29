@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let onlineCount = 157;
             const updateOnlineCount = () => {
                 const variation = Math.floor(Math.random() * 7) - 3;
-                onlineCount = Math.max(524, Math.min(112, onlineCount + variation));
+                onlineCount = Math.max(112, Math.min(524, onlineCount + variation));
                 onlineCountElement.textContent = onlineCount;
             };
             setInterval(updateOnlineCount, 2500);
