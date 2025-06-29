@@ -990,7 +990,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const staticComments = allCommentsData.slice(0, 30);
         const dynamicCommentPool = allCommentsData.slice(30);
 
-        const simulateLikes = (base, ts) => base + Math.floor((Date.now() - new Date(ts).getTime()) / (1000 * 3600) * (Math.random() * 0.5 + 0.1));
+        const simulateLikes = (base, ts) => {
+    const hoursSincePost = (Date.now() - new Date(ts).getTime()) / (1000 * 3600);
+
+    // Se o comentário tem menos de 24 horas, as curtidas serão baixas e proporcionais ao tempo.
+    if (hoursSincePost < 24) {
+        // Ex: um comentário de 1 hora atrás terá entre 1 e 6 curtidas.
+        return Math.floor(hoursSincePost * (Math.random() * 5 + 1));
+    }
+    
+    // Para comentários mais antigos, usamos a base alta + um pequeno incremento por hora.
+    return base + Math.floor(hoursSincePost * (Math.random() * 0.5 + 0.1));
+};
         const formatTime = (ts) => {
             const seconds = Math.round((Date.now() - new Date(ts).getTime()) / 1000);
             if (seconds < 5) return 'agora mesmo';
