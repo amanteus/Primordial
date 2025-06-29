@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setupUpsellPage();
         initScarcityAndSocialProof();
         initCommentSystem();
+        initObrigadoPage();
     }
 
     // --- MÓDULO 1: UI GERAL (ACORDEÃO, ANIMAÇÕES, PESSOAS ONLINE) ---
@@ -363,3 +364,43 @@ if (communityModule) {
         saveToStorage(VISIT_KEY, Date.now());
     }
 });
+
+// Adicione esta nova função ao seu script.js
+
+function initObrigadoPage() {
+    const feedbackForm = document.getElementById('feedback-form');
+    if (!feedbackForm) return; // Só executa se o formulário existir na página
+
+    const formContainer = document.getElementById('feedback-form-container');
+    const successMessage = document.getElementById('form-success-message');
+    const nameInput = document.getElementById('feedback-name');
+    const textInput = document.getElementById('feedback-text');
+
+    feedbackForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Impede o recarregamento da página
+
+        const userName = nameInput.value.trim();
+        const userText = textInput.value.trim();
+
+        if (userName === '' || userText === '') {
+            alert('Por favor, preencha todos os campos.');
+            return;
+        }
+
+        // Cria o objeto do comentário do usuário
+        const userComment = {
+            id: 'user_' + Date.now(), // ID único para o comentário do usuário
+            username: userName,
+            text: userText,
+            type: 'impulso', // Classifica como um comentário de impulso
+            isUserComment: true // Um marcador para identificar facilmente este comentário
+        };
+
+        // Salva o comentário no localStorage para uso futuro na página de vendas
+        saveToStorage('primordial_user_comment', userComment);
+
+        // Fornece o feedback visual
+        formContainer.style.display = 'none';
+        successMessage.style.display = 'block';
+    });
+}
