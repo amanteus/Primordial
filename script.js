@@ -893,7 +893,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const vagasElement = document.getElementById('vagas-restantes-header');
         const progressElement = document.getElementById('progress-bar-inner');
         const notificationElement = document.getElementById('social-proof-notification');
-        const activeMembersElement = document.querySelector('.live-stats .stat-item:first-child strong');
+        const activeMembersElement = document.getElementById('active-members-count');
         if (!vagasElement || !progressElement || !notificationElement || !activeMembersElement) return;
 
         const TOTAL_VAGAS = 350, VENDA_A_CADA_X_MINUTOS = 55, VAGAS_INICIAIS_MIN = 65, VAGAS_INICIAIS_MAX = 85, VAGAS_MINIMAS = 9;
