@@ -142,18 +142,24 @@ function initScarcityAndSocialProof() {
     };
 
     const simularVenda = () => {
-        if (state.vagasAtuais <= VAGAS_MINIMAS) return;
-        
-        state.vagasAtuais--;
-        state.membrosAtivos++;
-        state.lastUpdate = Date.now(); // Atualiza o timestamp a cada venda
-        
-        saveToStorage(STORAGE_KEY, state); // Salva o estado imediatamente
-        updateDisplay();
+    if (state.vagasAtuais <= VAGAS_MINIMAS) return;
+    
+    // 1. Atualiza os números no nosso objeto de estado
+    state.vagasAtuais--;
+    state.membrosAtivos++;
+    state.lastUpdate = Date.now();
+    
+    // 2. Salva o novo estado para persistência
+    saveToStorage(STORAGE_KEY, state);
 
-        const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
-        showNotification(`<span class="notification-name">${comprador.name}</span> de ${comprador.location} acaba de garantir sua vaga!`);
-    };
+    // 3. Atualiza a exibição de AMBOS os contadores na tela
+    updateDisplay(); // Esta função já atualiza as vagas
+    activeMembersElement.textContent = `${state.membrosAtivos}`; // <-- CORREÇÃO: Esta linha atualiza os membros a cada venda.
+
+    // 4. Mostra a notificação de compra
+    const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
+    showNotification(`<span class="notification-name">${comprador.name}</span> de ${comprador.location} acaba de garantir sua vaga!`);
+};
 
     // --- Lógica de Inicialização Robusta ---
     const currentState = getFromStorage(STORAGE_KEY);
