@@ -125,7 +125,6 @@ function initScarcityAndSocialProof() {
         vagasElement.textContent = state.vagasAtuais;
         const percentual = ((TOTAL_VAGAS - state.vagasAtuais) / TOTAL_VAGAS) * 100;
         progressElement.style.width = percentual + '%';
-        activeMembersElement.textContent = `+${state.membrosAtivos}`;
     };
 
     const animateCountUp = (element, startValue, finalValue, duration = 1500) => {
@@ -271,7 +270,7 @@ function initScarcityAndSocialProof() {
             el.querySelector('.post-timestamp').textContent = formatTime(comment.timestamp);
             el.querySelector('.post-like-button .like-count').textContent = likeCount;
             if (liked) el.querySelector('.post-like-button').classList.add('is-liked');
-            el.querySelector('.post-avatar').innerHTML = `<img src="https://loremflickr.com/50/50/man,portrait/all?lock=${comment.id}" alt="Avatar de ${comment.username}">`;
+            el.querySelector('.post-avatar').innerHTML = `<img src="https://loremflickr.com/50/50/man,portrait/all?random=${comment.id}" alt="Avatar de ${comment.username}">`;
             saveToStorage(CACHE_KEY, likesCache);
             return el;
         };
