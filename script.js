@@ -229,9 +229,36 @@ function initScarcityAndSocialProof() {
         let activeFilter = 'recentes';
 
         const generateUsername = (name) => {
-            const parts = name.split(' ');
-            return parts.length > 1 ? `${parts[0]}.${parts[1].charAt(0)}` : parts[0];
-        };
+    // Função auxiliar para remover acentos e caracteres especiais
+    const slugify = (text) => {
+        return text.toString().toLowerCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Remove acentos
+    };
+
+    const parts = name.split(' ');
+    const firstName = slugify(parts[0]);
+    const lastName = parts.length > 1 ? slugify(parts[parts.length - 1]) : '';
+
+    // Define diferentes padrões de username
+    const patterns = [
+        // Padrão 1: joao.p
+        (f, l) => l ? `${f}.${l.charAt(0)}` : f,
+        // Padrão 2: joaopaulo
+        (f, l) => `${f}${l}`,
+        // Padrão 3: j_paulo
+        (f, l) => l ? `${f.charAt(0)}_${l}` : f,
+        // Padrão 4: joao_78
+        (f, l) => `${f}_${Math.floor(Math.random() * 90) + 10}`,
+        // Padrão 5: JP_Oficial
+        (f, l) => l ? `${f.charAt(0).toUpperCase()}${l.charAt(0).toUpperCase()}_Oficial` : f.toUpperCase(),
+        // Padrão 6: Apenas o primeiro nome, capitalizado
+        (f, l) => f.charAt(0).toUpperCase() + f.slice(1)
+    ];
+
+    // Escolhe um padrão aleatoriamente e o aplica
+    const randomPattern = patterns[Math.floor(Math.random() * patterns.length)];
+    return randomPattern(firstName, lastName);
+};
         
         const allCommentsData = compradoresDB.map((comprador, index) => ({
             id: 101 + index,
