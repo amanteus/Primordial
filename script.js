@@ -53,10 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
             animatedElements.forEach(element => observer.observe(element));
         }
         if (onlineCountElement) {
-            let onlineCount = 811;
+            let onlineCount = 311;
             const updateOnlineCount = () => {
-                const variation = Math.floor(Math.random() * 25) - 8;
-                onlineCount = Math.max(281, Math.min(2811, onlineCount + variation));
+                const variation = Math.floor(Math.random() * 15) - 4;
+                onlineCount = Math.max(131, Math.min(427, onlineCount + variation));
                 onlineCountElement.textContent = onlineCount;
             };
             setInterval(updateOnlineCount, 1500);
