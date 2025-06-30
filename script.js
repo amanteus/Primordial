@@ -133,7 +133,7 @@ function initScarcityAndSocialProof() {
             if (!startTimestamp) startTimestamp = timestamp;
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
             const currentValue = Math.floor(progress * (finalValue - startValue) + startValue);
-            element.textContent = `+${currentValue}`;
+            element.textContent = `${currentValue}`;
             if (progress < 1) {
                 window.requestAnimationFrame(step);
             }
