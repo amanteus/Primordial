@@ -163,30 +163,131 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- MÓDULO 2: LÓGICA DA PÁGINA DE UPSELL ---
-    function setupUpsellPage() {
+    // --- MÓDULO UPSELL: NOSSA NOVA CENTRAL DE LÓGICA ---
+    function initUpsellPage() {
         const overlay = document.getElementById('alert-overlay');
-        if (overlay) {
-            const hideOverlay = () => overlay.classList.remove('visible');
-            const autoHide = setTimeout(hideOverlay, 3000);
-            overlay.addEventListener('click', () => { clearTimeout(autoHide); hideOverlay(); });
+        const jungleMetaphorEl = document.getElementById('jungle-metaphor');
+        const missoesGrid = document.querySelector('.missoes-grid');
+        if (!overlay || !jungleMetaphorEl || !missoesGrid) return; // Só executa na página de upsell
+
+        // --- 1. Lógica do Overlay e Fechamento ---
+        setTimeout(() => overlay.classList.remove('visible'), 4000);
+        overlay.addEventListener('click', () => overlay.classList.remove('visible'));
+
+        // --- 2. Animação Typewriter ---
+        const textLines = "Imagine que eu te dei um mapa, a melhor faca de caça e te joguei de paraquedas no coração da Floresta Amazônica.|Você tem tudo para dominar. Mas qual é o seu primeiro passo?|Sem uma diretriz clara, o homem mais bem equipado do mundo morre de exaustão, andando em círculos.";
+        let lineIndex = 0;
+        let charIndex = 0;
+        const lines = textLines.split('|');
+
+        function typeWriter() {
+            if (lineIndex < lines.length) {
+                const currentLine = lines[lineIndex];
+                if (charIndex === 0) {
+                    const lineEl = document.createElement('span');
+                    lineEl.className = 'manifesto-line';
+                    jungleMetaphorEl.appendChild(lineEl);
+                }
+                if (charIndex < currentLine.length) {
+                    jungleMetaphorEl.lastChild.innerHTML += currentLine.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeWriter, 50);
+                } else {
+                    lineIndex++;
+                    charIndex = 0;
+                    setTimeout(typeWriter, 700);
+                }
+            }
         }
+        typeWriter();
+        
+        // --- 3. Lógica das Cartas de Missão ---
         const missoes = document.querySelectorAll('.missao-card');
         const upsellButtons = document.querySelectorAll('.upsell-cta-button');
         const escolhaMissaoTexto = document.querySelector('.escolha-missao-texto');
-        if (missoes.length > 0 && upsellButtons.length > 0 && escolhaMissaoTexto) {
-            missoes.forEach((missao, index) => {
-                missao.addEventListener('click', () => {
-                    missoes.forEach(m => m.classList.remove('selected'));
-                    missao.classList.add('selected');
-                    escolhaMissaoTexto.style.display = 'none';
-                    upsellButtons.forEach(button => button.classList.add('hidden-cta'));
-                    if (upsellButtons[index]) {
-                        upsellButtons[index].classList.remove('hidden-cta');
-                    }
+        
+        missoes.forEach(missao => {
+            missao.addEventListener('click', () => {
+                const missionId = missao.dataset.mission;
+                missoes.forEach(m => {
+                    m.classList.remove('selected');
+                    m.classList.add('de-emphasized');
                 });
+                missao.classList.add('selected');
+                missao.classList.remove('de-emphasized');
+                
+                escolhaMissaoTexto.style.display = 'none';
+                upsellButtons.forEach(btn => btn.classList.add('hidden-cta'));
+                document.querySelector(`.upsell-cta-button[data-mission-target="${missionId}"]`).classList.remove('hidden-cta');
             });
+        });
+
+        // --- 4. Cronômetro Implacável ---
+        const timerElements = [document.getElementById('overlay-timer'), document.getElementById('countdown-timer')];
+        const offerContent = document.getElementById('offer-content');
+        const expiredMessage = document.getElementById('offer-expired-message');
+        const STORAGE_KEY = 'upsell_expiration_timestamp';
+        const DURATION = 10 * 60 * 1000; // 10 minutos
+
+        let expirationTime = getFromStorage(STORAGE_KEY);
+        if (!expirationTime || expirationTime < Date.now()) {
+            expirationTime = Date.now() + DURATION;
+            saveToStorage(STORAGE_KEY, expirationTime);
         }
+
+        function updateTimer() {
+            const remaining = expirationTime - Date.now();
+            if (remaining <= 0) {
+                clearInterval(timerInterval);
+                offerContent.style.display = 'none';
+                expiredMessage.style.display = 'block';
+                document.querySelector('.decline-link').style.display = 'none';
+                timerElements.forEach(el => el.textContent = "00:00");
+                return;
+            }
+            const minutes = Math.floor((remaining / 1000 / 60) % 60).toString().padStart(2, '0');
+            const seconds = Math.floor((remaining / 1000) % 60).toString().padStart(2, '0');
+            const newTime = `${minutes}:${seconds}`;
+            timerElements.forEach(el => el.textContent = newTime);
+
+            if (remaining < 60000) { // Menos de 1 minuto
+                timerElements.forEach(el => el.parentElement.classList.add('final-minute'));
+            }
+        }
+        const timerInterval = setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // --- 5. Ticker da Alcateia ---
+        const tickerEl = document.getElementById('mission-ticker-notification');
+        const missionNames = {1: "Missão Alfa", 2: "Missão Beta", 3: "Missão Gama"};
+
+        function showMissionTicker() {
+            const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
+            const missionId = Math.floor(Math.random() * 3) + 1;
+            const missionCard = document.querySelector(`.missao-card[data-mission="${missionId}"]`);
+
+            tickerEl.innerHTML = `<p><span class="notification-name">${comprador.name}</span> acaba de escolher a <strong>${missionNames[missionId]}</strong>.</p>`;
+            tickerEl.classList.add('show');
+            if (missionCard) missionCard.classList.add('is-highlighted');
+
+            setTimeout(() => {
+                tickerEl.classList.remove('show');
+                if (missionCard) missionCard.classList.remove('is-highlighted');
+            }, 5000);
+            
+            setTimeout(showMissionTicker, Math.random() * (25000 - 15000) + 15000);
+        }
+        setTimeout(showMissionTicker, 12000);
+
+        // --- 6. Voz do Arquiteto ---
+        setTimeout(() => {
+            const hasSelected = document.querySelector('.missao-card.selected');
+            if (!hasSelected) {
+                const tooltips = document.querySelectorAll('.architect-tooltip');
+                const randomTooltip = tooltips[Math.floor(Math.random() * tooltips.length)];
+                randomTooltip.classList.add('visible');
+            }
+        }, 25000);
     }
 
    // =================================================================
