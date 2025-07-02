@@ -1301,6 +1301,97 @@ h1, h2, h3, h4 {
 }
 
 /* ========================================================== */
+/* --- ESTILOS PARA OS NOVOS RECURSOS DA PÁGINA DE UPSELL --- */
+/* ========================================================== */
+
+/* Notificação do Ticker */
+#mission-ticker-notification {
+    top: 20px;
+    left: auto;
+    right: 20px;
+    bottom: auto;
+    transform: translateY(-200%);
+    border-color: #333;
+}
+#mission-ticker-notification.show {
+    transform: translateY(0);
+}
+
+/* Tooltip do Arquiteto */
+.architect-tooltip {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease-in-out;
+    z-index: 10;
+}
+.architect-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--accent-color) transparent transparent transparent;
+}
+.architect-tooltip.visible {
+    opacity: 1;
+    visibility: visible;
+    top: -45px;
+}
+
+/* Destaque e Desfoque das Missões */
+.missao-card.is-highlighted {
+    box-shadow: 0 0 30px var(--accent-color);
+    border-color: var(--accent-color);
+}
+.missao-card.de-emphasized {
+    filter: blur(2px);
+    opacity: 0.6;
+    transform: scale(0.98);
+}
+
+/* Cronômetro */
+#countdown-timer-container {
+    margin: 30px auto;
+    padding: 15px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    max-width: 300px;
+}
+#countdown-timer-container p {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+#countdown-timer {
+    font-family: 'Abril Fatface', cursive;
+    font-size: 3rem;
+    color: var(--accent-color);
+    transition: color 0.5s;
+}
+#countdown-timer.final-minute {
+    color: #ff4d4d;
+    animation: pulse-alert 1.5s infinite;
+}
+
+/* Efeito Typewriter */
+.manifesto-line {
+    display: block; /* Garante que cada linha animada fique em sua própria linha */
+}
+
+/* ========================================================== */
 /* --- ESTILOS PARA A SEÇÃO DE FEEDBACK (PÁGINA DE OBRIGADO) --- */
 /* ========================================================== */
 
