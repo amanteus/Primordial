@@ -1020,6 +1020,40 @@ h1, h2, h3, h4 {
 }
 .decline-link:hover { color: var(--accent-color); opacity: 1; text-decoration: underline; }
 
+/* ========================================================== */
+/* --- ESTILOS PARA O NOVO EFEITO "PARALISIA" (UPSELL) --- */
+/* ========================================================== */
+
+#paralysis-effect-container {
+    position: relative;
+    height: 120px;
+    margin: 40px auto;
+    overflow: hidden;
+}
+
+.glitch-word {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-headline);
+    font-size: 2rem;
+    color: var(--accent-color);
+    opacity: 0;
+    animation: glitch-animation 4s ease-in-out forwards;
+}
+
+@keyframes glitch-animation {
+    0%, 100% { opacity: 0; transform: translate(-50%, -50%) skew(0deg); }
+    5%, 95% { opacity: 1; }
+    10% { transform: translate(-48%, -52%) skew(5deg); }
+    20% { transform: translate(-52%, -48%) skew(-5deg); }
+    30% { transform: translate(-50%, -50%) skew(3deg); }
+    40% { transform: translate(-51%, -51%) skew(-3deg); }
+    50%, 70% { opacity: 1; transform: translate(-49%, -49%) skew(0deg); }
+    60%, 80% { opacity: 0.5; }
+}
+
 /* --- ESTILOS DA PÁGINA DE AFILIADOS --- */
 
 .afiliados-body {
