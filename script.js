@@ -161,42 +161,84 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- MÓDULO UPSELL: NOSSA NOVA CENTRAL DE LÓGICA ---
     function initUpsellPage() {
-        const overlay = document.getElementById('alert-overlay');
-        const jungleMetaphorEl = document.getElementById('jungle-metaphor');
-        const missoesGrid = document.querySelector('.missoes-grid');
-        if (!overlay || !jungleMetaphorEl || !missoesGrid) return; // Só executa na página de upsell
+    // --- Seleção de Elementos ---
+    const pageElements = {
+        overlay: document.getElementById('alert-overlay'),
+        jungleMetaphorEl: document.getElementById('jungle-metaphor'),
+        missoesGrid: document.querySelector('.missoes-grid'),
+        timerElements: [document.getElementById('overlay-timer'), document.getElementById('countdown-timer')],
+        offerContent: document.getElementById('offer-content'),
+        expiredMessage: document.getElementById('offer-expired-message'),
+        tickerEl: document.getElementById('mission-ticker-notification'),
+        declineLink: document.querySelector('.decline-link'),
+        paralysisContainer: document.getElementById('paralysis-effect-container')
+    };
+    if (!pageElements.overlay || !pageElements.missoesGrid) return;
 
-        // --- 1. Lógica do Overlay e Fechamento ---
-        setTimeout(() => overlay.classList.remove('visible'), 4000);
-        overlay.addEventListener('click', () => overlay.classList.remove('visible'));
+    // --- Lógica de Oferta Única por Sessão ---
+    const OFFER_KEY = 'primordial_upsell_offer_seen';
+    if (sessionStorage.getItem(OFFER_KEY)) {
+        pageElements.offerContent.style.display = 'none';
+        pageElements.expiredMessage.style.display = 'block';
+        if(pageElements.declineLink) pageElements.declineLink.style.display = 'none';
+        pageElements.overlay.classList.remove('visible');
+        return;
+    }
+    window.addEventListener('beforeunload', () => {
+        sessionStorage.setItem(OFFER_KEY, 'true');
+    });
 
-        // --- 2. Animação Typewriter ---
-        const textLines = "Imagine que eu te dei um mapa, a melhor faca de caça e te joguei de paraquedas no coração da Floresta Amazônica.|Você tem tudo para dominar. Mas qual é o seu primeiro passo?|Sem uma diretriz clara, o homem mais bem equipado do mundo morre de exaustão, andando em círculos.";
+    // --- 1. Lógica do Overlay ---
+    setTimeout(() => pageElements.overlay.classList.remove('visible'), 4000);
+    pageElements.overlay.addEventListener('click', () => pageElements.overlay.classList.remove('visible'));
+
+    // --- 2. NOVO: Efeito Paralisia por Análise ---
+    const paralysisWords = ["PSICOLOGIA SOMBRIA", "NEURODOMINÂNCIA", "IMPÉRIO MASCULINO", "FOCO LASER", "TENSÃO SEXUAL", "RISCO", "ESCUDO EMOCIONAL"];
+    if (pageElements.paralysisContainer) {
+        let wordIndex = 0;
+        const glitchInterval = setInterval(() => {
+            if (wordIndex >= paralysisWords.length) {
+                clearInterval(glitchInterval);
+                // --- 3. Animação Typewriter (agora com delay) ---
+                startTypewriter();
+                return;
+            }
+            const wordEl = document.createElement('div');
+            wordEl.className = 'glitch-word';
+            wordEl.textContent = paralysisWords[wordIndex];
+            wordEl.style.left = `${Math.random() * 60 + 20}%`;
+            wordEl.style.top = `${Math.random() * 60 + 20}%`;
+            pageElements.paralysisContainer.appendChild(wordEl);
+            wordIndex++;
+        }, 500);
+    } else {
+        // Fallback se o container não existir
+        startTypewriter();
+    }
+    
+    function startTypewriter() {
+        const textLines = "Imagine que eu te entreguei as chaves de uma Ferrari. Mas você está em um labirinto com mil ruas, sem saber qual é a saída.|Você tem o poder, mas não tem a direção inicial.|O resultado? Você acelera, queima pneu, mas continua preso no mesmo lugar.";
         let lineIndex = 0;
         let charIndex = 0;
         const lines = textLines.split('|');
-
         function typeWriter() {
-            if (lineIndex < lines.length) {
+            if (lineIndex < lines.length && pageElements.jungleMetaphorEl) {
                 const currentLine = lines[lineIndex];
                 if (charIndex === 0) {
                     const lineEl = document.createElement('span');
                     lineEl.className = 'manifesto-line';
-                    jungleMetaphorEl.appendChild(lineEl);
+                    pageElements.jungleMetaphorEl.appendChild(lineEl);
                 }
-                if (charIndex < currentLine.length) {
-                    jungleMetaphorEl.lastChild.innerHTML += currentLine.charAt(charIndex);
+                if (charIndex < currentLine.length && pageElements.jungleMetaphorEl.lastChild) {
+                    pageElements.jungleMetaphorEl.lastChild.innerHTML += currentLine.charAt(charIndex);
                     charIndex++;
                     setTimeout(typeWriter, 50);
-                } else {
-                    lineIndex++;
-                    charIndex = 0;
-                    setTimeout(typeWriter, 700);
-                }
+                } else { lineIndex++; charIndex = 0; setTimeout(typeWriter, 700); }
             }
         }
+        setTimeout(typeWriter, 500); // Inicia após o glitch
+    }
         typeWriter();
         
         // --- 3. Lógica das Cartas de Missão ---
