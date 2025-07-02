@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initApp() {
         setupGeneralUI();
-        setupUpsellPage();
+        initUpsellPage();
         initScarcityAndSocialProof();
         initCommentSystem();
         initObrigadoPage();
