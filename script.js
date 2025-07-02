@@ -161,7 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function initUpsellPage() {
+    // ==========================================================
+// --- MÓDULO UPSELL (VERSÃO FINAL E CORRIGIDA) ---
+// ==========================================================
+function initUpsellPage() {
     // --- Seleção de Elementos ---
     const pageElements = {
         overlay: document.getElementById('alert-overlay'),
@@ -174,16 +177,18 @@ document.addEventListener('DOMContentLoaded', () => {
         declineLink: document.querySelector('.decline-link'),
         paralysisContainer: document.getElementById('paralysis-effect-container')
     };
+
+    // Guarda de segurança: só executa na página de upsell
     if (!pageElements.overlay || !pageElements.missoesGrid) return;
 
     // --- Lógica de Oferta Única por Sessão ---
     const OFFER_KEY = 'primordial_upsell_offer_seen';
     if (sessionStorage.getItem(OFFER_KEY)) {
-        pageElements.offerContent.style.display = 'none';
-        pageElements.expiredMessage.style.display = 'block';
-        if(pageElements.declineLink) pageElements.declineLink.style.display = 'none';
+        if (pageElements.offerContent) pageElements.offerContent.style.display = 'none';
+        if (pageElements.expiredMessage) pageElements.expiredMessage.style.display = 'block';
+        if (pageElements.declineLink) pageElements.declineLink.style.display = 'none';
         pageElements.overlay.classList.remove('visible');
-        return;
+        return; 
     }
     window.addEventListener('beforeunload', () => {
         sessionStorage.setItem(OFFER_KEY, 'true');
@@ -193,37 +198,15 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => pageElements.overlay.classList.remove('visible'), 4000);
     pageElements.overlay.addEventListener('click', () => pageElements.overlay.classList.remove('visible'));
 
-    // --- 2. NOVO: Efeito Paralisia por Análise ---
-    const paralysisWords = ["PSICOLOGIA SOMBRIA", "NEURODOMINÂNCIA", "IMPÉRIO MASCULINO", "FOCO LASER", "TENSÃO SEXUAL", "RISCO", "ESCUDO EMOCIONAL"];
-    if (pageElements.paralysisContainer) {
-        let wordIndex = 0;
-        const glitchInterval = setInterval(() => {
-            if (wordIndex >= paralysisWords.length) {
-                clearInterval(glitchInterval);
-                // --- 3. Animação Typewriter (agora com delay) ---
-                startTypewriter();
-                return;
-            }
-            const wordEl = document.createElement('div');
-            wordEl.className = 'glitch-word';
-            wordEl.textContent = paralysisWords[wordIndex];
-            wordEl.style.left = `${Math.random() * 60 + 20}%`;
-            wordEl.style.top = `${Math.random() * 60 + 20}%`;
-            pageElements.paralysisContainer.appendChild(wordEl);
-            wordIndex++;
-        }, 500);
-    } else {
-        // Fallback se o container não existir
-        startTypewriter();
-    }
-    
+    // --- 2. Animação Typewriter ---
     function startTypewriter() {
+        if (!pageElements.jungleMetaphorEl) return;
         const textLines = "Imagine que eu te entreguei as chaves de uma Ferrari. Mas você está em um labirinto com mil ruas, sem saber qual é a saída.|Você tem o poder, mas não tem a direção inicial.|O resultado? Você acelera, queima pneu, mas continua preso no mesmo lugar.";
         let lineIndex = 0;
         let charIndex = 0;
         const lines = textLines.split('|');
         function typeWriter() {
-            if (lineIndex < lines.length && pageElements.jungleMetaphorEl) {
+            if (lineIndex < lines.length) {
                 const currentLine = lines[lineIndex];
                 if (charIndex === 0) {
                     const lineEl = document.createElement('span');
@@ -233,19 +216,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (charIndex < currentLine.length && pageElements.jungleMetaphorEl.lastChild) {
                     pageElements.jungleMetaphorEl.lastChild.innerHTML += currentLine.charAt(charIndex);
                     charIndex++;
-                    setTimeout(typeWriter, 50);
-                } else { lineIndex++; charIndex = 0; setTimeout(typeWriter, 700); }
+                    setTimeout(typeWriter, 40);
+                } else {
+                    lineIndex++;
+                    charIndex = 0;
+                    setTimeout(typeWriter, 600);
+                }
             }
         }
-        setTimeout(typeWriter, 500); // Inicia após o glitch
+        typeWriter(); // Inicia a animação de digitação
     }
-        typeWriter();
-        
-        // --- 3. Lógica das Cartas de Missão ---
-        const missoes = document.querySelectorAll('.missao-card');
-        const upsellButtons = document.querySelectorAll('.upsell-cta-button');
-        const escolhaMissaoTexto = document.querySelector('.escolha-missao-texto');
-        
+    
+    // --- 3. Efeito Paralisia por Análise ---
+    if (pageElements.paralysisContainer) {
+        const paralysisWords = ["PSICOLOGIA SOMBRIA", "NEURODOMINÂNCIA", "IMPÉRIO MASCULINO", "FOCO LASER", "TENSÃO SEXUAL", "RISCO", "ESCUDO EMOCIONAL"];
+        let wordIndex = 0;
+        const glitchInterval = setInterval(() => {
+            if (wordIndex >= paralysisWords.length) {
+                clearInterval(glitchInterval);
+                pageElements.paralysisContainer.style.display = 'none'; // Esconde o container do glitch
+                startTypewriter(); // Inicia o typewriter APÓS o glitch
+                return;
+            }
+            const wordEl = document.createElement('div');
+            wordEl.className = 'glitch-word';
+            wordEl.textContent = paralysisWords[wordIndex];
+            wordEl.style.left = `${Math.random() * 60 + 20}%`;
+            wordEl.style.top = `${Math.random() * 60 + 20}%`;
+            pageElements.paralysisContainer.appendChild(wordEl);
+            wordIndex++;
+        }, 400);
+    } else {
+        // Se o container de paralisia não existir, inicia o typewriter após um delay
+        setTimeout(startTypewriter, 4000);
+    }
+    
+    // --- 4. Lógica das Cartas de Missão ---
+    const missoes = document.querySelectorAll('.missao-card');
+    const upsellButtons = document.querySelectorAll('.upsell-cta-button');
+    const escolhaMissaoTexto = document.querySelector('.escolha-missao-texto');
+    if (missoes.length > 0 && upsellButtons.length > 0 && escolhaMissaoTexto) {
         missoes.forEach(missao => {
             missao.addEventListener('click', () => {
                 const missionId = missao.dataset.mission;
@@ -258,77 +268,73 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 escolhaMissaoTexto.style.display = 'none';
                 upsellButtons.forEach(btn => btn.classList.add('hidden-cta'));
-                document.querySelector(`.upsell-cta-button[data-mission-target="${missionId}"]`).classList.remove('hidden-cta');
+                const targetButton = document.querySelector(`.upsell-cta-button[data-mission-target="${missionId}"]`);
+                if(targetButton) targetButton.classList.remove('hidden-cta');
             });
         });
+    }
 
-        // --- 4. Cronômetro Implacável ---
-        const timerElements = [document.getElementById('overlay-timer'), document.getElementById('countdown-timer')];
-        const offerContent = document.getElementById('offer-content');
-        const expiredMessage = document.getElementById('offer-expired-message');
-        const STORAGE_KEY = 'upsell_expiration_timestamp';
-        const DURATION = 10 * 60 * 1000; // 10 minutos
-
-        let expirationTime = getFromStorage(STORAGE_KEY);
-        if (!expirationTime || expirationTime < Date.now()) {
-            expirationTime = Date.now() + DURATION;
-            saveToStorage(STORAGE_KEY, expirationTime);
-        }
+    // --- 5. Cronômetro Implacável ---
+    if (pageElements.offerContent) {
+        const DURATION = 10 * 60 * 1000;
+        let expirationTime = Date.now() + DURATION;
 
         function updateTimer() {
             const remaining = expirationTime - Date.now();
             if (remaining <= 0) {
                 clearInterval(timerInterval);
-                offerContent.style.display = 'none';
-                expiredMessage.style.display = 'block';
-                document.querySelector('.decline-link').style.display = 'none';
-                timerElements.forEach(el => el.textContent = "00:00");
+                pageElements.offerContent.style.display = 'none';
+                pageElements.expiredMessage.style.display = 'block';
+                if(pageElements.declineLink) pageElements.declineLink.style.display = 'none';
+                pageElements.timerElements.forEach(el => { if(el) el.textContent = "00:00" });
                 return;
             }
             const minutes = Math.floor((remaining / 1000 / 60) % 60).toString().padStart(2, '0');
             const seconds = Math.floor((remaining / 1000) % 60).toString().padStart(2, '0');
             const newTime = `${minutes}:${seconds}`;
-            timerElements.forEach(el => el.textContent = newTime);
-
-            if (remaining < 60000) { // Menos de 1 minuto
-                timerElements.forEach(el => el.parentElement.classList.add('final-minute'));
+            pageElements.timerElements.forEach(el => { if(el) el.textContent = newTime });
+            if (remaining < 60000 && pageElements.timerElements[1]) {
+                pageElements.timerElements[1].classList.add('final-minute');
             }
         }
         const timerInterval = setInterval(updateTimer, 1000);
         updateTimer();
+    }
 
-        // --- 5. Ticker da Alcateia ---
-        const tickerEl = document.getElementById('mission-ticker-notification');
+    // --- 6. Ticker da Alcateia ---
+    if (pageElements.tickerEl) {
         const missionNames = {1: "Missão Alfa", 2: "Missão Beta", 3: "Missão Gama"};
-
         function showMissionTicker() {
             const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
             const missionId = Math.floor(Math.random() * 3) + 1;
             const missionCard = document.querySelector(`.missao-card[data-mission="${missionId}"]`);
 
-            tickerEl.innerHTML = `<p><span class="notification-name">${comprador.name}</span> acaba de escolher a <strong>${missionNames[missionId]}</strong>.</p>`;
-            tickerEl.classList.add('show');
+            pageElements.tickerEl.innerHTML = `<p><span class="notification-name">${comprador.name}</span> acaba de escolher a <strong>${missionNames[missionId]}</strong>.</p>`;
+            pageElements.tickerEl.classList.add('show');
             if (missionCard) missionCard.classList.add('is-highlighted');
 
             setTimeout(() => {
-                tickerEl.classList.remove('show');
+                pageElements.tickerEl.classList.remove('show');
                 if (missionCard) missionCard.classList.remove('is-highlighted');
             }, 5000);
             
             setTimeout(showMissionTicker, Math.random() * (25000 - 15000) + 15000);
         }
         setTimeout(showMissionTicker, 12000);
+    }
 
-        // --- 6. Voz do Arquiteto ---
-        setTimeout(() => {
-            const hasSelected = document.querySelector('.missao-card.selected');
-            if (!hasSelected) {
-                const tooltips = document.querySelectorAll('.architect-tooltip');
+    // --- 7. Voz do Arquiteto ---
+    setTimeout(() => {
+        const hasSelected = document.querySelector('.missao-card.selected');
+        if (!hasSelected) {
+            const tooltips = document.querySelectorAll('.architect-tooltip');
+            if (tooltips.length > 0) {
                 const randomTooltip = tooltips[Math.floor(Math.random() * tooltips.length)];
                 randomTooltip.classList.add('visible');
             }
-        }, 25000);
-    }
+        }
+    }, 25000);
+}
 
    // =================================================================
 // --- MÓDULO 3: SISTEMA DE ESCASSEZ (VERSÃO FINAL COM VALIDAÇÃO) ---
