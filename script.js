@@ -164,177 +164,160 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================
 // --- MÓDULO UPSELL (VERSÃO FINAL E CORRIGIDA) ---
 // ==========================================================
-function initUpsellPage() {
-    // --- Seleção de Elementos ---
-    const pageElements = {
-        overlay: document.getElementById('alert-overlay'),
-        jungleMetaphorEl: document.getElementById('jungle-metaphor'),
-        missoesGrid: document.querySelector('.missoes-grid'),
-        timerElements: [document.getElementById('overlay-timer'), document.getElementById('countdown-timer')],
-        offerContent: document.getElementById('offer-content'),
-        expiredMessage: document.getElementById('offer-expired-message'),
-        tickerEl: document.getElementById('mission-ticker-notification'),
-        declineLink: document.querySelector('.decline-link'),
-        paralysisContainer: document.getElementById('paralysis-effect-container')
-    };
+// --- MÓDULO 2: PÁGINA DE UPSELL ---
+    function initUpsellPage() {
+        const pageElements = {
+            overlay: document.getElementById('alert-overlay'),
+            mainContent: document.getElementById('main-content-wrapper'),
+            jungleMetaphorEl: document.getElementById('jungle-metaphor'),
+            missoesGrid: document.querySelector('.missoes-grid'),
+            timerElements: [document.getElementById('overlay-timer'), document.getElementById('countdown-timer')],
+            offerContent: document.getElementById('offer-content'),
+            expiredMessage: document.getElementById('offer-expired-message'),
+            tickerEl: document.getElementById('mission-ticker-notification'),
+            declineLink: document.querySelector('.decline-link'),
+            paralysisContainer: document.getElementById('paralysis-effect-container')
+        };
 
-    // Guarda de segurança: só executa na página de upsell
-    if (!pageElements.overlay || !pageElements.missoesGrid) return;
+        if (!pageElements.overlay || !pageElements.mainContent) return;
 
-    // --- Lógica de Oferta Única por Sessão ---
-    const OFFER_KEY = 'primordial_upsell_offer_seen';
-    if (sessionStorage.getItem(OFFER_KEY)) {
-        if (pageElements.offerContent) pageElements.offerContent.style.display = 'none';
-        if (pageElements.expiredMessage) pageElements.expiredMessage.style.display = 'block';
-        if (pageElements.declineLink) pageElements.declineLink.style.display = 'none';
-        pageElements.overlay.classList.remove('visible');
-        return; 
-    }
-    window.addEventListener('beforeunload', () => {
-        sessionStorage.setItem(OFFER_KEY, 'true');
-    });
-
-    // --- 1. Lógica do Overlay ---
-    setTimeout(() => pageElements.overlay.classList.remove('visible'), 4000);
-    pageElements.overlay.addEventListener('click', () => pageElements.overlay.classList.remove('visible'));
-
-    // --- 2. Animação Typewriter ---
-    function startTypewriter() {
-        if (!pageElements.jungleMetaphorEl) return;
-        const textLines = "Imagine que eu te entreguei as chaves de uma Ferrari. Mas você está em um labirinto com mil ruas, sem saber qual é a saída.|Você tem o poder, mas não tem a direção inicial.|O resultado? Você acelera, queima pneu, mas continua preso no mesmo lugar.";
-        let lineIndex = 0;
-        let charIndex = 0;
-        const lines = textLines.split('|');
-        function typeWriter() {
-            if (lineIndex < lines.length) {
-                const currentLine = lines[lineIndex];
-                if (charIndex === 0) {
-                    const lineEl = document.createElement('span');
-                    lineEl.className = 'manifesto-line';
-                    pageElements.jungleMetaphorEl.appendChild(lineEl);
-                }
-                if (charIndex < currentLine.length && pageElements.jungleMetaphorEl.lastChild) {
-                    pageElements.jungleMetaphorEl.lastChild.innerHTML += currentLine.charAt(charIndex);
-                    charIndex++;
-                    setTimeout(typeWriter, 40);
-                } else {
-                    lineIndex++;
-                    charIndex = 0;
-                    setTimeout(typeWriter, 600);
-                }
-            }
+        const OFFER_KEY = 'primordial_upsell_offer_invalidated';
+        if (sessionStorage.getItem(OFFER_KEY) === 'true') {
+            if (pageElements.offerContent) pageElements.offerContent.style.display = 'none';
+            if (pageElements.expiredMessage) pageElements.expiredMessage.style.display = 'block';
+            if (pageElements.declineLink) pageElements.declineLink.style.display = 'none';
+            pageElements.overlay.classList.remove('visible');
+            pageElements.mainContent.classList.add('content-visible');
+            return; 
         }
-        typeWriter(); // Inicia a animação de digitação
-    }
-    
-    // --- 3. Efeito Paralisia por Análise ---
-    if (pageElements.paralysisContainer) {
-        const paralysisWords = ["PSICOLOGIA SOMBRIA", "NEURODOMINÂNCIA", "IMPÉRIO MASCULINO", "FOCO LASER", "TENSÃO SEXUAL", "RISCO", "ESCUDO EMOCIONAL"];
-        let wordIndex = 0;
-        const glitchInterval = setInterval(() => {
-            if (wordIndex >= paralysisWords.length) {
-                clearInterval(glitchInterval);
-                pageElements.paralysisContainer.style.display = 'none'; // Esconde o container do glitch
-                startTypewriter(); // Inicia o typewriter APÓS o glitch
-                return;
+        window.addEventListener('beforeunload', () => {
+            sessionStorage.setItem(OFFER_KEY, 'true');
+        });
+
+        const startDynamicFeatures = () => {
+            pageElements.mainContent.classList.add('content-visible');
+            startParalysisEffect();
+            startMissionTicker();
+            startArchitectVoice();
+            startCountdownTimer();
+        }
+
+        setTimeout(() => {
+            pageElements.overlay.classList.remove('visible');
+            setTimeout(startDynamicFeatures, 10000);
+        }, 4000);
+
+        function startParalysisEffect() {
+            if (!pageElements.paralysisContainer) {
+                startTypewriter(); return;
             }
-            const wordEl = document.createElement('div');
-            wordEl.className = 'glitch-word';
-            wordEl.textContent = paralysisWords[wordIndex];
-            wordEl.style.left = `${Math.random() * 60 + 20}%`;
-            wordEl.style.top = `${Math.random() * 60 + 20}%`;
-            pageElements.paralysisContainer.appendChild(wordEl);
-            wordIndex++;
-        }, 400);
-    } else {
-        // Se o container de paralisia não existir, inicia o typewriter após um delay
-        setTimeout(startTypewriter, 4000);
-    }
-    
-    // --- 4. Lógica das Cartas de Missão ---
-    const missoes = document.querySelectorAll('.missao-card');
-    const upsellButtons = document.querySelectorAll('.upsell-cta-button');
-    const escolhaMissaoTexto = document.querySelector('.escolha-missao-texto');
-    if (missoes.length > 0 && upsellButtons.length > 0 && escolhaMissaoTexto) {
+            const words = ["PSICOLOGIA SOMBRIA", "NEURODOMINÂNCIA", "IMPÉRIO MASCULINO", "FOCO LASER"];
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i >= words.length) {
+                    clearInterval(interval);
+                    pageElements.paralysisContainer.style.display = 'none';
+                    startTypewriter();
+                    return;
+                }
+                const wordEl = document.createElement('div');
+                wordEl.className = 'glitch-word';
+                wordEl.textContent = words[i];
+                wordEl.style.left = `${Math.random() * 60 + 20}%`;
+                wordEl.style.top = `${Math.random() * 60 + 20}%`;
+                pageElements.paralysisContainer.innerHTML = '';
+                pageElements.paralysisContainer.appendChild(wordEl);
+                i++;
+            }, 700);
+        }
+
+        function startTypewriter() {
+             if (!pageElements.jungleMetaphorEl) return;
+             pageElements.jungleMetaphorEl.innerHTML = ''; // Limpa o conteúdo
+             const text = "Imagine que eu te entreguei as chaves de uma Ferrari. Mas você está em um labirinto com mil ruas, sem saber qual é a saída. Você tem o poder, mas não tem a direção inicial. O resultado? Você acelera, queima pneu, mas continua preso no mesmo lugar.";
+             let charIndex = 0;
+             function type() {
+                 if (charIndex < text.length) {
+                     pageElements.jungleMetaphorEl.innerHTML += text.charAt(charIndex);
+                     charIndex++;
+                     setTimeout(type, 35);
+                 }
+             }
+             type();
+        }
+        
+        const missoes = document.querySelectorAll('.missao-card');
+        const upsellButtons = document.querySelectorAll('.upsell-cta-button');
+        const escolhaMissaoTexto = document.querySelector('.escolha-missao-texto');
         missoes.forEach(missao => {
             missao.addEventListener('click', () => {
                 const missionId = missao.dataset.mission;
-                missoes.forEach(m => {
-                    m.classList.remove('selected');
-                    m.classList.add('de-emphasized');
-                });
+                missoes.forEach(m => { m.classList.remove('selected'); m.classList.add('de-emphasized'); });
                 missao.classList.add('selected');
                 missao.classList.remove('de-emphasized');
-                
-                escolhaMissaoTexto.style.display = 'none';
+                if (escolhaMissaoTexto) escolhaMissaoTexto.style.display = 'none';
                 upsellButtons.forEach(btn => btn.classList.add('hidden-cta'));
                 const targetButton = document.querySelector(`.upsell-cta-button[data-mission-target="${missionId}"]`);
                 if(targetButton) targetButton.classList.remove('hidden-cta');
             });
         });
-    }
-
-    // --- 5. Cronômetro Implacável ---
-    if (pageElements.offerContent) {
-        const DURATION = 10 * 60 * 1000;
-        let expirationTime = Date.now() + DURATION;
-
-        function updateTimer() {
-            const remaining = expirationTime - Date.now();
-            if (remaining <= 0) {
-                clearInterval(timerInterval);
-                pageElements.offerContent.style.display = 'none';
-                pageElements.expiredMessage.style.display = 'block';
-                if(pageElements.declineLink) pageElements.declineLink.style.display = 'none';
-                pageElements.timerElements.forEach(el => { if(el) el.textContent = "00:00" });
-                return;
+        
+        function startCountdownTimer() {
+            if (!pageElements.offerContent) return;
+            const DURATION = 10 * 60 * 1000;
+            let expirationTime = Date.now() + DURATION;
+            function update() {
+                const remaining = expirationTime - Date.now();
+                if (remaining <= 0) {
+                    clearInterval(timerInterval);
+                    pageElements.offerContent.style.display = 'none';
+                    pageElements.expiredMessage.style.display = 'block';
+                    if(pageElements.declineLink) pageElements.declineLink.style.display = 'none';
+                    pageElements.timerElements.forEach(el => { if(el) el.textContent = "00:00" });
+                    return;
+                }
+                const minutes = Math.floor((remaining / 1000 / 60) % 60).toString().padStart(2, '0');
+                const seconds = Math.floor((remaining / 1000) % 60).toString().padStart(2, '0');
+                pageElements.timerElements.forEach(el => { if(el) el.textContent = `${minutes}:${seconds}` });
+                if (remaining < 60000 && pageElements.timerElements[1]) {
+                    pageElements.timerElements[1].classList.add('final-minute');
+                }
             }
-            const minutes = Math.floor((remaining / 1000 / 60) % 60).toString().padStart(2, '0');
-            const seconds = Math.floor((remaining / 1000) % 60).toString().padStart(2, '0');
-            const newTime = `${minutes}:${seconds}`;
-            pageElements.timerElements.forEach(el => { if(el) el.textContent = newTime });
-            if (remaining < 60000 && pageElements.timerElements[1]) {
-                pageElements.timerElements[1].classList.add('final-minute');
+            const timerInterval = setInterval(update, 1000);
+            update();
+        }
+
+        function startMissionTicker() {
+            if (!pageElements.tickerEl) return;
+            const missionNames = {1: "Missão Alfa", 2: "Missão Beta", 3: "Missão Gama"};
+            function show() {
+                const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
+                const missionId = Math.floor(Math.random() * 3) + 1;
+                const missionCard = document.querySelector(`.missao-card[data-mission="${missionId}"]`);
+                pageElements.tickerEl.innerHTML = `<p><span class="notification-name">${comprador.name}</span> acaba de escolher a <strong>${missionNames[missionId]}</strong>.</p>`;
+                pageElements.tickerEl.classList.add('show');
+                if (missionCard) missionCard.classList.add('is-highlighted');
+                setTimeout(() => {
+                    pageElements.tickerEl.classList.remove('show');
+                    if (missionCard) missionCard.classList.remove('is-highlighted');
+                }, 5000);
+                setTimeout(show, Math.random() * (25000 - 15000) + 15000);
             }
+            setTimeout(show, 8000);
         }
-        const timerInterval = setInterval(updateTimer, 1000);
-        updateTimer();
+        
+        function startArchitectVoice() {
+             setTimeout(() => {
+                if (!document.querySelector('.missao-card.selected')) {
+                    const tooltips = document.querySelectorAll('.architect-tooltip');
+                    if (tooltips.length > 0) {
+                        const randomTooltip = tooltips[Math.floor(Math.random() * tooltips.length)];
+                        randomTooltip.classList.add('visible');
+                    }
+                }
+            }, 20000);
+        }
     }
-
-    // --- 6. Ticker da Alcateia ---
-    if (pageElements.tickerEl) {
-        const missionNames = {1: "Missão Alfa", 2: "Missão Beta", 3: "Missão Gama"};
-        function showMissionTicker() {
-            const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
-            const missionId = Math.floor(Math.random() * 3) + 1;
-            const missionCard = document.querySelector(`.missao-card[data-mission="${missionId}"]`);
-
-            pageElements.tickerEl.innerHTML = `<p><span class="notification-name">${comprador.name}</span> acaba de escolher a <strong>${missionNames[missionId]}</strong>.</p>`;
-            pageElements.tickerEl.classList.add('show');
-            if (missionCard) missionCard.classList.add('is-highlighted');
-
-            setTimeout(() => {
-                pageElements.tickerEl.classList.remove('show');
-                if (missionCard) missionCard.classList.remove('is-highlighted');
-            }, 5000);
-            
-            setTimeout(showMissionTicker, Math.random() * (25000 - 15000) + 15000);
-        }
-        setTimeout(showMissionTicker, 12000);
-    }
-
-    // --- 7. Voz do Arquiteto ---
-    setTimeout(() => {
-        const hasSelected = document.querySelector('.missao-card.selected');
-        if (!hasSelected) {
-            const tooltips = document.querySelectorAll('.architect-tooltip');
-            if (tooltips.length > 0) {
-                const randomTooltip = tooltips[Math.floor(Math.random() * tooltips.length)];
-                randomTooltip.classList.add('visible');
-            }
-        }
-    }, 25000);
-}
 
    // =================================================================
 // --- MÓDULO 3: SISTEMA DE ESCASSEZ (VERSÃO FINAL COM VALIDAÇÃO) ---
