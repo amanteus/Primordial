@@ -164,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================
 // --- MÓDULO UPSELL (VERSÃO FINAL E CORRIGIDA) ---
 // ==========================================================
-// --- MÓDULO 2: PÁGINA DE UPSELL ---
     function initUpsellPage() {
         const pageElements = {
             overlay: document.getElementById('alert-overlay'),
@@ -178,7 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
             declineLink: document.querySelector('.decline-link'),
             paralysisContainer: document.getElementById('paralysis-effect-container')
         };
-
         if (!pageElements.overlay || !pageElements.mainContent) return;
 
         const OFFER_KEY = 'primordial_upsell_offer_invalidated';
@@ -190,34 +188,33 @@ document.addEventListener('DOMContentLoaded', () => {
             pageElements.mainContent.classList.add('content-visible');
             return; 
         }
-        window.addEventListener('beforeunload', () => {
-            sessionStorage.setItem(OFFER_KEY, 'true');
-        });
-
-        const startDynamicFeatures = () => {
-            pageElements.mainContent.classList.add('content-visible');
-            startParalysisEffect();
-            startMissionTicker();
-            startArchitectVoice();
-            startCountdownTimer();
-        }
+        window.addEventListener('beforeunload', () => { sessionStorage.setItem(OFFER_KEY, 'true'); });
 
         setTimeout(() => {
             pageElements.overlay.classList.remove('visible');
-            setTimeout(startDynamicFeatures, 10000);
+            setTimeout(() => {
+                pageElements.mainContent.classList.add('content-visible');
+                startParalysisEffect();
+                startMissionTicker();
+                startArchitectVoice();
+                startCountdownTimer();
+            }, 500); // Pequeno delay para a transição
         }, 4000);
 
         function startParalysisEffect() {
-            if (!pageElements.paralysisContainer) {
-                startTypewriter(); return;
-            }
-            const words = ["PSICOLOGIA SOMBRIA", "NEURODOMINÂNCIA", "IMPÉRIO MASCULINO", "FOCO LASER"];
+            if (!pageElements.paralysisContainer) { startTypewriter(); return; }
+            const words = ["PSICOLOGIA SOMBRIA", "NEURODOMINÂNCIA", "IMPÉRIO MASCULINO", "FOCO LASER", "TENSÃO SEXUAL"];
             let i = 0;
             const interval = setInterval(() => {
                 if (i >= words.length) {
                     clearInterval(interval);
-                    pageElements.paralysisContainer.style.display = 'none';
-                    startTypewriter();
+                    setTimeout(() => {
+                        if (pageElements.paralysisContainer) {
+                            pageElements.paralysisContainer.style.transition = 'opacity 0.5s';
+                            pageElements.paralysisContainer.style.opacity = '0';
+                        }
+                        startTypewriter();
+                    }, 500);
                     return;
                 }
                 const wordEl = document.createElement('div');
@@ -225,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 wordEl.textContent = words[i];
                 wordEl.style.left = `${Math.random() * 60 + 20}%`;
                 wordEl.style.top = `${Math.random() * 60 + 20}%`;
-                pageElements.paralysisContainer.innerHTML = '';
                 pageElements.paralysisContainer.appendChild(wordEl);
                 i++;
             }, 700);
@@ -233,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function startTypewriter() {
              if (!pageElements.jungleMetaphorEl) return;
-             pageElements.jungleMetaphorEl.innerHTML = ''; // Limpa o conteúdo
+             pageElements.jungleMetaphorEl.innerHTML = '';
              const text = "Imagine que eu te entreguei as chaves de uma Ferrari. Mas você está em um labirinto com mil ruas, sem saber qual é a saída. Você tem o poder, mas não tem a direção inicial. O resultado? Você acelera, queima pneu, mas continua preso no mesmo lugar.";
              let charIndex = 0;
              function type() {
@@ -249,18 +245,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const missoes = document.querySelectorAll('.missao-card');
         const upsellButtons = document.querySelectorAll('.upsell-cta-button');
         const escolhaMissaoTexto = document.querySelector('.escolha-missao-texto');
-        missoes.forEach(missao => {
-            missao.addEventListener('click', () => {
-                const missionId = missao.dataset.mission;
-                missoes.forEach(m => { m.classList.remove('selected'); m.classList.add('de-emphasized'); });
-                missao.classList.add('selected');
-                missao.classList.remove('de-emphasized');
-                if (escolhaMissaoTexto) escolhaMissaoTexto.style.display = 'none';
-                upsellButtons.forEach(btn => btn.classList.add('hidden-cta'));
-                const targetButton = document.querySelector(`.upsell-cta-button[data-mission-target="${missionId}"]`);
-                if(targetButton) targetButton.classList.remove('hidden-cta');
+        if (missoes.length > 0 && upsellButtons.length > 0 && escolhaMissaoTexto) {
+            missoes.forEach(missao => {
+                missao.addEventListener('click', () => {
+                    const missionId = missao.dataset.mission;
+                    missoes.forEach(m => { m.classList.remove('selected'); m.classList.add('de-emphasized'); });
+                    missao.classList.add('selected');
+                    missao.classList.remove('de-emphasized');
+                    if (escolhaMissaoTexto) escolhaMissaoTexto.style.display = 'none';
+                    upsellButtons.forEach(btn => btn.classList.add('hidden-cta'));
+                    const targetButton = document.querySelector(`.upsell-cta-button[data-mission-target="${missionId}"]`);
+                    if(targetButton) targetButton.classList.remove('hidden-cta');
+                });
             });
-        });
+        }
         
         function startCountdownTimer() {
             if (!pageElements.offerContent) return;
@@ -303,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 5000);
                 setTimeout(show, Math.random() * (25000 - 15000) + 15000);
             }
-            setTimeout(show, 8000);
+            setTimeout(show, 15000);
         }
         
         function startArchitectVoice() {
@@ -315,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         randomTooltip.classList.add('visible');
                     }
                 }
-            }, 20000);
+            }, 30000);
         }
     }
 
