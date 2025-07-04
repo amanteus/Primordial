@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 startMissionTicker();
                 startArchitectVoice();
                 startCountdownTimer();
-            }, 500); // Pequeno delay para a transição
+            }, 10000); // Pequeno delay para a transição
         }, 4000);
 
         function startParalysisEffect() {
