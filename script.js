@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             pageElements.paralysisContainer.style.opacity = '0';
                         }
                         startTypewriter();
-                    }, 500);
+                    }, 11000);
                     return;
                 }
                 pageElements.paralysisContainer.innerHTML = '';
