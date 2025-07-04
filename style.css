@@ -1156,6 +1156,25 @@ h1, h2, h3, h4 {
     display: block; /* Garante que cada linha animada fique em sua própria linha */
 }
 
+/* --- AJUSTES FINAIS DE LAYOUT E POSICIONAMENTO (UPSELL) --- */
+
+/* Garante que todos os cards na mesma linha tenham a mesma altura */
+.missoes-grid {
+    align-items: stretch; /* Faz os wrappers se esticarem */
+}
+.mission-wrapper {
+    position: relative;
+    display: flex; /* Permite que o card interno se estique */
+}
+.missao-card {
+    width: 100%; /* Garante que o card ocupe todo o espaço do wrapper */
+}
+
+/* Garante que o tooltip fique acima de todos os outros elementos */
+.architect-tooltip {
+    z-index: 100; 
+}
+
 /* --- ESTILOS DA PÁGINA DE AFILIADOS --- */
 
 .afiliados-body {
