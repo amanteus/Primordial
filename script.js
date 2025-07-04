@@ -217,6 +217,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 500);
                     return;
                 }
+                pageElements.paralysisContainer.innerHTML = '';
+                
                 const wordEl = document.createElement('div');
                 wordEl.className = 'glitch-word';
                 wordEl.textContent = words[i];
