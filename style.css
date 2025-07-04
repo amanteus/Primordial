@@ -962,6 +962,7 @@ h1, h2, h3, h4 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 30px;
+    align-items: stretch;
 }
 .missao-card {
     border: 2px solid #444;
@@ -972,6 +973,7 @@ h1, h2, h3, h4 {
     background: #1f1f1f;
     position: relative;
     overflow: hidden;
+    height: 100%;
 }
 
 .missao-header {
@@ -1096,7 +1098,7 @@ h1, h2, h3, h4 {
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s ease-in-out;
-    z-index: 10;
+    z-index: 100;
 }
 .architect-tooltip::after {
     content: '';
