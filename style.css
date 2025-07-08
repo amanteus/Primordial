@@ -1,9 +1,23 @@
+/* --- CONFIGURAÇÕES GLOBAIS E FONTES --- */
+@font-face {
+    font-family: 'Loft';
+    /* Aponte para o local correto do seu arquivo de fonte */
+    src: url('fonts/Loft-Regular.woff2') format('woff2'); 
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Houstiq';
+    /* Aponte para o local correto do seu arquivo de fonte */
+    src: url('fonts/Houstiq.ttf') format('truetype');
+}
+
 :root {
     --bg-color: #1d1d1d;
     --text-color: #e0e0e0;
     --accent-color: #c4aa83;
-    --font-primary: 'Roboto', sans-serif;      /* <<< ALTERADO AQUI */
-    --font-headline: 'Abril Fatface', cursive;   /* <<< ALTERADO AQUI */
+    --font-primary: 'Loft', sans-serif;
+    --font-headline: 'Houstiq', serif;
 }
 
 * {
