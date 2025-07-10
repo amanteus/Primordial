@@ -1332,9 +1332,32 @@ h1, h2, h3, h4 {
 
 /* Responsividade para a seção */
 @media (max-width: 768px) {
-    .seletividade-container {
-        grid-template-columns: 1fr;
-    }
+    .seletividade-container {
+        grid-template-columns: 1fr;
+        gap: 20px; /* Reduzindo um pouco o espaço entre as caixas empilhadas */
+    }
+
+    .seletividade-box {
+        text-align: center; /* Centralizando o texto dentro de cada caixa */
+        padding: 25px; /* Ajustando o padding para melhor equilíbrio visual */
+    }
+
+    .seletividade-box h4 {
+        text-align: center; /* Centralizando o título dentro da caixa */
+    }
+
+    .seletividade-box ul {
+        padding-left: 0; /* Removendo o padding padrão da lista */
+        text-align: left; /* Alinhando os itens da lista à esquerda para leitura */
+        max-width: 300px; /* Adicionando uma largura máxima para evitar que a lista fique muito larga */
+        margin: 20px auto; /* Centralizando a lista dentro da caixa */
+
+    }
+
+    .seletividade-box li {
+        padding-left: 30px;
+    }
+
 }
 
 
