@@ -1336,6 +1336,59 @@ h1, h2, h3, h4 {
     }
 }
 
+/* ========================================================== */
+/* --- AJUSTES FINAIS DE LAYOUT E RESPONSIVIDADE (AFILIADOS) --- */
+/* ========================================================== */
+
+/* Garante que a lista dentro dos cards dos pilares tenha o marcador correto */
+.pilar-card ul {
+    list-style-type: none; /* Remove marcadores padrão */
+    padding-left: 0;
+}
+
+.pilar-card li {
+    padding-left: 30px;
+    position: relative;
+}
+
+.pilar-card li::before {
+    content: '✅'; /* Adiciona o marcador de check */
+    position: absolute;
+    left: 0;
+    font-family: sans-serif;
+}
+
+/* --- CORREÇÕES PARA DISPOSITIVOS MÓVEIS (MOBILE) --- */
+@media (max-width: 768px) {
+    /* Adiciona a margem lateral de segurança para toda a página */
+    .afiliados-body .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* Garante que a grade de pilares vire uma única coluna e se centralize */
+    .pilares-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Garante que as caixas de seletividade se empilhem verticalmente */
+    .seletividade-container {
+        grid-template-columns: 1fr;
+    }
+
+    /* Centraliza o texto dentro da caixa de seletividade para melhor harmonia */
+    .seletividade-box {
+        text-align: center;
+    }
+
+    /* Faz a lista dentro da caixa de seletividade se alinhar corretamente */
+    .seletividade-box ul {
+        display: inline-block;
+        text-align: left;
+        margin-top: 20px;
+    }
+}
+
 /* --- ESTILOS DA PÁGINA DE OBRIGADO --- */
 
 .obrigado-body {
