@@ -9,7 +9,7 @@
 @font-face {
     font-family: 'Houstiq';
     /* Aponte para o local correto do seu arquivo de fonte */
-    src: url('fonts/Houstiq.ttf') format('truetype');
+    src: url('fonts/Houstiq.otf') format('truetype');
 }
 
 :root {
