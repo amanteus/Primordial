@@ -529,7 +529,7 @@ function initScarcityAndSocialProof() {
             likesCache[comment.id] = likeCount;
             el.dataset.id = comment.id;
             el.querySelector('.post-username').textContent = comment.username;
-            el.querySelector('.post-body p').textContent = `"${comment.text}"`;
+            el.querySelector('.post-body p').textContent = `${comment.text}`;
             el.querySelector('.post-timestamp').textContent = formatTime(comment.timestamp);
             el.querySelector('.post-like-button .like-count').textContent = likeCount;
             if (liked) el.querySelector('.post-like-button').classList.add('is-liked');
