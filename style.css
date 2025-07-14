@@ -1190,92 +1190,152 @@ h1, h2, h3, h4 {
 }
 
 /* ========================================================== */
-/* --- ESTILOS PARA A PÁGINA DE DOWNSELL (DEBRIEFING) --- */
+/* --- ESTILOS FINAIS PARA A PÁGINA DE DOWNSELL (TEMA ESCURO) --- */
 /* ========================================================== */
-.downsell-container { max-width: 950px; margin: 40px auto; text-align: center; padding: 20px; }
-.downsell-title { font-family: var(--font-headline); font-size: clamp(2.2rem, 5vw, 3.5rem); line-height: 1.2; }
-.downsell-subtitle { font-size: 1.2rem; color: #aaa; margin-top: 10px; }
-.downsell-divider { border: none; border-top: 1px solid #444; margin: 40px auto; width: 100px; }
-.highlight-dark { color: var(--accent-color); }
-.section-subtitle-gold-dark { font-family: var(--font-headline); font-size: clamp(1.5rem, 4vw, 2.2rem); color: var(--text-color); margin-bottom: 30px; }
-.price-prefix-dark { color: #aaa; }
-.downsell-container > .anim-on-scroll {
+.downsell-container {
+    max-width: 700px;
+    margin: 40px auto;
     text-align: center;
-}
-/* Layout de Dossiê */
-.downsell-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr; /* Coluna da esquerda menor que a da direita */
-    gap: 60px;
-    margin-top: 50px;
-    text-align: center;
-}
-.product-pane {
-    position: relative;
-}
-.product-sticky-wrapper {
-    position: sticky;
-    top: 100px; /* Distância do topo ao começar a fixar */
-}
-.product-pane h3 {
-    font-family: var(--font-headline);
-    font-size: 1.5rem;
-    color: var(--accent-color);
-    margin-bottom: 20px;
-}
-.product-mockup {
-    border: 1px solid #333;
-    background: #1a1a1a;
     padding: 20px;
-    border-radius: 8px;
 }
-.product-mockup img {
-    width: 100%;
-    border-radius: 4px;
-}
-.mockup-chapter {
-    display: block;
-    margin-top: 15px;
-    padding: 10px;
-    border-left: 3px solid #444;
-    color: #888;
-    transition: all 0.3s ease;
-}
-.mockup-chapter.highlight-chapter {
-    border-left-color: var(--accent-color);
+.downsell-title {
+    font-family: var(--font-headline);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
     color: var(--text-color);
-    transform: translateX(5px);
-    background-color: rgba(196, 170, 131, 0.05);
 }
-.copy-pane > div {
-    margin-bottom: 40px; /* Espaço entre os blocos de texto */
+.downsell-subtitle {
+    font-size: 1.2rem;
+    color: #aaa;
+    margin-top: 10px;
 }
-.benefits-list {
-    list-style: none; padding: 0; margin: 20px 0;
+.downsell-divider {
+    border: none;
+    border-top: 1px solid #444;
+    margin: 40px auto;
+    width: 100px;
 }
-.benefits-list li {
-    font-size: 1.1rem; margin-bottom: 15px;
+.copy-block p {
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+    line-height: 1.8;
 }
-.mentor-signature {
-    margin: 40px 0; max-width: 200px;
+.highlight-dark {
+    color: var(--accent-color);
 }
-.mentor-signature img {
-    width: 100%;
-    filter: invert(0.8); /* Deixa a assinatura branca/cinza claro */
+.section-subtitle-gold-dark {
+    font-family: var(--font-headline);
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    color: var(--text-color);
+    margin-bottom: 30px;
+}
+.price-prefix-dark {
+    color: #aaa;
 }
 
-/* Responsividade do novo layout */
-@media (max-width: 900px) {
-    .downsell-grid {
-        grid-template-columns: 1fr; /* Empilha as colunas */
-    }
-    .product-pane {
-        max-width: 400px;
-        margin: 0 auto 50px auto;
-    }
-    .product-sticky-wrapper {
-        position: static; /* Desativa o "sticky" no mobile */
-    }
+/* --- ESTILOS DO DOSSIÊ INTERATIVO --- */
+.dossier-scene {
+    perspective: 1000px;
+    margin: 50px auto;
+    width: 300px;
+    height: 420px;
+}
+.dossier-card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+.dossier-card.is-flipped {
+    transform: rotateY(180deg);
+}
+.dossier-front, .dossier-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.dossier-front {
+    background: #1a1a1a;
+}
+.dossier-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.dossier-cta-prompt {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: var(--accent-color);
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.9rem;
+}
+.dossier-back {
+    background: #222;
+    transform: rotateY(180deg);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.dossier-back h3 {
+    font-family: var(--font-headline);
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+.benefits-list {
+    list-style: none; padding: 0; margin: 0; text-align: left;
+}
+.benefits-list li {
+    font-size: 1rem; margin-bottom: 10px;
+}
+
+.mentor-signature { margin: 40px 0; max-width: 180px; }
+.mentor-signature img { width: 100%; filter: invert(0.8); }
+
+/* --- ESTILOS PARA OS BOTÕES KIWIFY --- */
+.kiwify-cta-wrapper {
+    margin-top: 40px;
+}
+.cta-button-downsell {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: #111;
+    font-family: var(--font-headline);
+    font-size: 1.4rem;
+    padding: 15px 40px;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-shadow: none;
+    cursor: pointer;
+    width: 100%;
+    max-width: 500px;
+}
+.cta-button-downsell:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(196, 170, 131, 0.5);
+}
+.decline-link-downsell {
+    display: block;
+    margin-top: 20px;
+    cursor: pointer;
+    text-decoration: underline;
+    color: #888;
+    transition: color 0.3s;
+}
+.decline-link-downsell:hover {
+    color: var(--text-color);
 }
 
 /* --- ESTILOS DA PÁGINA DE AFILIADOS --- */
