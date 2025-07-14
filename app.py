@@ -17,6 +17,11 @@ def thank_you_page():
 @app.route('/parceria')
 def affiliate_page():
     return render_template('afiliados.html')
+    
+@app.route('/downsell')
+def downsell():
+    """Serve a página de Downsell."""
+    return render_template('downsell.html')
 
 # ADICIONE ESTA NOVA ROTA
 @app.route('style.css')
