@@ -1199,14 +1199,16 @@ h1, h2, h3, h4 {
 .highlight-dark { color: var(--accent-color); }
 .section-subtitle-gold-dark { font-family: var(--font-headline); font-size: clamp(1.5rem, 4vw, 2.2rem); color: var(--text-color); margin-bottom: 30px; }
 .price-prefix-dark { color: #aaa; }
-
+.downsell-container > .anim-on-scroll {
+    text-align: center;
+}
 /* Layout de Dossiê */
 .downsell-grid {
     display: grid;
     grid-template-columns: 1fr 1.2fr; /* Coluna da esquerda menor que a da direita */
     gap: 60px;
     margin-top: 50px;
-    text-align: left;
+    text-align: center;
 }
 .product-pane {
     position: relative;
