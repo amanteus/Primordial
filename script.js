@@ -448,25 +448,41 @@ function initScarcityAndSocialProof() {
     setTimeout(scheduleNextSale, 15000);
 }
 
-    // --- MÓDULO 7: PÁGINA DE DOWNSELL ---
+    // --- MÓDULO 7: PÁGINA DE DOWNSELL (DEBRIEFING ESTRATÉGICO) ---
 function initDownsellPage() {
-    const revealContainer = document.getElementById('product-reveal-container');
-    const overlay = document.getElementById('classified-overlay');
+    const downsellGrid = document.querySelector('.downsell-grid');
+    if (!downsellGrid) return; // Só executa na página de downsell
 
-    if (!revealContainer || !overlay) return; // Só executa na página de downsell
+    const copySections = document.querySelectorAll('.copy-pane [data-highlight-target]');
+    const chapterElements = {
+        abrir: document.getElementById('capitulo-abrir'),
+        aprofundar: document.getElementById('capitulo-aprofundar'),
+        calibrar: document.getElementById('capitulo-calibrar'),
+        tensao: document.getElementById('capitulo-tensao')
+    };
 
-    // Usa o mesmo observer geral da página para a animação da lista
-    // e o observer específico abaixo para a revelação do produto.
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                overlay.classList.add('revealed');
-                observer.unobserve(entry.target); 
+                const targetId = entry.target.dataset.highlightTarget;
+                
+                // Remove o destaque de todos
+                Object.values(chapterElements).forEach(el => {
+                    if(el) el.classList.remove('highlight-chapter');
+                });
+
+                // Adiciona o destaque ao alvo
+                if (chapterElements[targetId]) {
+                    chapterElements[targetId].classList.add('highlight-chapter');
+                }
             }
         });
-    }, { threshold: 0.7 }); // Dispara quando 70% do elemento estiver visível
+    }, {
+        rootMargin: '-40% 0px -40% 0px', // Ativa o destaque quando a seção está no meio da tela
+        threshold: 0.5
+    });
 
-    observer.observe(revealContainer);
+    copySections.forEach(section => observer.observe(section));
 }
 
     // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS COM FILTRO ---
