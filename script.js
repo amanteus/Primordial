@@ -122,6 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initScarcityAndSocialProof();
         initCommentSystem();
         initObrigadoPage();
+        initDownsellPage();
     }
 
     // --- MÓDULO 1: UI GERAL (ACORDEÃO, ANIMAÇÕES, PESSOAS ONLINE) ---
@@ -445,6 +446,27 @@ function initScarcityAndSocialProof() {
     };
     
     setTimeout(scheduleNextSale, 15000);
+}
+
+    // --- MÓDULO 7: PÁGINA DE DOWNSELL ---
+function initDownsellPage() {
+    const revealContainer = document.getElementById('product-reveal-container');
+    const overlay = document.getElementById('classified-overlay');
+
+    if (!revealContainer || !overlay) return; // Só executa na página de downsell
+
+    // Usa o mesmo observer geral da página para a animação da lista
+    // e o observer específico abaixo para a revelação do produto.
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                overlay.classList.add('revealed');
+                observer.unobserve(entry.target); 
+            }
+        });
+    }, { threshold: 0.7 }); // Dispara quando 70% do elemento estiver visível
+
+    observer.observe(revealContainer);
 }
 
     // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS COM FILTRO ---
