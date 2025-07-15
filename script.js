@@ -448,41 +448,78 @@ function initScarcityAndSocialProof() {
     setTimeout(scheduleNextSale, 15000);
 }
 
-    // --- MÓDULO 7: PÁGINA DE DOWNSELL (DEBRIEFING ESTRATÉGICO) ---
+// ==========================================================
+// --- MÓDULO: PÁGINA DE DOWNSELL (VERSÃO FINAL E INTERATIVA) ---
+// ==========================================================
 function initDownsellPage() {
-    const downsellGrid = document.querySelector('.downsell-grid');
-    if (!downsellGrid) return; // Só executa na página de downsell
+    const introContent = document.getElementById('intro-content');
+    const delayedContent = document.getElementById('delayed-content');
+    if (!introContent || !delayedContent) return; // Só executa na página de Downsell
 
-    const copySections = document.querySelectorAll('.copy-pane [data-highlight-target]');
-    const chapterElements = {
-        abrir: document.getElementById('capitulo-abrir'),
-        aprofundar: document.getElementById('capitulo-aprofundar'),
-        calibrar: document.getElementById('capitulo-calibrar'),
-        tensao: document.getElementById('capitulo-tensao')
-    };
+    // --- ORQUESTRAÇÃO DA PÁGINA ---
+    
+    // 1. Garante que o conteúdo inicial esteja visível
+    introContent.classList.add('content-visible', 'anim-on-scroll', 'is-visible');
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const targetId = entry.target.dataset.highlightTarget;
-                
-                // Remove o destaque de todos
+    // 2. Após 8 segundos, revela o restante do conteúdo
+    setTimeout(() => {
+        delayedContent.classList.add('content-visible');
+        
+        // 3. Ativa as animações de scroll para o conteúdo que acabou de aparecer
+        const animatedElements = delayedContent.querySelectorAll('.anim-on-scroll');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        animatedElements.forEach(element => observer.observe(element));
+
+        // 4. Inicia o Dossiê Interativo
+        startInteractiveDossier();
+
+    }, 8000); // Delay de 8 segundos
+
+    // --- LÓGICA DO DOSSIÊ INTERATIVO ---
+    function startInteractiveDossier() {
+        const copySections = document.querySelectorAll('.copy-pane [data-highlight-target]');
+        const chapterElements = {
+            abrir: document.getElementById('capitulo-abrir'),
+            aprofundar: document.getElementById('capitulo-aprofundar'),
+            calibrar: document.getElementById('capitulo-calibrar'),
+            tensao: document.getElementById('capitulo-tensao')
+        };
+
+        if (copySections.length === 0) return;
+
+        const highlightObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // Remove o destaque de todos os capítulos primeiro
                 Object.values(chapterElements).forEach(el => {
-                    if(el) el.classList.remove('highlight-chapter');
+                    if (el) el.classList.remove('highlight-chapter');
                 });
 
-                // Adiciona o destaque ao alvo
-                if (chapterElements[targetId]) {
-                    chapterElements[targetId].classList.add('highlight-chapter');
+                // Encontra a entrada que está mais visível no centro da tela
+                const visibleEntry = entries.find(e => e.isIntersecting);
+                
+                if (visibleEntry) {
+                    const targetId = visibleEntry.target.dataset.highlightTarget;
+                    // Adiciona o destaque apenas ao capítulo correspondente
+                    if (chapterElements[targetId]) {
+                        chapterElements[targetId].classList.add('highlight-chapter');
+                    }
                 }
-            }
+            });
+        }, {
+            root: null, // Observa em relação ao viewport
+            rootMargin: '-45% 0px -45% 0px', // Ativa quando o elemento está no centro vertical da tela
+            threshold: 0
         });
-    }, {
-        rootMargin: '-40% 0px -40% 0px', // Ativa o destaque quando a seção está no meio da tela
-        threshold: 0.5
-    });
 
-    copySections.forEach(section => observer.observe(section));
+        copySections.forEach(section => highlightObserver.observe(section));
+    }
 }
 
     // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS COM FILTRO ---
