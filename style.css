@@ -1582,6 +1582,26 @@ h1, h2, h3, h4 {
 .chat-header-right svg { cursor: pointer; }
 .close-chat-btn { background: none; border: none; color: #b1b5b7; font-size: 2rem; cursor: pointer; line-height: 1; padding: 0 0 0 10px; }
 
+/* --- ESTILO FINAL PARA OS ÍCONES DO CABEÇALHO DO CHAT --- */
+
+.chat-header-right {
+    display: flex;
+    gap: 24px; /* Aumentando um pouco o espaçamento */
+    color: #b1b5b7;
+    align-items: center;
+}
+
+.chat-header-right i {
+    font-size: 1.2rem; /* Tamanho dos ícones */
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.chat-header-right i:hover {
+    color: #fff; /* Cor ao passar o mouse */
+    transform: scale(1.1); /* Efeito de leve crescimento */
+}
+
 /* Corpo das Mensagens com Wallpaper */
 .chat-messages {
     flex-grow: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column;
