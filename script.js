@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const comprador = compradoresDB[Math.floor(Math.random() * compradoresDB.length)];
                 const missionId = Math.floor(Math.random() * 3) + 1;
                 const missionCard = document.querySelector(`.missao-card[data-mission="${missionId}"]`);
-                pageElements.tickerEl.innerHTML = `<p><span class="notification-name">${comprador.name}</span> acaba de escolher a <strong>${missionNames[missionId]}</strong>.</p>`;
+                pageElements.tickerEl.innerHTML = `<p><span class="notification-name">${comprador.name}</span> escolheu a <strong>${missionNames[missionId]}</strong>.</p>`;
                 pageElements.tickerEl.classList.add('show');
                 if (missionCard) missionCard.classList.add('is-highlighted');
                 setTimeout(() => {
