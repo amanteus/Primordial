@@ -454,8 +454,6 @@ function initScarcityAndSocialProof() {
 function initDownsellPage() {
         const pageElements = {
             interactiveMenu: document.getElementById('interactive-menu-container'),
-            signatureContainer: document.getElementById('signature-container'),
-            signaturePath: document.getElementById('signature-path'),
             modalContainer: document.getElementById('chat-modal-container'),
             closeModalBtn: document.querySelector('.close-chat-btn'),
             chatMessagesContainer: document.querySelector('.chat-messages'),
@@ -543,29 +541,6 @@ function initDownsellPage() {
         if(pageElements.closeModalBtn) pageElements.closeModalBtn.addEventListener('click', closeModal);
         if(pageElements.modalContainer) pageElements.modalContainer.querySelector('.chat-modal-backdrop').addEventListener('click', closeModal);
 
-        function startSignatureAnimation() {
-            if (!pageElements.signaturePath || !pageElements.signatureContainer) return;
-            const path = pageElements.signaturePath;
-            const length = path.getTotalLength();
-            if(length === 0) { // Se o SVG ainda não foi renderizado, tenta de novo
-                setTimeout(startSignatureAnimation, 100);
-                return;
-            }
-            path.style.strokeDasharray = length;
-            path.style.strokeDashoffset = length;
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        path.style.transition = 'stroke-dashoffset 2.5s ease-in-out 0.5s';
-                        path.style.strokeDashoffset = '0';
-                        observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.8 });
-        observer.observe(pageElements.signatureContainer);
-    }
-    
-    startSignatureAnimation(); // Inicia a observação da assinatura
 }
 
     // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS COM FILTRO ---
