@@ -452,112 +452,88 @@ function initScarcityAndSocialProof() {
 // --- MÓDULO: PÁGINA DE DOWNSELL (VERSÃO FINAL E CORRIGIDA) ---
 // ==========================================================
 function initDownsellPage() {
-    // --- Seleção de Elementos ---
-    const pageElements = {
-        interactiveMenu: document.getElementById('interactive-menu-container'),
-        signatureContainer: document.getElementById('signature-container'),
-        signaturePath: document.getElementById('signature-path'),
-        modalContainer: document.getElementById('chat-modal-container'),
-        closeModalBtn: document.querySelector('.close-chat-btn'),
-        chatMessagesContainer: document.querySelector('.chat-messages')
-    };
+        const pageElements = {
+            interactiveMenu: document.getElementById('interactive-menu-container'),
+            signatureContainer: document.getElementById('signature-container'),
+            signaturePath: document.getElementById('signature-path'),
+            modalContainer: document.getElementById('chat-modal-container'),
+            closeModalBtn: document.querySelector('.close-chat-btn'),
+            chatMessagesContainer: document.querySelector('.chat-messages'),
+            chatStatusText: document.getElementById('chat-status-text')
+        };
+        if (!pageElements.interactiveMenu || !pageElements.modalContainer || !pageElements.signatureContainer) return;
 
-    // GUARDA DE SEGURANÇA REFORÇADA: Se qualquer um destes elementos cruciais
-    // não for encontrado, a função para aqui para não quebrar o resto do site.
-    if (!pageElements.interactiveMenu || !pageElements.signatureContainer || !pageElements.signaturePath || !pageElements.modalContainer) {
-        return;
-    }
+        const chatScripts = {
+            abrir: [ { sender: 'received', text: 'Nossa, amei a vibe das suas fotos!' }, { sender: 'sent', text: 'Obrigado! A vibe é de quem não se leva tão a sério. Diferente da sua foto de perfil, que parece ser de alguém que sabe exatamente o que quer.' }, { sender: 'received', text: 'Hahaha um elogio e uma provocação na mesma frase? Você é bom nisso.' } ],
+            aprofundar: [ { sender: 'received', text: 'Meu dia foi um caos, muito trabalho.' }, { sender: 'sent', text: 'Sei como é. Mas me diz, esse caos todo é pra construir um império ou só pra pagar as contas?' }, { sender: 'received', text: 'Uau. Ninguém nunca perguntou assim... Acho que um pouco dos dois. E você?' } ],
+            calibrar: [ { sender: 'received', text: 'Acabei de sair da academia, tô morta.' }, { sender: 'sent', text: 'Guerreira! Enquanto uns descansam, outros constroem o corpo que querem. Respeito a disciplina.' }, { sender: 'received', text: 'Haha obrigada! Precisava dessa motivação.' } ],
+            tensao: [ { sender: 'received', text: 'Acho que vou ficar em casa hoje, assistir um filme.' }, { sender: 'sent', text: 'Uma péssima ideia. As melhores histórias nunca acontecem no sofá.' }, { sender: 'received', text: 'Ah é? E qual seria uma ideia melhor, então, Sr. Aventureiro?' }, { sender: 'sent', text: 'Um drink. Naquele bar novo do centro. Amanhã, às 20h. A única coisa que você precisa decidir é o que vai vestir.' } ]
+        };
 
-    // --- ROTEIROS DOS CHATS PARA CADA MISSÃO ---
-    const chatScripts = {
-        abrir: [
-            { sender: 'received', text: 'Nossa, amei a vibe das suas fotos!', delay: 1000 },
-            { sender: 'sent', text: 'Obrigado! A vibe é de quem não se leva tão a sério. Diferente da sua foto de perfil, que parece ser de alguém que sabe exatamente o que quer.', delay: 3000 },
-            { sender: 'received', text: 'Hahaha um elogio e uma provocação na mesma frase? Você é bom nisso.', delay: 2500 }
-        ],
-        aprofundar: [
-            { sender: 'received', text: 'Meu dia foi um caos, muito trabalho.', delay: 1000 },
-            { sender: 'sent', text: 'Sei como é. Mas me diz, esse caos todo é pra construir um império ou só pra pagar as contas?', delay: 3000 },
-            { sender: 'received', text: 'Uau. Ninguém nunca perguntou assim... Acho que um pouco dos dois. E você?', delay: 3000 }
-        ],
-        calibrar: [
-            { sender: 'received', text: 'Acabei de sair da academia, tô morta.', delay: 1000 },
-            { sender: 'sent', text: 'Guerreira! Enquanto uns descansam, outros constroem o corpo que querem. Respeito a disciplina.', delay: 2500 },
-            { sender: 'received', text: 'Haha obrigada! Precisava dessa motivação.', delay: 2000 }
-        ],
-        tensao: [
-            { sender: 'received', text: 'Acho que vou ficar em casa hoje, assistir um filme.', delay: 1000 },
-            { sender: 'sent', text: 'Uma péssima ideia. As melhores histórias nunca acontecem no sofá.', delay: 2500 },
-            { sender: 'received', text: 'Ah é? E qual seria uma ideia melhor, então, Sr. Aventureiro?', delay: 2000 },
-            { sender: 'sent', text: 'Um drink. Naquele bar novo do centro. Amanhã, às 20h. A única coisa que você precisa decidir é o que vai vestir.', delay: 3500 }
-        ]
-    };
+        const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-    // --- LÓGICA DO CHAT INTERATIVO ---
-    function startChatAnimation(script) {
-        pageElements.chatMessagesContainer.innerHTML = '';
-        let messageDelay = 500;
-        script.forEach((msg) => {
-            messageDelay += msg.delay;
-            setTimeout(() => {
-                const isSent = msg.sender === 'sent';
-                if (isSent) {
-                    const typingIndicator = document.createElement('div');
-                    typingIndicator.className = 'typing-indicator';
-                    typingIndicator.innerHTML = '<span></span><span></span><span></span>';
-                    pageElements.chatMessagesContainer.appendChild(typingIndicator);
-                    pageElements.chatMessagesContainer.scrollTop = pageElements.chatMessagesContainer.scrollHeight;
+        async function startChatAnimation(script) {
+            if (!pageElements.chatMessagesContainer || !pageElements.chatStatusText) return;
+            pageElements.chatMessagesContainer.innerHTML = '';
+            await wait(500);
+
+            for (const msg of script) {
+                const isReceived = msg.sender === 'received';
+                if (isReceived) {
+                    pageElements.chatStatusText.textContent = 'digitando...';
+                    pageElements.chatStatusText.classList.add('typing');
+                    await wait(1500 + Math.random() * 1000);
+                    pageElements.chatStatusText.textContent = 'online';
+                    pageElements.chatStatusText.classList.remove('typing');
+                } else {
+                    await wait(1000);
                 }
-                const typingDelay = isSent ? 1500 : 0;
-                
-                setTimeout(() => {
-                    const indicator = pageElements.chatMessagesContainer.querySelector('.typing-indicator');
-                    if (indicator) indicator.remove();
-                    
-                    const messageEl = document.createElement('div');
-                    messageEl.className = `message ${msg.sender}`;
-                    messageEl.innerHTML = `${msg.text}<span class="message-time">${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>`;
-                    pageElements.chatMessagesContainer.appendChild(messageEl);
-                    pageElements.chatMessagesContainer.scrollTop = pageElements.chatMessagesContainer.scrollHeight;
-                }, typingDelay);
-            }, messageDelay);
+                const messageEl = document.createElement('div');
+                messageEl.className = `message ${msg.sender}`;
+                messageEl.innerHTML = `${msg.text}<span class="message-time">${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>`;
+                pageElements.chatMessagesContainer.appendChild(messageEl);
+                pageElements.chatMessagesContainer.scrollTop = pageElements.chatMessagesContainer.scrollHeight;
+                await wait(1500);
+            }
+        }
+
+        function openModal(mission) {
+            const script = chatScripts[mission];
+            if (script && pageElements.modalContainer) {
+                pageElements.modalContainer.classList.add('visible');
+                startChatAnimation(script);
+            }
+        }
+
+        function closeModal() {
+            if (pageElements.modalContainer) pageElements.modalContainer.classList.remove('visible');
+        }
+
+        pageElements.interactiveMenu.addEventListener('click', (event) => {
+            const button = event.target.closest('.menu-button');
+            if (button) {
+                openModal(button.dataset.mission);
+            }
         });
-    }
+        if(pageElements.closeModalBtn) pageElements.closeModalBtn.addEventListener('click', closeModal);
+        if(pageElements.modalContainer) pageElements.modalContainer.querySelector('.chat-modal-backdrop').addEventListener('click', closeModal);
 
-    function openModal(mission) {
-        const script = chatScripts[mission];
-        if (script) {
-            pageElements.modalContainer.classList.add('visible');
-            startChatAnimation(script);
-        }
-    }
-
-    function closeModal() {
-        pageElements.modalContainer.classList.remove('visible');
-    }
-
-    pageElements.interactiveMenu.addEventListener('click', (event) => {
-        const button = event.target.closest('.menu-button');
-        if (button) {
-            openModal(button.dataset.mission);
-        }
-    });
-    if (pageElements.closeModalBtn) pageElements.closeModalBtn.addEventListener('click', closeModal);
-    pageElements.modalContainer.querySelector('.chat-modal-backdrop').addEventListener('click', closeModal);
-
-    // --- LÓGICA DA ASSINATURA ANIMADA ---
-    function startSignatureAnimation() {
-        const path = pageElements.signaturePath;
-        const length = path.getTotalLength();
-        path.style.strokeDasharray = length;
-        path.style.strokeDashoffset = length;
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    path.style.transition = 'stroke-dashoffset 2.5s ease-in-out';
-                    path.style.strokeDashoffset = '0';
-                    observer.unobserve(entry.target);
+        function startSignatureAnimation() {
+            if (!pageElements.signaturePath || !pageElements.signatureContainer) return;
+            const path = pageElements.signaturePath;
+            const length = path.getTotalLength();
+            if(length === 0) { // Se o SVG ainda não foi renderizado, tenta de novo
+                setTimeout(startSignatureAnimation, 100);
+                return;
+            }
+            path.style.strokeDasharray = length;
+            path.style.strokeDashoffset = length;
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        path.style.transition = 'stroke-dashoffset 2.5s ease-in-out 0.5s';
+                        path.style.strokeDashoffset = '0';
+                        observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.8 });
