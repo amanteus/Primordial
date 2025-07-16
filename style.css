@@ -1602,6 +1602,20 @@ h1, h2, h3, h4 {
     transform: scale(1.1); /* Efeito de leve crescimento */
 }
 
+/* --- ESTILO PARA OS ÍCONES DO RODAPÉ DO CHAT --- */
+
+.chat-footer svg, /* Mantém o estilo para SVGs caso use em outro lugar */
+.chat-footer i {
+    font-size: 1.5rem; /* Tamanho dos ícones */
+    color: #8a99a4;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.chat-footer i:hover {
+    color: #fff;
+}
+
 /* Corpo das Mensagens com Wallpaper */
 .chat-messages {
     flex-grow: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column;
