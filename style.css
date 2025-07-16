@@ -1705,6 +1705,25 @@ h1, h2, h3, h4 {
 .decline-link-downsell { display: block; margin-top: 20px; cursor: pointer; text-decoration: underline; color: #888; transition: color 0.3s; }
 .decline-link-downsell:hover { color: var(--text-color); }
 
+/* ========================================================== */
+/* --- OTIMIZAÇÃO MOBILE PARA BOTÕES DE UPSELL E DOWNSELL --- */
+/* ========================================================== */
+
+@media (max-width: 768px) {
+  
+  /* Alvo: Botões na página de Upsell */
+  .upsell-cta-button {
+    font-size: 1.1rem; /* Reduz o tamanho da fonte */
+    padding: 14px 20px; /* Ajusta o preenchimento para um botão menos largo */
+  }
+
+  /* Alvo: Botão na página de Downsell */
+  .cta-button-downsell {
+    font-size: 1.2rem; /* Reduz o tamanho da fonte */
+    padding: 15px 25px; /* Ajusta o preenchimento */
+  }
+
+}
 
 /* --- ESTILOS DA PÁGINA DE AFILIADOS --- */
 
