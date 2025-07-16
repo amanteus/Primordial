@@ -1387,6 +1387,23 @@ h1, h2, h3, h4 {
     color: #aaa;
 }
 
+/* --- ESTILOS PARA O PREÇO PARCELADO DO DOWNSELL --- */
+
+.price-installments-downsell {
+    font-family: var(--font-primary);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-right: 10px;
+}
+
+.price-value-downsell {
+    font-family: var(--font-headline);
+    font-size: 4rem; 
+    color: var(--accent-color);
+    line-height: 1;
+}
+
 /* --- Painel de Simulação Interativa --- */
 #live-demo-section {
     background: #1a1a1a;
