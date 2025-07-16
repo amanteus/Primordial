@@ -459,7 +459,7 @@ function initDownsellPage() {
             chatMessagesContainer: document.querySelector('.chat-messages'),
             chatStatusText: document.getElementById('chat-status-text')
         };
-        if (!pageElements.interactiveMenu || !pageElements.modalContainer || !pageElements.signatureContainer) return;
+        if (!pageElements.interactiveMenu || !pageElements.modalContainer) return;
 
         const chatScripts = {
     // Objetivo: Daniel inicia. Sair do "oi, tudo bem?". Criar curiosidade massiva com uma observação que o posiciona como analítico e audacioso.
