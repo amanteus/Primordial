@@ -449,76 +449,145 @@ function initScarcityAndSocialProof() {
 }
 
 // ==========================================================
-// --- MÓDULO: PÁGINA DE DOWNSELL (VERSÃO FINAL E INTERATIVA) ---
+// --- MÓDULO: PÁGINA DE DOWNSELL (VERSÃO FINAL E COMPLETA) ---
 // ==========================================================
 function initDownsellPage() {
-    const introContent = document.getElementById('intro-content');
-    const delayedContent = document.getElementById('delayed-content');
-    if (!introContent || !delayedContent) return; // Só executa na página de Downsell
+    const pageElements = {
+        introContent: document.getElementById('intro-content'),
+        delayedContent: document.getElementById('delayed-content'),
+        interactiveMenu: document.getElementById('interactive-menu-container'),
+        signatureContainer: document.getElementById('signature-container'),
+        signaturePath: document.getElementById('signature-path'),
+        modalContainer: document.getElementById('chat-modal-container'),
+        closeModalBtn: document.querySelector('.close-chat-btn'),
+        chatMessagesContainer: document.querySelector('.chat-messages')
+    };
+
+    // Guarda de segurança: só executa na página de downsell
+    if (!pageElements.introContent || !pageElements.delayedContent) return;
+
+    // --- ROTEIROS DOS CHATS PARA CADA MISSÃO ---
+    const chatScripts = {
+        abrir: [
+            { sender: 'received', text: 'Nossa, amei a vibe das suas fotos!', delay: 1000 },
+            { sender: 'sent', text: 'Obrigado! A vibe é de quem não se leva tão a sério. Diferente da sua foto de perfil, que parece ser de alguém que sabe exatamente o que quer.', delay: 3000 },
+            { sender: 'received', text: 'Hahaha um elogio e uma provocação na mesma frase? Você é bom nisso.', delay: 2500 }
+        ],
+        aprofundar: [
+            { sender: 'received', text: 'Meu dia foi um caos, muito trabalho.', delay: 1000 },
+            { sender: 'sent', text: 'Sei como é. Mas me diz, esse caos todo é pra construir um império ou só pra pagar as contas?', delay: 3000 },
+            { sender: 'received', text: 'Uau. Ninguém nunca perguntou assim... Acho que um pouco dos dois. E você?', delay: 3000 }
+        ],
+        calibrar: [
+            { sender: 'received', text: 'Acabei de sair da academia, tô morta.', delay: 1000 },
+            { sender: 'sent', text: 'Guerreira! Enquanto uns descansam, outros constroem o corpo que querem. Respeito a disciplina.', delay: 2500 },
+            { sender: 'received', text: 'Haha obrigada! Precisava dessa motivação.', delay: 2000 }
+        ],
+        tensao: [
+            { sender: 'received', text: 'Acho que vou ficar em casa hoje, assistir um filme.', delay: 1000 },
+            { sender: 'sent', text: 'Uma péssima ideia. As melhores histórias nunca acontecem no sofá.', delay: 2500 },
+            { sender: 'received', text: 'Ah é? E qual seria uma ideia melhor, então, Sr. Aventureiro?', delay: 2000 },
+            { sender: 'sent', text: 'Um drink. Naquele bar novo do centro. Amanhã, às 20h. A única coisa que você precisa decidir é o que vai vestir.', delay: 3500 }
+        ]
+    };
 
     // --- ORQUESTRAÇÃO DA PÁGINA ---
-    
-    // 1. Garante que o conteúdo inicial esteja visível
-    introContent.classList.add('content-visible', 'anim-on-scroll', 'is-visible');
+    pageElements.introContent.classList.add('is-visible');
 
-    // 2. Após 8 segundos, revela o restante do conteúdo
     setTimeout(() => {
-        delayedContent.classList.add('content-visible');
-        
-        // 3. Ativa as animações de scroll para o conteúdo que acabou de aparecer
-        const animatedElements = delayedContent.querySelectorAll('.anim-on-scroll');
-        const observer = new IntersectionObserver((entries) => {
+        pageElements.delayedContent.classList.add('content-visible');
+        const animatedElements = pageElements.delayedContent.querySelectorAll('.anim-on-scroll');
+        const scrollObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
+                    scrollObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        animatedElements.forEach(element => scrollObserver.observe(element));
+
+        startInteractiveDossier();
+        startSignatureAnimation();
+
+    }, 8000);
+
+    // --- LÓGICA DO CHAT INTERATIVO ---
+    function startChatAnimation(script) {
+        if (!pageElements.chatMessagesContainer) return;
+        pageElements.chatMessagesContainer.innerHTML = '';
+        let messageDelay = 500;
+
+        script.forEach((msg) => {
+            messageDelay += msg.delay;
+            setTimeout(() => {
+                const isSent = msg.sender === 'sent';
+                if (isSent) {
+                    const typingIndicator = document.createElement('div');
+                    typingIndicator.className = 'typing-indicator';
+                    typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+                    pageElements.chatMessagesContainer.appendChild(typingIndicator);
+                    pageElements.chatMessagesContainer.scrollTop = pageElements.chatMessagesContainer.scrollHeight;
+                }
+                const typingDelay = isSent ? 1500 : 0;
+                
+                setTimeout(() => {
+                    const indicator = pageElements.chatMessagesContainer.querySelector('.typing-indicator');
+                    if (indicator) indicator.remove();
+                    
+                    const messageEl = document.createElement('div');
+                    messageEl.className = `message ${msg.sender}`;
+                    messageEl.innerHTML = `${msg.text}<span class="message-time">${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>`;
+                    pageElements.chatMessagesContainer.appendChild(messageEl);
+                    pageElements.chatMessagesContainer.scrollTop = pageElements.chatMessagesContainer.scrollHeight;
+                }, typingDelay);
+
+            }, messageDelay);
+        });
+    }
+
+    function openModal(mission) {
+        const script = chatScripts[mission];
+        if (script && pageElements.modalContainer) {
+            pageElements.modalContainer.classList.add('visible');
+            startChatAnimation(script);
+        }
+    }
+
+    function closeModal() {
+        if (pageElements.modalContainer) pageElements.modalContainer.classList.remove('visible');
+    }
+
+    if (pageElements.interactiveMenu) {
+        pageElements.interactiveMenu.addEventListener('click', (event) => {
+            const button = event.target.closest('.menu-button');
+            if (button) {
+                openModal(button.dataset.mission);
+            }
+        });
+    }
+    if (pageElements.closeModalBtn) pageElements.closeModalBtn.addEventListener('click', closeModal);
+    if (pageElements.modalContainer) pageElements.modalContainer.querySelector('.chat-modal-backdrop').addEventListener('click', closeModal);
+
+    // --- LÓGICA DA ASSINATURA ANIMADA ---
+    function startSignatureAnimation() {
+        if (!pageElements.signatureContainer || !pageElements.signaturePath) return;
+        
+        const path = pageElements.signaturePath;
+        const length = path.getTotalLength();
+        path.style.strokeDasharray = length;
+        path.style.strokeDashoffset = length;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    path.style.transition = 'stroke-dashoffset 2.5s ease-in-out';
+                    path.style.strokeDashoffset = '0';
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.2 });
-        animatedElements.forEach(element => observer.observe(element));
-
-        // 4. Inicia o Dossiê Interativo
-        startInteractiveDossier();
-
-    }, 8000); // Delay de 8 segundos
-
-    // --- LÓGICA DO DOSSIÊ INTERATIVO ---
-    function startInteractiveDossier() {
-        const copySections = document.querySelectorAll('.copy-pane [data-highlight-target]');
-        const chapterElements = {
-            abrir: document.getElementById('capitulo-abrir'),
-            aprofundar: document.getElementById('capitulo-aprofundar'),
-            calibrar: document.getElementById('capitulo-calibrar'),
-            tensao: document.getElementById('capitulo-tensao')
-        };
-
-        if (copySections.length === 0) return;
-
-        const highlightObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                // Remove o destaque de todos os capítulos primeiro
-                Object.values(chapterElements).forEach(el => {
-                    if (el) el.classList.remove('highlight-chapter');
-                });
-
-                // Encontra a entrada que está mais visível no centro da tela
-                const visibleEntry = entries.find(e => e.isIntersecting);
-                
-                if (visibleEntry) {
-                    const targetId = visibleEntry.target.dataset.highlightTarget;
-                    // Adiciona o destaque apenas ao capítulo correspondente
-                    if (chapterElements[targetId]) {
-                        chapterElements[targetId].classList.add('highlight-chapter');
-                    }
-                }
-            });
-        }, {
-            root: null, // Observa em relação ao viewport
-            rootMargin: '-45% 0px -45% 0px', // Ativa quando o elemento está no centro vertical da tela
-            threshold: 0
-        });
-
-        copySections.forEach(section => highlightObserver.observe(section));
+        }, { threshold: 0.8 });
+        observer.observe(pageElements.signatureContainer);
     }
 }
 
