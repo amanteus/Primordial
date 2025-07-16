@@ -464,11 +464,36 @@ function initDownsellPage() {
         if (!pageElements.interactiveMenu || !pageElements.modalContainer || !pageElements.signatureContainer) return;
 
         const chatScripts = {
-            abrir: [ { sender: 'received', text: 'Nossa, amei a vibe das suas fotos!' }, { sender: 'sent', text: 'Obrigado! A vibe é de quem não se leva tão a sério. Diferente da sua foto de perfil, que parece ser de alguém que sabe exatamente o que quer.' }, { sender: 'received', text: 'Hahaha um elogio e uma provocação na mesma frase? Você é bom nisso.' } ],
-            aprofundar: [ { sender: 'received', text: 'Meu dia foi um caos, muito trabalho.' }, { sender: 'sent', text: 'Sei como é. Mas me diz, esse caos todo é pra construir um império ou só pra pagar as contas?' }, { sender: 'received', text: 'Uau. Ninguém nunca perguntou assim... Acho que um pouco dos dois. E você?' } ],
-            calibrar: [ { sender: 'received', text: 'Acabei de sair da academia, tô morta.' }, { sender: 'sent', text: 'Guerreira! Enquanto uns descansam, outros constroem o corpo que querem. Respeito a disciplina.' }, { sender: 'received', text: 'Haha obrigada! Precisava dessa motivação.' } ],
-            tensao: [ { sender: 'received', text: 'Acho que vou ficar em casa hoje, assistir um filme.' }, { sender: 'sent', text: 'Uma péssima ideia. As melhores histórias nunca acontecem no sofá.' }, { sender: 'received', text: 'Ah é? E qual seria uma ideia melhor, então, Sr. Aventureiro?' }, { sender: 'sent', text: 'Um drink. Naquele bar novo do centro. Amanhã, às 20h. A única coisa que você precisa decidir é o que vai vestir.' } ]
-        };
+    // Objetivo: Daniel inicia. Sair do "oi, tudo bem?". Criar curiosidade massiva com uma observação que o posiciona como analítico e audacioso.
+    abrir: [
+        { sender: 'sent', text: 'Preciso fazer uma confissão sobre a sua foto de perfil.' },
+        { sender: 'received', text: 'Hahaha uma confissão? Ok, sou toda ouvidos.' },
+        { sender: 'sent', text: 'O livro que você está segurando... É uma escolha excelente, mas o seu olhar na foto me diz que você discorda de pelo menos um terço das ideias do autor.' },
+        { sender: 'received', text: 'Meu Deus. Como você sabe? Eu estava literalmente debatendo com o livro na minha cabeça quando tiraram a foto. Quem é você?' }
+    ],
+
+    // Objetivo: Transformar um assunto banal em uma oportunidade de revelar seu padrão de pensamento e desafiá-la sutilmente.
+    aprofundar: [
+        { sender: 'received', text: 'Meu dia foi um caos, muito trabalho.' },
+        { sender: 'sent', text: 'Existem dois tipos de caos. O da criação, que energiza, e o da obrigação, que drena. Espero que o seu tenha sido do primeiro tipo.' },
+        { sender: 'received', text: 'Honestamente? Hoje foi 100% o que drena. Mas gostei dessa definição. Me fez pensar no tipo de caos que eu realmente quero pra minha vida.' }
+    ],
+
+    // Objetivo: Sair da validação fácil. Usar o comentário dela como uma oportunidade para se desqualificar temporariamente, demonstrar altos padrões e criar um vácuo para que ela o persiga.
+    calibrar: [
+        { sender: 'received', text: 'Acabei de sair da academia, tô exausta.' },
+        { sender: 'sent', text: 'Disciplina tem um preço. E uma mulher que investe em si mesma desse jeito merece mais do que uma conversa com um homem cuja bateria social também está no fim.' },
+        { sender: 'received', text: 'Hahaha, justo. E quando a sua bateria social estiver em 100%? Fiquei curiosa agora.' }
+    ],
+
+    // Objetivo: Liderança declarativa. Sair do modo de "convite" e entrar no modo de "declaração de intenção", de uma forma charmosa e inegável.
+    tensao: [
+        { sender: 'received', text: 'Acho que vou ficar em casa hoje, assistir um filme.' },
+        { sender: 'sent', text: 'Sofá e Netflix. Uma combinação perigosamente confortável. O problema é que eu tenho uma política pessoal de não competir com o conforto.' },
+        { sender: 'received', text: 'Ah é? E qual seria a alternativa a essa "competição", então?' },
+        { sender: 'sent', text: 'Amanhã à noite, nós vamos tomar um negroni naquele bar novo com o sofá de veludo. Eu apresento meus argumentos, você apresenta os seus. Às 20h. Esteja preparada para ser convencida.' }
+    ]
+};
 
         const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
