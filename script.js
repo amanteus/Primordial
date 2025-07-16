@@ -449,12 +449,11 @@ function initScarcityAndSocialProof() {
 }
 
 // ==========================================================
-// --- MÓDULO: PÁGINA DE DOWNSELL (VERSÃO FINAL E COMPLETA) ---
+// --- MÓDULO: PÁGINA DE DOWNSELL (VERSÃO FINAL E CORRIGIDA) ---
 // ==========================================================
 function initDownsellPage() {
+    // --- Seleção de Elementos ---
     const pageElements = {
-        introContent: document.getElementById('intro-content'),
-        delayedContent: document.getElementById('delayed-content'),
         interactiveMenu: document.getElementById('interactive-menu-container'),
         signatureContainer: document.getElementById('signature-container'),
         signaturePath: document.getElementById('signature-path'),
@@ -463,8 +462,11 @@ function initDownsellPage() {
         chatMessagesContainer: document.querySelector('.chat-messages')
     };
 
-    // Guarda de segurança: só executa na página de downsell
-    if (!pageElements.introContent || !pageElements.delayedContent) return;
+    // GUARDA DE SEGURANÇA REFORÇADA: Se qualquer um destes elementos cruciais
+    // não for encontrado, a função para aqui para não quebrar o resto do site.
+    if (!pageElements.interactiveMenu || !pageElements.signatureContainer || !pageElements.signaturePath || !pageElements.modalContainer) {
+        return;
+    }
 
     // --- ROTEIROS DOS CHATS PARA CADA MISSÃO ---
     const chatScripts = {
@@ -491,33 +493,10 @@ function initDownsellPage() {
         ]
     };
 
-    // --- ORQUESTRAÇÃO DA PÁGINA ---
-    pageElements.introContent.classList.add('is-visible');
-
-    setTimeout(() => {
-        pageElements.delayedContent.classList.add('content-visible');
-        const animatedElements = pageElements.delayedContent.querySelectorAll('.anim-on-scroll');
-        const scrollObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    scrollObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-        animatedElements.forEach(element => scrollObserver.observe(element));
-
-        startInteractiveDossier();
-        startSignatureAnimation();
-
-    }, 8000);
-
     // --- LÓGICA DO CHAT INTERATIVO ---
     function startChatAnimation(script) {
-        if (!pageElements.chatMessagesContainer) return;
         pageElements.chatMessagesContainer.innerHTML = '';
         let messageDelay = 500;
-
         script.forEach((msg) => {
             messageDelay += msg.delay;
             setTimeout(() => {
@@ -541,38 +520,33 @@ function initDownsellPage() {
                     pageElements.chatMessagesContainer.appendChild(messageEl);
                     pageElements.chatMessagesContainer.scrollTop = pageElements.chatMessagesContainer.scrollHeight;
                 }, typingDelay);
-
             }, messageDelay);
         });
     }
 
     function openModal(mission) {
         const script = chatScripts[mission];
-        if (script && pageElements.modalContainer) {
+        if (script) {
             pageElements.modalContainer.classList.add('visible');
             startChatAnimation(script);
         }
     }
 
     function closeModal() {
-        if (pageElements.modalContainer) pageElements.modalContainer.classList.remove('visible');
+        pageElements.modalContainer.classList.remove('visible');
     }
 
-    if (pageElements.interactiveMenu) {
-        pageElements.interactiveMenu.addEventListener('click', (event) => {
-            const button = event.target.closest('.menu-button');
-            if (button) {
-                openModal(button.dataset.mission);
-            }
-        });
-    }
+    pageElements.interactiveMenu.addEventListener('click', (event) => {
+        const button = event.target.closest('.menu-button');
+        if (button) {
+            openModal(button.dataset.mission);
+        }
+    });
     if (pageElements.closeModalBtn) pageElements.closeModalBtn.addEventListener('click', closeModal);
-    if (pageElements.modalContainer) pageElements.modalContainer.querySelector('.chat-modal-backdrop').addEventListener('click', closeModal);
+    pageElements.modalContainer.querySelector('.chat-modal-backdrop').addEventListener('click', closeModal);
 
     // --- LÓGICA DA ASSINATURA ANIMADA ---
     function startSignatureAnimation() {
-        if (!pageElements.signatureContainer || !pageElements.signaturePath) return;
-        
         const path = pageElements.signaturePath;
         const length = path.getTotalLength();
         path.style.strokeDasharray = length;
@@ -589,6 +563,8 @@ function initDownsellPage() {
         }, { threshold: 0.8 });
         observer.observe(pageElements.signatureContainer);
     }
+    
+    startSignatureAnimation(); // Inicia a observação da assinatura
 }
 
     // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS COM FILTRO ---
