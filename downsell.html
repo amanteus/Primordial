@@ -74,17 +74,34 @@
         </section>
     </main>
 
-    <div id="chat-modal-container" class="chat-modal-container">
-        <div class="chat-modal-backdrop"></div>
-        <div class="chat-window">
-            <div class="chat-header">
-                <span>Simulação: Conversa com Sofia</span>
-                <button class="close-chat-btn">&times;</button>
-            </div>
-            <div class="chat-messages">
+   <div id="chat-modal-container" class="chat-modal-container">
+    <div class="chat-modal-backdrop"></div>
+    <div class="chat-window">
+        <div class="chat-header">
+            <div class="chat-header-left">
+                <img src="img/sofia.png" alt="Sofia" class="chat-avatar">
+                <div class="chat-user-info">
+                    <span class="chat-username">Sofia</span>
+                    <span id="chat-status-text" class="chat-status">online</span>
                 </div>
+            </div>
+            <div class="chat-header-right">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M3.5 6.5A3 3 0 0 1 6.5 3.5h11a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3h-11a3 3 0 0 1-3-3v-11zM6.5 5.5a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-11a1 1 0 0 0-1-1h-11zm10.93 4.512-3.419 2.05a1 1 0 0 1-1.022 0l-3.419-2.05a1 1 0 0 0-1.022 1.664l3.42 2.05a3 3 0 0 0 3.064 0l3.42-2.05a1 1 0 0 0-1.022-1.664z"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12.858 15.22c3.83-1.153 6.42-4.947 6.42-9.282a.75.75 0 0 0-1.5 0c0 3.738-2.193 6.945-5.462 8.356a5.47 5.47 0 0 1-1.636.346c-.632 0-1.246-.11-1.83-.318a5.495 5.495 0 0 1-4.048-5.166V5.438a.75.75 0 0 0-1.5 0v3.744a6.995 6.995 0 0 0 6.096 6.914c.6.113 1.21.174 1.83.174a6.97 6.97 0 0 0 2.1-.35Z"></path><path fill="currentColor" d="M11.25 18a.75.75 0 0 0 .75.75h.01a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 0-1.5 0v3Z"></path><path fill="currentColor" d="M10.75 21a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75Z"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M18.031 16.617a9.704 9.704 0 0 0 2.21-6.843c0-5.456-4.428-9.884-9.884-9.884S.473 4.318.473 9.774s4.428 9.884 9.884 9.884c2.592 0 4.96-.995 6.797-2.658l3.12 3.12c.243.243.635.243.878 0l.878-.878a.62.62 0 0 0 0-.878l-3.12-3.12ZM9.884 17.653c-4.224 0-7.653-3.428-7.653-7.653S5.66 2.347 9.884 2.347s7.653 3.428 7.653 7.653-3.429 7.653-7.653 7.653Z"></path></svg>
+            </div>
+            <button class="close-chat-btn">&times;</button>
+        </div>
+        <div class="chat-messages">
+            </div>
+        <div class="chat-footer">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm-3-9a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm6 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm-5.32 3.408a3.49 3.49 0 0 1 4.64 0 1 1 0 0 0 1.34-1.484 5.49 5.49 0 0 0-7.32 0 1 1 0 0 0 1.34 1.484Z"></path></svg>
+            <div class="fake-input">Mensagem</div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="m12.35 21.94-3.1-3.1c-.2-.2-.2-.51 0-.71.2-.2.51-.2.71 0l3.1 3.1c.2.2.2.51 0 .71-.2.2-.51.2-.71 0ZM9.55 17.54l-1.4-1.4c-.2-.2-.2-.51 0-.71.2-.2.51-.2.71 0l1.4 1.4c.2.2.2.51 0 .71-.2.2-.51.2-.71 0Z"></path><path fill="currentColor" d="M9.25 12a.75.75 0 0 1-.75-.75V8.5a3.25 3.25 0 0 1 6.5 0v2.75a.75.75 0 0 1-1.5 0V8.5a1.75 1.75 0 1 0-3.5 0v2.75c0 .414.336.75.75.75Z"></path><path fill="currentColor" d="M12.5 2.75a.75.75 0 0 0-1.5 0V4a.75.75 0 0 0 1.5 0V2.75Z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M12 1a9 9 0 0 0-9 9v.586l-1.707-1.707a1 1 0 0 0-1.414 1.414l3.5 3.5a1 1 0 0 0 1.414 0l3.5-3.5A1 1 0 0 0 8.207 9.88L6.5 11.586V10a7 7 0 1 1 5.5 6.92V18a9 9 0 0 0 0-18Z"></path></svg>
         </div>
     </div>
+</div>
 
     <script src="script.js"></script>
     <script>
