@@ -1713,14 +1713,14 @@ h1, h2, h3, h4 {
   
   /* Alvo: Botões na página de Upsell */
   .upsell-cta-button {
-    font-size: 1.1rem; /* Reduz o tamanho da fonte */
-    padding: 14px 20px; /* Ajusta o preenchimento para um botão menos largo */
+    font-size: 1rem; /* Reduz o tamanho da fonte */
+    padding: 10px 18px; /* Ajusta o preenchimento para um botão menos largo */
   }
 
   /* Alvo: Botão na página de Downsell */
   .cta-button-downsell {
-    font-size: 1.2rem; /* Reduz o tamanho da fonte */
-    padding: 15px 25px; /* Ajusta o preenchimento */
+    font-size: 1rem; /* Reduz o tamanho da fonte */
+    padding: 10px 20px; /* Ajusta o preenchimento */
   }
 
 }
