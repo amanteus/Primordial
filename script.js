@@ -118,12 +118,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initApp() {
         setupGeneralUI();
+        initNotionAnimation();
+        initCtaPact();
         initUpsellPage();
         initScarcityAndSocialProof();
         initCommentSystem();
         initObrigadoPage();
         initDownsellPage();
-        initCtaPact();
     }
 
     // --- MÓDULO 1: UI GERAL (ACORDEÃO, ANIMAÇÕES, PESSOAS ONLINE) ---
@@ -447,6 +448,75 @@ function initScarcityAndSocialProof() {
     };
     
     setTimeout(scheduleNextSale, 15000);
+}
+
+
+    // --- MÓDULO: ANIMAÇÃO DO DASHBOARD NOTION ---
+function initNotionAnimation() {
+    const container = document.getElementById('notion-simulation-container');
+    if (!container) return;
+
+    const elements = {
+        habitsScreen: document.getElementById('notion-habits'),
+        journalScreen: document.getElementById('notion-journal'),
+        plannerScreen: document.getElementById('notion-planner'),
+        habitItems: document.querySelectorAll('.habit-item'),
+        progressBar: document.querySelector('.progress-bar-fill'),
+        journalResult: document.getElementById('journal-result-text'),
+        missionStatus: document.querySelector('.mission-status')
+    };
+
+    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    async function typeText(element, text) {
+        element.innerHTML = '';
+        for (let char of text) {
+            element.innerHTML += char;
+            await wait(60); // Velocidade da digitação
+        }
+    }
+
+    async function runAnimation() {
+        // --- CENA 1: HÁBITOS ---
+        elements.habitsScreen.classList.add('active');
+        await wait(500);
+
+        for (let i = 0; i < elements.habitItems.length; i++) {
+            elements.habitItems[i].classList.add('visible');
+            await wait(800);
+            elements.habitItems[i].classList.add('checked');
+            elements.progressBar.style.width = `${((i + 1) / elements.habitItems.length) * 100}%`;
+            await wait(800);
+        }
+
+        // --- CENA 2: DIÁRIO ---
+        await wait(1500);
+        elements.habitsScreen.classList.remove('active');
+        elements.journalScreen.classList.add('active');
+        await wait(1000);
+        const journalText = "Tensão imediata, contato visual mantido, encontro marcado. Calibragem: Confiar no instinto.";
+        await typeText(elements.journalResult, journalText);
+
+        // --- CENA 3: PLANEJADOR ---
+        await wait(2000);
+        elements.journalScreen.classList.remove('active');
+        elements.plannerScreen.classList.add('active');
+        await wait(1500);
+        elements.missionStatus.textContent = "CUMPRIDA";
+        elements.missionStatus.classList.add('completed');
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                container.classList.add('is-visible');
+                runAnimation();
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.6 });
+
+    observer.observe(container);
 }
 
 // ==========================================================
