@@ -613,6 +613,15 @@ h1, h2, h3, h4 {
     text-shadow: 0 0 5px rgba(240, 230, 210, 0.2);
 }
 
+/* --- ESTILO PARA O BOTÃO DE CTA DESATIVADO --- */
+.cta-button.disabled {
+    background-color: #333;
+    color: #666;
+    cursor: not-allowed; /* Mostra um ícone de "proibido" ao passar o mouse */
+    box-shadow: none;
+    transform: none;
+}
+
 /* ========================================================== */
 /* --- ESTILOS PARA A SIMULAÇÃO INTERATIVA DO NOTION --- */
 /* ========================================================== */
