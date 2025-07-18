@@ -110,6 +110,7 @@ h1, h2, h3, h4 {
     flex-direction: column; /* <<< ALTERADO: Empilha o texto e a barra */
     align-items: center;
     gap: 5px; /* Espaço pequeno entre o texto e a barra */
+    display: none;
 }
 
 .progress-bar-header {
