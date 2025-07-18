@@ -614,7 +614,8 @@ function initDownsellPage() {
 
 }
 
-    function initCtaPact() {
+    // --- MÓDULO: PACTO DE COMPROMISSO (PÁGINA DE VENDAS) ---
+function initCtaPact() {
     const ctaButton = document.getElementById('main-cta-button');
     const commitmentCheckbox = document.getElementById('commitment-checkbox');
 
