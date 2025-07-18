@@ -613,6 +613,132 @@ h1, h2, h3, h4 {
     text-shadow: 0 0 5px rgba(240, 230, 210, 0.2);
 }
 
+/* ========================================================== */
+/* --- ESTILOS PARA A SIMULAÇÃO INTERATIVA DO NOTION --- */
+/* ========================================================== */
+#notion-simulation-container {
+    max-width: 700px;
+    margin: 40px auto;
+    perspective: 1500px;
+}
+.notion-window {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    transform: rotateX(10deg) rotateY(-10deg);
+    transition: transform 0.5s ease-out;
+}
+#notion-simulation-container.is-visible .notion-window {
+    transform: rotateX(0) rotateY(0);
+}
+.notion-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #2f2f2f;
+    border-bottom: 1px solid #333;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.notion-dots span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    background-color: #444;
+}
+.notion-title {
+    color: #aaa;
+    font-size: 0.9rem;
+}
+.notion-body {
+    padding: 25px;
+    min-height: 250px;
+    position: relative;
+}
+.notion-screen {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    width: calc(100% - 50px);
+    transition: opacity 0.5s ease-in-out;
+}
+.notion-screen.active {
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+}
+.notion-screen h4 {
+    font-family: var(--font-headline);
+    color: var(--accent-color);
+    margin-bottom: 20px;
+}
+.habit-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.5s ease-out;
+}
+.habit-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+.checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #555;
+    border-radius: 4px;
+    margin-right: 15px;
+    position: relative;
+    transition: background-color 0.3s;
+}
+.habit-item.checked .checkbox {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+.habit-item.checked .checkbox::after {
+    content: '✔';
+    color: #1a1a1a;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+}
+.habit-item.checked .habit-text {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+.progress-bar-container { margin-top: 20px; }
+.progress-bar-bg { width: 100%; height: 8px; background-color: #333; border-radius: 4px; overflow: hidden; }
+.progress-bar-fill { width: 0%; height: 100%; background-color: var(--accent-color); border-radius: 4px; transition: width 1s ease-in-out; }
+.journal-entry p { margin-bottom: 10px; }
+.typing-cursor {
+    animation: blink 0.7s infinite;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+@keyframes blink {
+    50% { opacity: 0; }
+}
+.mission-item { display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; }
+.mission-status {
+    background-color: #333;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: all 0.5s ease;
+}
+.mission-status.completed {
+    background-color: var(--accent-color);
+    color: #111;
+    font-weight: bold;
+}
+
 /* --- ESTILOS FINAIS PARA O CABEÇALHO DO MURAL E CONTADOR --- */
 
 /* Novo container para alinhar os itens */
