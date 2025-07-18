@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initCommentSystem();
         initObrigadoPage();
         initDownsellPage();
+        initCtaPact();
     }
 
     // --- MÓDULO 1: UI GERAL (ACORDEÃO, ANIMAÇÕES, PESSOAS ONLINE) ---
@@ -541,6 +542,27 @@ function initDownsellPage() {
         if(pageElements.closeModalBtn) pageElements.closeModalBtn.addEventListener('click', closeModal);
         if(pageElements.modalContainer) pageElements.modalContainer.querySelector('.chat-modal-backdrop').addEventListener('click', closeModal);
 
+}
+
+    function initCtaPact() {
+    const ctaButton = document.getElementById('main-cta-button');
+    const commitmentCheckbox = document.getElementById('commitment-checkbox');
+
+    // Se os elementos não existirem nesta página, não faz nada.
+    if (!ctaButton || !commitmentCheckbox) {
+        return;
+    }
+
+    // Adiciona o listener que observa a checkbox
+    commitmentCheckbox.addEventListener('change', () => {
+        if (commitmentCheckbox.checked) {
+            // Se estiver marcada, remove a classe 'disabled'
+            ctaButton.classList.remove('disabled');
+        } else {
+            // Se estiver desmarcada, adiciona a classe 'disabled'
+            ctaButton.classList.add('disabled');
+        }
+    });
 }
 
     // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS COM FILTRO ---
