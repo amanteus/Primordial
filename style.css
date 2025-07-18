@@ -629,6 +629,7 @@ h1, h2, h3, h4 {
     max-width: 700px;
     margin: 40px auto;
     perspective: 1500px;
+    margin-top: 20px;
 }
 .notion-window {
     background-color: #1a1a1a;
