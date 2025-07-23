@@ -72,6 +72,66 @@ h1, h2, h3, h4 {
     text-transform: uppercase;
 }
 
+/* ================================== */
+/* --- ESTILOS DO PRE-LOADER (LOGO AMANTEUS) --- */
+/* ================================== */
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color); /* Usa a cor de fundo do seu site */
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+#preloader-logo {
+    width: 100px; /* Tamanho do logo na tela */
+    height: auto;
+}
+
+#preloader-logo .logo-path {
+    /* A mágica da animação de "desenho" */
+    stroke: var(--accent-color); /* A cor do traço será a cor de destaque */
+    stroke-width: 2;
+    fill: transparent;
+    /* Um valor grande o suficiente para cobrir todo o contorno do seu logo */
+    stroke-dasharray: 4500; 
+    stroke-dashoffset: 4500;
+    
+    /* Animação: 1. Desenha, 2. Preenche */
+    animation: 
+        draw-logo 2.5s ease-in-out forwards,
+        fill-logo 1s ease-in-out 2.5s forwards; /* Atraso de 2.5s para preencher */
+}
+
+@keyframes draw-logo {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fill-logo {
+    from {
+        fill: transparent;
+    }
+    to {
+        fill: var(--accent-color); /* Preenche com a mesma cor de destaque */
+    }
+}
+
 /* --- ESTILOS DAS SEÇÕES --- */
 .section-title {
     font-size: clamp(2rem, 5vw, 3.5rem);
