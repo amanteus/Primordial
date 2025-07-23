@@ -117,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initApp();
 
     function initApp() {
+        initPreloader();
         setupGeneralUI();
         initNotionAnimation();
         initCtaPact();
@@ -126,6 +127,21 @@ document.addEventListener('DOMContentLoaded', () => {
         initObrigadoPage();
         initDownsellPage();
     }
+
+    // --- MÓDULO: PRE-LOADER ---
+function initPreloader() {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        // Garante que a página inteira, incluindo imagens, foi carregada
+        window.addEventListener('load', () => {
+            // Define o tempo total da animação (2.5s desenho + 1s preenchimento)
+            // e adiciona um pequeno delay extra antes de sumir.
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 3800); // 3.8 segundos no total
+        });
+    }
+}
 
     // --- MÓDULO 1: UI GERAL (ACORDEÃO, ANIMAÇÕES, PESSOAS ONLINE) ---
     function setupGeneralUI() {
