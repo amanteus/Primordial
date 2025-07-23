@@ -138,7 +138,7 @@ function initPreloader() {
             // e adiciona um pequeno delay extra antes de sumir.
             setTimeout(() => {
                 preloader.classList.add('hidden');
-            }, 3800); // 3.8 segundos no total
+            }, 1800); // 2.8 segundos no total
         });
     }
 }
