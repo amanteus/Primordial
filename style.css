@@ -1,19 +1,17 @@
 /* --- CONFIGURAÇÕES GLOBAIS E FONTES --- */
 @font-face {
     font-family: 'Loft';
-    /* Aponte para o local correto do seu arquivo de fonte */
     src: url('fonts/Loft-Regular.woff2') format('woff2'); 
     font-weight: normal;
 }
 
 @font-face {
     font-family: 'Houstiq';
-    /* Aponte para o local correto do seu arquivo de fonte */
     src: url('fonts/Houstiq.otf') format('truetype');
 }
 
 :root {
-    --bg-color: #1d1d1d;
+    --bg-color: #0f0f0f;
     --text-color: #e0e0e0;
     --accent-color: #c4aa83;
     --font-primary: 'Loft', sans-serif;
@@ -104,17 +102,16 @@ h1, h2, h3, h4 {
 
 #preloader-logo .logo-path {
     /* A mágica da animação de "desenho" */
-    stroke: var(--accent-color); /* A cor do traço será a cor de destaque */
+    stroke: var(--text-color);
     stroke-width: 2;
     fill: transparent;
-    /* Um valor grande o suficiente para cobrir todo o contorno do seu logo */
     stroke-dasharray: 4500; 
     stroke-dashoffset: 4500;
     
     /* Animação: 1. Desenha, 2. Preenche */
     animation: 
-        draw-logo 2.5s ease-in-out forwards,
-        fill-logo 1s ease-in-out 2.5s forwards; /* Atraso de 2.5s para preencher */
+        draw-logo 1.5s ease-in-out forwards,
+        fill-logo 1s ease-in-out 1.5s forwards; /* Atraso de 2.5s para preencher */
 }
 
 @keyframes draw-logo {
