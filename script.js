@@ -852,11 +852,11 @@ function initCtaPact() {
     }
 });
 
-// Adicione esta nova função ao seu script.js
-
+// --- MÓDULO: PÁGINA DE OBRIGADO ---
 function initObrigadoPage() {
     const feedbackForm = document.getElementById('feedback-form');
-    if (!feedbackForm) return; // Só executa se o formulário existir na página
+    // Se o formulário não existir nesta página, a função para aqui.
+    if (!feedbackForm) return;
 
     const formContainer = document.getElementById('feedback-form-container');
     const successMessage = document.getElementById('form-success-message');
@@ -879,7 +879,6 @@ function initObrigadoPage() {
             id: 'user_' + Date.now(), // ID único para o comentário do usuário
             username: userName,
             text: userText,
-            type: 'impulso', // Classifica como um comentário de impulso
             isUserComment: true // Um marcador para identificar facilmente este comentário
         };
 
