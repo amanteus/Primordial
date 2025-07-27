@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initApp() {
         initPreloader();
+        initEngagementMetrics();
         setupGeneralUI();
         initNotionAnimation();
         initCtaPact();
@@ -531,6 +532,67 @@ function initNotionAnimation() {
             }
         });
     }, { threshold: 0.6 });
+
+    observer.observe(container);
+}
+
+    // --- MÓDULO: MÉTRICAS DE ENGAJAMENTO DINÂMICAS ---
+function initEngagementMetrics() {
+    const container = document.getElementById('engagement-metrics-container');
+    if (!container) return;
+
+    const elements = {
+        treinos: document.getElementById('metric-treinos'),
+        missoes: document.getElementById('metric-missoes'),
+        diario: document.getElementById('metric-diario')
+    };
+    if (!elements.treinos || !elements.missoes || !elements.diario) return;
+
+    const STORAGE_KEY = 'primordial_metrics_state';
+    const INCREMENT_RATES = { // Unidades por hora
+        treinos: 4, 
+        missoes: 1,
+        diario: 10
+    };
+    let state;
+
+    const animateCountUp = (element, finalValue, duration = 2000) => {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            element.textContent = `[${Math.floor(progress * finalValue).toLocaleString('pt-BR')}+]`;
+            if (progress < 1) { window.requestAnimationFrame(step); }
+        };
+        window.requestAnimationFrame(step);
+    };
+
+    const currentState = getFromStorage(STORAGE_KEY);
+    if (currentState && currentState.lastUpdate) {
+        state = currentState;
+        const hoursElapsed = (Date.now() - state.lastUpdate) / (1000 * 3600);
+        state.baseValues.treinos += Math.floor(hoursElapsed * INCREMENT_RATES.treinos);
+        state.baseValues.missoes += Math.floor(hoursElapsed * INCREMENT_RATES.missoes);
+        state.baseValues.diario += Math.floor(hoursElapsed * INCREMENT_RATES.diario);
+    } else {
+        state = {
+            baseValues: { treinos: 1250, missoes: 87, diario: 3000 }
+        };
+    }
+    
+    state.lastUpdate = Date.now();
+    saveToStorage(STORAGE_KEY, state);
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCountUp(elements.treinos, state.baseValues.treinos);
+                animateCountUp(elements.missoes, state.baseValues.missoes);
+                animateCountUp(elements.diario, state.baseValues.diario);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.7 });
 
     observer.observe(container);
 }
