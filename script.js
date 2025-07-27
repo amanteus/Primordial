@@ -550,9 +550,9 @@ function initEngagementMetrics() {
 
     const STORAGE_KEY = 'primordial_metrics_state';
     const INCREMENT_RATES = { // Unidades por hora
-        treinos: 4, 
-        missoes: 1,
-        diario: 10
+        treinos: 12, 
+        missoes: 7,
+        diario: 16
     };
     let state;
 
@@ -561,7 +561,7 @@ function initEngagementMetrics() {
         const step = (timestamp) => {
             if (!startTimestamp) startTimestamp = timestamp;
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            element.textContent = `[${Math.floor(progress * finalValue).toLocaleString('pt-BR')}+]`;
+            element.textContent = `[${Math.floor(progress * finalValue).toLocaleString('pt-BR')}]`;
             if (progress < 1) { window.requestAnimationFrame(step); }
         };
         window.requestAnimationFrame(step);
@@ -576,7 +576,7 @@ function initEngagementMetrics() {
         state.baseValues.diario += Math.floor(hoursElapsed * INCREMENT_RATES.diario);
     } else {
         state = {
-            baseValues: { treinos: 1250, missoes: 87, diario: 3000 }
+            baseValues: { treinos: 1253, missoes: 87, diario: 3002 }
         };
     }
     
