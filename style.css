@@ -1062,6 +1062,63 @@ h1, h2, h3, h4 {
     transform: translateY(0);
 }
 
+/* ========================================================== */
+/* --- ESTILOS PARA OS PILARES DE COPY (BÔNUS E MÉTRICAS) --- */
+/* ========================================================== */
+
+/* Estilo para o contêiner do Bônus Final */
+.final-bonus-container {
+    margin-top: 80px;
+    padding-top: 60px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+.final-bonus-container p {
+    max-width: 700px;
+    margin: 20px auto;
+    line-height: 1.8;
+}
+
+/* Estilos para as Métricas de Engajamento */
+.engagement-metrics {
+    margin: 60px auto;
+    padding: 30px;
+    background-color: rgba(0,0,0,0.2);
+    border-top: 1px solid #444;
+    border-bottom: 1px solid #444;
+}
+.metrics-title {
+    text-align: center;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+}
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    text-align: center;
+}
+.metric-number {
+    font-family: var(--font-headline);
+    font-size: 3.5rem;
+    color: var(--accent-color);
+    display: block;
+}
+.metric-label {
+    font-size: 0.9rem;
+    color: #ccc;
+}
+.metrics-footer {
+    text-align: center;
+    margin-top: 30px;
+    font-style: italic;
+    color: #888;
+}
+
 /* --- RODAPÉ --- */
 .footer {
     background-color: #111; /* Um pouco mais claro que o fundo principal para diferenciar */
