@@ -456,14 +456,14 @@ function initScarcityAndSocialProof() {
 
     // Agenda vendas futuras
     const scheduleNextSale = () => {
-        const randomDelay = Math.random() * (35000 - 20000) + 20000;
+        const randomDelay = Math.random() * (45000 - 30000) + 30000;
         setTimeout(() => {
             simularVenda();
             scheduleNextSale();
         }, randomDelay);
     };
     
-    setTimeout(scheduleNextSale, 15000);
+    setTimeout(scheduleNextSale, 25000);
 }
 
 
@@ -824,7 +824,7 @@ function initCtaPact() {
             let delay = 20000;
             toShow.forEach(comment => {
                 setTimeout(() => showNewDynamicComment(comment), delay);
-                delay += Math.random() * (40000 - 20000) + 20000;
+                delay += Math.random() * (60000 - 40000) + 40000;
             });
         };
         
