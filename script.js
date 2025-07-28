@@ -339,80 +339,6 @@ function initPreloader() {
         }
     }
 
-    // --- MÓDULO: ESPELHO PRIMORDIAL (ESTUDOS DE CASO) - INTEGRADO NA SEÇÃO ECOS ---
-function initPrimordialMirror() {
-    const mirrorContainer = document.getElementById('primordial-mirror-container');
-    if (!mirrorContainer) return;
-
-    const mirrorGrid = mirrorContainer.querySelector('.mirror-grid');
-    const displayArea = document.getElementById('case-study-display');
-
-    const caseStudies = {
-        analista: {
-            title: "O Caso do Analista Invisível.",
-            text: `"J., 29 anos, desenvolvedor de software. Tinha as melhores ideias, mas paralisava nas reuniões. Após aplicar o Módulo 2 ('A Nova Estrutura Mental') por 3 semanas, ele usou o framework de 'Tomada de Posição' para apresentar um projeto. Resultado: liderou a nova iniciativa e recebeu o reconhecimento que buscava há anos."`,
-            quote: `"Eu não mudei quem eu era. Eu apenas removi o que me bloqueava."`
-        },
-        bom_moco: {
-            title: "O Caso do 'Bom Moço'.",
-            text: `"M., 34 anos, designer. Sempre terminava como o 'melhor amigo' que ouvia sobre os outros caras. Aplicou os protocolos do Módulo 3 sobre 'Tensão e Polaridade'. Em menos de um mês, marcou mais encontros do que nos últimos 2 anos."`,
-            quote: `"A virada de chave foi entender que atração não é sobre ser legal. É sobre ser interessante."`
-        },
-        estrategista: {
-            title: "O Caso do Estrategista Paralisado.",
-            text: `"L., 27 anos, empreendedor. Tinha planos grandiosos, mas a 'paralisia por análise' o impedia de executar. Usou o 'Dashboard do Soberano' para transformar ideias em missões diárias. Resultado: lançou seu projeto paralelo em 60 dias."`,
-            quote: `"O Primordial não me deu mais ideias. Ele me deu um sistema para executar as que eu já tinha."`
-        }
-    };
-
-    const loadSVG = (iconName, svgElement) => {
-        fetch(`img/icons/${iconName}.svg`) // Certifique-se de que os SVGs estão nesta pasta
-            .then(response => response.text())
-            .then(svgData => {
-                svgElement.innerHTML = svgData;
-            });
-    };
-
-    const mirrorWrappers = mirrorGrid.querySelectorAll('.mirror-wrapper');
-    mirrorWrappers.forEach(wrapper => {
-        const iconName = wrapper.querySelector('.mirror-symbol').dataset.icon;
-        const svgElement = wrapper.querySelector('.mirror-symbol');
-        if (iconName && svgElement) {
-            loadSVG(iconName, svgElement);
-        }
-
-        wrapper.addEventListener('click', () => {
-            const caseId = wrapper.dataset.caseId;
-            const allWrappers = mirrorGrid.querySelectorAll('.mirror-wrapper');
-
-            if (wrapper.classList.contains('active')) return;
-
-            displayArea.classList.remove('visible');
-
-            setTimeout(() => {
-                allWrappers.forEach(w => {
-                    w.classList.remove('active');
-                    w.classList.add('de-emphasized');
-                });
-                wrapper.classList.add('active');
-                wrapper.classList.remove('de-emphasized');
-
-                const study = caseStudies?.[caseId];
-                if (study) {
-                    displayArea.innerHTML = `
-                        <div class="case-study-content">
-                            <h4>${study.title}</h4>
-                            <p>${study.text}</p>
-                            <p class="case-study-quote">${study.quote}</p>
-                        </div>
-                    `;
-                    displayArea.classList.add('visible');
-                }
-            }, 300);
-        });
-    });
-}
-
    // =================================================================
 // --- MÓDULO 3: SISTEMA DE ESCASSEZ (VERSÃO FINAL COM VALIDAÇÃO) ---
 // =================================================================
@@ -794,7 +720,8 @@ function initCtaPact() {
         const template = document.getElementById('comment-template');
         const filterContainer = document.getElementById('comment-filter-container');
         const notificationElement = document.getElementById('social-proof-notification');
-        if (!listElement || !template || !filterContainer || !notificationElement) return;
+        const caseStudiesContainer = document.getElementById('case-studies-container');
+         if (!listElement || !template || !filterContainer || !notificationElement || !caseStudiesContainer) return;
 
         const SEEN_KEY = 'primordial_seen_comments', LIKED_KEY = 'primordial_liked_comments', CACHE_KEY = 'primordial_likes_cache', VISIT_KEY = 'primordial_last_visit';
         let activeFilter = 'recentes';
@@ -926,13 +853,23 @@ function initCtaPact() {
         };
 
         const handleFilter = ({target}) => {
-            const btn = target.closest('.filter-button');
-            if(!btn || btn.classList.contains('active')) return;
-            activeFilter = btn.dataset.filter;
-            filterContainer.querySelector('.active').classList.remove('active');
-            btn.classList.add('active');
+        const btn = target.closest('.filter-button');
+        if (!btn || btn.classList.contains('active')) return;
+
+        filterContainer.querySelector('.active').classList.remove('active');
+        btn.classList.add('active');
+        activeFilter = btn.dataset.filter;
+
+        // Lógica de alternância: mostra um container e esconde o outro
+        if (activeFilter === 'casos') {
+            listElement.style.display = 'none';
+            caseStudiesContainer.style.display = 'block';
+        } else {
+            caseStudiesContainer.style.display = 'none';
+            listElement.style.display = 'block';
             renderMural(activeFilter);
-        };
+        }
+    };
 
         const showNewCommentNotification = (comment) => {
             const truncateText = (text, maxLength = 60) => text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
