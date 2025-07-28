@@ -133,7 +133,7 @@ h1, h2, h3, h4 {
 .section-title {
     font-size: clamp(2rem, 5vw, 3.5rem);
     margin-bottom: 10px;
-    text-align: center; /* <<< ADICIONE ESTA LINHA */
+    text-align: center; 
 }
 /* SEÇÃO 0: PRÉ-HEADER */
 .pre-header {
@@ -215,10 +215,10 @@ h1, h2, h3, h4 {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* <<< ALTERADO: Alinha o conteúdo no topo */
+    justify-content: flex-start; 
     align-items: center;
     text-align: center;
-    padding: 160px 5% 80px 5%;   /* <<< ALTERADO: Aumenta o espaço superior */
+    padding: 160px 5% 80px 5%;  
 }
 
 .video-background {
