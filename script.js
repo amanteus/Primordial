@@ -719,7 +719,9 @@ function initCtaPact() {
         const template = document.getElementById('comment-template');
         const filterContainer = document.getElementById('comment-filter-container');
         const notificationElement = document.getElementById('social-proof-notification');
-        if (!listElement || !template || !filterContainer || !notificationElement) return;
+        const caseStudiesContainer = document.getElementById('case-studies-container');
+        if (!listElement || !template || !filterContainer || !notificationElement || !caseStudiesContainer) return;
+
 
         const SEEN_KEY = 'primordial_seen_comments', LIKED_KEY = 'primordial_liked_comments', CACHE_KEY = 'primordial_likes_cache', VISIT_KEY = 'primordial_last_visit';
         let activeFilter = 'recentes';
@@ -850,14 +852,29 @@ function initCtaPact() {
             saveToStorage(LIKED_KEY, liked);
         };
 
-        const handleFilter = ({target}) => {
-            const btn = target.closest('.filter-button');
-            if(!btn || btn.classList.contains('active')) return;
-            activeFilter = btn.dataset.filter;
-            filterContainer.querySelector('.active').classList.remove('active');
-            btn.classList.add('active');
-            renderMural(activeFilter);
-        };
+        // SUBSTITUA SUA FUNÇÃO handleFilter POR ESTA VERSÃO ATUALIZADA
+const handleFilter = ({target}) => {
+    const btn = target.closest('.filter-button');
+    if (!btn || btn.classList.contains('active')) return;
+
+    // Lógica para trocar a classe 'active' entre os botões
+    filterContainer.querySelector('.active').classList.remove('active');
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+
+    // LÓGICA DE EXIBIÇÃO:
+    // A nova inteligência do filtro para alternar os containers
+    if (activeFilter === 'casos') {
+        // Se o filtro for 'Estudos de Caso', mostra o container de casos e esconde o de comentários
+        listElement.style.display = 'none';
+        caseStudiesContainer.style.display = 'block';
+    } else {
+        // Para 'Recentes' ou 'Relevantes', faz o inverso
+        caseStudiesContainer.style.display = 'none';
+        listElement.style.display = 'block';
+        renderMural(activeFilter); // Renderiza apenas se for um filtro de comentário
+    }
+};
 
         const showNewCommentNotification = (comment) => {
             const truncateText = (text, maxLength = 60) => text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
