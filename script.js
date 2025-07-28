@@ -434,19 +434,22 @@ function initScarcityAndSocialProof() {
         };
     }
     
-    // Anima o contador apenas quando a seção se torna visível
+    // Substitua pelo bloco corrigido:
     const communityModule = document.getElementById('community-module');
     if (communityModule) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const startValue = parseInt(activeMembersElement.textContent.replace('+', '')) || state.membrosAtivos - 10; // Valor inicial seguro
-                    animateCountUp(activeMembersElement, startValue, state.membrosAtivos);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-        observer.observe(communityModule);
+        // CORREÇÃO: A criação do observador também espera a página carregar.
+        window.addEventListener('load', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const startValue = parseInt(activeMembersElement.textContent.replace('+', '')) || state.membrosAtivos - 10;
+                        animateCountUp(activeMembersElement, startValue, state.membrosAtivos);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            observer.observe(communityModule);
+        });
     }
     
     // Atualiza a UI e salva o estado inicial/calculado
@@ -579,22 +582,25 @@ function initEngagementMetrics() {
         };
     }
     
+    // Substitua pelo bloco corrigido:
     state.lastUpdate = Date.now();
     saveToStorage(STORAGE_KEY, state);
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCountUp(elements.treinos, state.baseValues.treinos);
-                animateCountUp(elements.missoes, state.baseValues.missoes);
-                animateCountUp(elements.diario, state.baseValues.diario);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.7 });
-
-    observer.observe(container);
-}
+    // CORREÇÃO: A criação do observador agora espera a página carregar completamente.
+    window.addEventListener('load', () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCountUp(elements.treinos, state.baseValues.treinos);
+                    animateCountUp(elements.missoes, state.baseValues.missoes);
+                    animateCountUp(elements.diario, state.baseValues.diario);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.4 });
+    
+        observer.observe(container);
+    });
 
 // ==========================================================
 // --- MÓDULO: PÁGINA DE DOWNSELL (VERSÃO FINAL E CORRIGIDA) ---
