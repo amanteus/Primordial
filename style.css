@@ -1087,7 +1087,19 @@ h1, h2, h3, h4 {
         flex-direction: column;
     }
 }
+.proof-grid-dossier {
+    display: grid; /* Ativa o layout de grade */
+    grid-template-columns: repeat(3, 1fr); /* Cria 3 colunas de larguras idênticas */
+    gap: 30px; /* Define o espaçamento entre os cards (ajuste o valor se necessário) */
+    align-items: stretch; /* Garante que todos os cards na mesma linha estiquem para ter a mesma altura */
+}
 
+/* Adicione também uma regra para o comportamento em telas menores (celulares) */
+@media (max-width: 768px) {
+    .proof-grid-dossier {
+        grid-template-columns: 1fr; /* Faz com que os cards fiquem um abaixo do outro em telas pequenas */
+    }
+}
 /* ========================================================== */
 /* --- ESTILOS PARA O DOSSIÊ PRIMORDIAL --- */
 /* ========================================================== */
