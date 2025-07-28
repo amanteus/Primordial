@@ -118,10 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initApp() {
         initPreloader();
+        initEngagementMetrics();
         setupGeneralUI();
         initNotionAnimation();
+        initCtaPact();
         initUpsellPage();
-        initEngagementMetrics();
         initScarcityAndSocialProof();
         initCommentSystem();
         initObrigadoPage();
@@ -434,13 +435,14 @@ function initScarcityAndSocialProof() {
         };
     }
     
-// Encontre este bloco na função initScarcityAndSocialProof:
+    // Anima o contador apenas quando a seção se torna visível
     const communityModule = document.getElementById('community-module');
     if (communityModule) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // ... lógica da animação ...
+                    const startValue = parseInt(activeMembersElement.textContent.replace('+', '')) || state.membrosAtivos - 10; // Valor inicial seguro
+                    animateCountUp(activeMembersElement, startValue, state.membrosAtivos);
                     observer.unobserve(entry.target);
                 }
             });
@@ -578,7 +580,6 @@ function initEngagementMetrics() {
         };
     }
     
-    // Encontre este final da função initEngagementMetrics:
     state.lastUpdate = Date.now();
     saveToStorage(STORAGE_KEY, state);
 
@@ -591,9 +592,10 @@ function initEngagementMetrics() {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.4 });
+    }, { threshold: 0.7 });
 
     observer.observe(container);
+}
 
 // ==========================================================
 // --- MÓDULO: PÁGINA DE DOWNSELL (VERSÃO FINAL E CORRIGIDA) ---
@@ -690,14 +692,35 @@ function initDownsellPage() {
 
 }
 
-   // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS COM FILTRO ---
-function initCommentSystem() {
-    const listElement = document.getElementById('primordial-comments-list');
-    const template = document.getElementById('comment-template');
-    const filterContainer = document.getElementById('comment-filter-container');
-    const notificationElement = document.getElementById('social-proof-notification');
-    if (!listElement || !template || !filterContainer || !notificationElement) return;
+    // --- MÓDULO: PACTO DE COMPROMISSO (PÁGINA DE VENDAS) ---
+function initCtaPact() {
+    const ctaButton = document.getElementById('main-cta-button');
+    const commitmentCheckbox = document.getElementById('commitment-checkbox');
 
+    // Se os elementos não existirem nesta página, não faz nada.
+    if (!ctaButton || !commitmentCheckbox) {
+        return;
+    }
+
+    // Adiciona o listener que observa a checkbox
+    commitmentCheckbox.addEventListener('change', () => {
+        if (commitmentCheckbox.checked) {
+            // Se estiver marcada, remove a classe 'disabled'
+            ctaButton.classList.remove('disabled');
+        } else {
+            // Se estiver desmarcada, adiciona a classe 'disabled'
+            ctaButton.classList.add('disabled');
+        }
+    });
+}
+
+    // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS COM FILTRO ---
+    function initCommentSystem() {
+        const listElement = document.getElementById('primordial-comments-list');
+        const template = document.getElementById('comment-template');
+        const filterContainer = document.getElementById('comment-filter-container');
+        const notificationElement = document.getElementById('social-proof-notification');
+        if (!listElement || !template || !filterContainer || !notificationElement) return;
 
         const SEEN_KEY = 'primordial_seen_comments', LIKED_KEY = 'primordial_liked_comments', CACHE_KEY = 'primordial_likes_cache', VISIT_KEY = 'primordial_last_visit';
         let activeFilter = 'recentes';
@@ -836,7 +859,6 @@ function initCommentSystem() {
             btn.classList.add('active');
             renderMural(activeFilter);
         };
-
 
         const showNewCommentNotification = (comment) => {
             const truncateText = (text, maxLength = 60) => text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
