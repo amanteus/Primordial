@@ -1034,6 +1034,58 @@ h1, h2, h3, h4 {
     color: #666;
     font-style: italic;
 }
+
+/* ========================================================== */
+/* --- ESTILOS PARA OS ESTUDOS DE CASO (ECOS DA ALCATEIA) --- */
+/* ========================================================== */
+#case-studies-container {
+    padding: 20px;
+}
+
+.case-study-disclaimer {
+    padding: 20px;
+    margin-bottom: 30px;
+    background-color: rgba(0,0,0,0.2);
+    border-left: 3px solid var(--accent-color);
+    font-size: 0.9rem;
+    color: #aaa;
+    text-align: left;
+}
+
+.case-studies-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Um card por linha para leitura focada */
+    gap: 20px;
+}
+
+/* Reutiliza e adapta o estilo de card que já criamos */
+.case-study-card {
+    background-color: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: left;
+}
+.case-study-card h4 {
+    font-family: var(--font-headline);
+    font-size: 1.4rem;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+.case-study-card p {
+    color: #ccc;
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+.case-study-card .case-study-quote {
+    margin-top: 20px;
+    font-style: italic;
+    color: var(--text-color);
+    font-weight: bold;
+    padding-top: 15px;
+    border-top: 1px solid #333;
+}
+
 /* ========================================================== */
 /* --- ESTILOS PARA A NOVA SEÇÃO "A PREVISÃO" --- */
 /* ========================================================== */
