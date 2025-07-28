@@ -193,6 +193,102 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </section>
 
+                </div>
+        </section>
+         <section class="secao secao-ecos-alcateia">
+    <div class="container">
+        <div id="community-module" class="community-module anim-on-scroll">
+            <div class="community-header">
+    <h2 class="section-title">Ecos da Alcateia</h2>
+    <p class="community-subtitle">Isto não é um mural de depoimentos. É o campo de batalha. Ouça os homens que já estão na arena.</p>
+    <div id="engagement-metrics-container" class="engagement-metrics">
+                    <h4 class="metrics-title">A Alcateia em Ação (Últimos 30 Dias)</h4>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <span class="metric-number" id="metric-treinos">0</span>
+                            <span class="metric-label">Treinos Registrados na "Forja"</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-number" id="metric-missoes">0</span>
+                            <span class="metric-label">"Missões" Pessoais Concluídas</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-number" id="metric-diario">0</span>
+                            <span class="metric-label">Registros no "Diário de Calibragem"</span>
+                        </div>
+                    </div>
+                    <p class="metrics-footer">Estes não são números de vendas. São números de <strong>execução</strong>.</p>
+
+    <div class="interactive-header">
+        <div class="live-stats-main">
+            <span id="active-members-count" class="animated-counter">0</span>
+            <span>Membros Ativos</span>
+        </div>
+
+        <div class="comment-filter" id="comment-filter-container">
+            <button class="filter-button" data-filter="relevantes">⭐ Relevantes</button>
+            <button class="filter-button active" data-filter="recentes">🕒 Recentes</button>
+        </div>
+    </div>
+</div>
+
+            <div class="alcateia-mural" id="primordial-comments-list">
+                </div>
+        </div>
+    </div>
+</section>
+
+<template id="comment-template">
+    <div class="mural-post" data-id=""> 
+        <div class="post-header">
+            <div class="post-avatar"></div>
+            <div class="post-user-info">
+                <span class="post-username"></span>
+                <span class="post-timestamp"></span>
+            </div>
+        </div>
+        <div class="post-body">
+            <p></p>
+        </div>
+        <div class="post-actions">
+            <button class="post-like-button">
+                <span class="like-icon">❤️</span>
+                <span class="like-count">0</span>
+            </button>
+        </div>
+    </div>
+</template>
+       </section>
+
+<div class="container anim-on-scroll" style="text-align: center; padding: 60px 0;">
+    <p style="font-family: var(--font-headline); font-size: 1.8rem;">O dossiê está completo. As evidências do presente são claras, lógicas e inegáveis.</p>
+    <p class="section-subtitle" style="font-size: 1.5rem; margin-top: 10px;">A única pergunta que resta é: o que essa trajetória projeta para os próximos 10 anos?</p>
+</div>
+<div class="section-divider"></div>
+
+<section class="secao secao-previsao">
+    <div class="container">
+        <header class="anim-on-scroll" style="text-align: center; margin-bottom: 50px;">
+            <h2 class="section-title">A PREVISÃO: A Grande Bifurcação Masculina (2025-2035)</h2>
+            <p class="section-subtitle">As tendências atuais não apontam para um declínio linear. Elas apontam para a criação de duas classes de homens fundamentalmente diferentes.</p>
+        </header>
+
+        <div class="future-cards-grid">
+            <div class="future-card future-card-neutral anim-on-scroll">
+                <h4>A MAIORIA: Os "Homens Neutros"</h4>
+                <p>São os homens que seguirão a trajetória padrão, aceitando passivamente a programação. Com a biologia enfraquecida e a mentalidade reativa, eles se tornarão profissionalmente obsoletos à medida que a inteligência artificial assume tarefas lógicas que não exigem `Ímpeto` ou liderança. Socialmente, se tornarão cada vez mais invisíveis para mulheres que, por instinto biológico, buscam a polaridade e a força que eles não mais projetam. Viverão uma vida de conforto anestesiado, sem dor aguda, mas com a agonia silenciosa de um potencial não realizado.</p>
+            </div>
+
+            <div class="future-card future-card-sovereign anim-on-scroll">
+                <h4>A MINORIA: Os "Homens Soberanos"</h4>
+                <p>São os homens que enxergam as evidências e tomam uma decisão consciente de recalibrar seu sistema operacional. Eles usarão a tecnologia e a biologia a seu favor. Em um mundo de homens passivos, sua capacidade de liderar, decidir e projetar uma presença calma e dominante os tornará um ímã para as melhores oportunidades e para as mulheres mais interessantes. Eles não apenas sobreviverão à mudança; eles irão prosperar nela, porque a escassez de masculinidade autêntica os tornará o ativo mais valioso do mercado.</p>
+            </div>
+        </div>
+
+        <p class="anim-on-scroll" style="text-align: center; font-size: 1.4rem; font-family: var(--font-headline); margin-top: 50px;">A pergunta não é "qual futuro você prefere?".<br>A pergunta é "qual futuro você está construindo, com suas ações ou inações, a partir de hoje?".</p>
+    </div>
+</section>
+
         <section class="secao secao-5-solucao">
             <div class="conteudo-secao container">
                  <div class="product-intro">
@@ -200,12 +296,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <img src="img/Primordial.png" alt="O Primordial">
                     </div>
                     <div class="product-text anim-on-scroll">
-    <p style="font-size: 1.2rem; font-style: italic;">Se o problema é um software defeituoso, a solução não é tentar ser mais forte. É formatar o sistema e instalar um novo.</p>
-    <h2 class="section-title" style="text-align: left; margin-top: 20px;">É AQUI QUE A RECALIBRAÇÃO COMEÇA.</h2>
-    <h3 class="section-subtitle-gold" style="text-align: left;">O Primordial - O Sistema de Execução Masculina</h3>
-    <p>O Primordial não é um curso. É um protocolo de engenharia reversa, forjado para desinstalar o condicionamento social e <span class="highlight">libertar o código-fonte do homem que você nasceu para ser.</span></p>
-    <p>Nós não te damos mais teoria. Nós te entregamos as ferramentas para <strong>se lembrar</strong> do que foi apagado, do que foi negado, do que ainda pulsa por trás da sua pele domesticada.</p>
-</div>
+    <p style="font-size: 1.2rem; font-style: italic;">Essa bifurcação não é um destino. É uma escolha.</p>
+    <h2 class="section-title" style="text-align: left; margin-top: 10px;">O PRIMORDIAL É A FERRAMENTA DESSA ESCOLHA.</h2>
+    <h3 class="section-subtitle-gold" style="text-align: left;">O Protocolo de Fuga da Previsão</h3>
+    <p>O Primordial foi projetado para ser o sistema de execução que te permite, conscientemente, sair da trajetória padrão e entrar para a minoria de homens que irão dominar a próxima década...</p>
+    </div>
                 </div>
                 
                 <div class="transformation-preview">
@@ -341,73 +436,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </div>
 </div>
-                </div>
-        </section>
-         <section class="secao secao-ecos-alcateia">
-    <div class="container">
-        <div id="community-module" class="community-module anim-on-scroll">
-            <div class="community-header">
-    <h2 class="section-title">Ecos da Alcateia</h2>
-    <p class="community-subtitle">Isto não é um mural de depoimentos. É o campo de batalha. Ouça os homens que já estão na arena.</p>
-    <div id="engagement-metrics-container" class="engagement-metrics">
-                    <h4 class="metrics-title">A Alcateia em Ação (Últimos 30 Dias)</h4>
-                    <div class="metrics-grid">
-                        <div class="metric-item">
-                            <span class="metric-number" id="metric-treinos">0</span>
-                            <span class="metric-label">Treinos Registrados na "Forja"</span>
-                        </div>
-                        <div class="metric-item">
-                            <span class="metric-number" id="metric-missoes">0</span>
-                            <span class="metric-label">"Missões" Pessoais Concluídas</span>
-                        </div>
-                        <div class="metric-item">
-                            <span class="metric-number" id="metric-diario">0</span>
-                            <span class="metric-label">Registros no "Diário de Calibragem"</span>
-                        </div>
-                    </div>
-                    <p class="metrics-footer">Estes não são números de vendas. São números de <strong>execução</strong>.</p>
-
-    <div class="interactive-header">
-        <div class="live-stats-main">
-            <span id="active-members-count" class="animated-counter">0</span>
-            <span>Membros Ativos</span>
-        </div>
-
-        <div class="comment-filter" id="comment-filter-container">
-            <button class="filter-button" data-filter="relevantes">⭐ Relevantes</button>
-            <button class="filter-button active" data-filter="recentes">🕒 Recentes</button>
-        </div>
-    </div>
-</div>
-
-            <div class="alcateia-mural" id="primordial-comments-list">
-                </div>
-        </div>
-    </div>
-</section>
-
-<template id="comment-template">
-    <div class="mural-post" data-id=""> 
-        <div class="post-header">
-            <div class="post-avatar"></div>
-            <div class="post-user-info">
-                <span class="post-username"></span>
-                <span class="post-timestamp"></span>
-            </div>
-        </div>
-        <div class="post-body">
-            <p></p>
-        </div>
-        <div class="post-actions">
-            <button class="post-like-button">
-                <span class="like-icon">❤️</span>
-                <span class="like-count">0</span>
-            </button>
-        </div>
-    </div>
-</template>
-        </section>
-
+        
 <section class="secao secao-7-chamado">
             <div class="conteudo-secao container">
                 <h2 class="section-title anim-on-scroll">A Escolha é Sua: Vampiro Emocional ou Caçador Primordial?</h2>
