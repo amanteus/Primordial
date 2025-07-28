@@ -1292,6 +1292,52 @@ h1, h2, h3, h4 {
     font-weight: bold;
 }
 
+/* ========================================================== */
+/* --- AJUSTES FINAIS DE LAYOUT PARA O HEADER DOS COMENTÁRIOS --- */
+/* ========================================================== */
+
+/* 1. Corrige o alinhamento vertical do header principal */
+.interactive-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* <<< ESTA LINHA CENTRALIZA VERTICALMENTE */
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* 2. Transforma o container de filtros em um flex container */
+.comment-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaçamento entre o grupo e o botão de casos */
+    flex-wrap: wrap;
+}
+
+/* 3. Estiliza o novo grupo de botões */
+.filter-group {
+    display: flex;
+    border: 1px solid #444;
+    border-radius: 20px;
+    overflow: hidden; /* Garante que os cantos arredondados funcionem */
+}
+
+/* 4. Ajusta os botões dentro do grupo para parecerem um controle único */
+.filter-group .filter-button {
+    border: none; /* Remove a borda individual */
+    border-radius: 0; /* Remove o arredondamento individual */
+    border-right: 1px solid #444; /* Adiciona um separador vertical */
+}
+
+.filter-group .filter-button:last-child {
+    border-right: none; /* Remove o separador do último botão */
+}
+
+/* Garante que o botão ativo dentro do grupo tenha o estilo correto */
+.filter-group .filter-button.active {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+}
+
 /* --- NOVA SEÇÃO DE FAQ - PRIMORDIAL --- */
 .secao-faq-primordial {
     background-color: var(--bg-color);
