@@ -118,11 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initApp() {
         initPreloader();
-        initEngagementMetrics();
         setupGeneralUI();
         initNotionAnimation();
-        initCtaPact();
         initUpsellPage();
+        initEngagementMetrics();
         initScarcityAndSocialProof();
         initCommentSystem();
         initObrigadoPage();
