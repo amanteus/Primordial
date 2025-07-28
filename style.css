@@ -843,9 +843,15 @@ h1, h2, h3, h4 {
 
 /* Remove a borda e o espaçamento superior do filtro */
 .comment-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    
+    /* CORREÇÃO: Remove a linha e espaçamentos herdados */
+    border-top: none;
     margin-top: 0;
     padding-top: 0;
-    border-top: none;
 }
 
 /* Ajuste de responsividade para o novo header */
@@ -898,7 +904,6 @@ h1, h2, h3, h4 {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 25px;
     padding-top: 20px;
     border-top: 1px solid #2a2a2a;
 }
@@ -1309,8 +1314,13 @@ h1, h2, h3, h4 {
 .comment-filter {
     display: flex;
     align-items: center;
-    gap: 10px; /* Espaçamento entre o grupo e o botão de casos */
+    gap: 10px;
     flex-wrap: wrap;
+    
+    /* CORREÇÃO: Remove a linha e espaçamentos herdados */
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 /* 3. Estiliza o novo grupo de botões */
