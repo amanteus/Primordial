@@ -434,22 +434,18 @@ function initScarcityAndSocialProof() {
         };
     }
     
-    // Substitua pelo bloco corrigido:
+// Encontre este bloco na função initScarcityAndSocialProof:
     const communityModule = document.getElementById('community-module');
     if (communityModule) {
-        // CORREÇÃO: A criação do observador também espera a página carregar.
-        window.addEventListener('load', () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const startValue = parseInt(activeMembersElement.textContent.replace('+', '')) || state.membrosAtivos - 10;
-                        animateCountUp(activeMembersElement, startValue, state.membrosAtivos);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.5 });
-            observer.observe(communityModule);
-        });
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // ... lógica da animação ...
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        observer.observe(communityModule);
     }
     
     // Atualiza a UI e salva o estado inicial/calculado
@@ -582,25 +578,22 @@ function initEngagementMetrics() {
         };
     }
     
-    // Substitua pelo bloco corrigido:
+    // Encontre este final da função initEngagementMetrics:
     state.lastUpdate = Date.now();
     saveToStorage(STORAGE_KEY, state);
 
-    // CORREÇÃO: A criação do observador agora espera a página carregar completamente.
-    window.addEventListener('load', () => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCountUp(elements.treinos, state.baseValues.treinos);
-                    animateCountUp(elements.missoes, state.baseValues.missoes);
-                    animateCountUp(elements.diario, state.baseValues.diario);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.4 });
-    
-        observer.observe(container);
-    });
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCountUp(elements.treinos, state.baseValues.treinos);
+                animateCountUp(elements.missoes, state.baseValues.missoes);
+                animateCountUp(elements.diario, state.baseValues.diario);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.4 });
+
+    observer.observe(container);
 
 // ==========================================================
 // --- MÓDULO: PÁGINA DE DOWNSELL (VERSÃO FINAL E CORRIGIDA) ---
