@@ -122,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setupGeneralUI();
         initNotionAnimation();
         initCtaPact();
-        initPrimordialMirror();
         initUpsellPage();
         initScarcityAndSocialProof();
         initCommentSystem();
