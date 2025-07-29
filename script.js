@@ -129,17 +129,19 @@ document.addEventListener('DOMContentLoaded', () => {
         initDownsellPage();
     }
 
-    // --- MÓDULO: PRE-LOADER ---
+    // --- MÓDULO: PRE-LOADER (VERSÃO CORRIGIDA E DEFINITIVA) ---
 function initPreloader() {
     const preloader = document.getElementById('preloader');
     if (preloader) {
-        // Garante que a página inteira, incluindo imagens, foi carregada
-        window.addEventListener('load', () => {
-            // Define o tempo total da animação (2.5s desenho + 1s preenchimento)
-            // e adiciona um pequeno delay extra antes de sumir.
+        // --- CORREÇÃO APLICADA ---
+        // Trocamos 'load' por 'DOMContentLoaded'.
+        // Este evento não espera por imagens externas, resolvendo o travamento
+        // e liberando a página para o usuário muito mais rápido.
+        document.addEventListener('DOMContentLoaded', () => {
+            // Um pequeno delay para uma transição suave.
             setTimeout(() => {
                 preloader.classList.add('hidden');
-            }, 1800); // 2.8 segundos no total
+            }, 500);
         });
     }
 }
