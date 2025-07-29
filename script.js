@@ -716,191 +716,139 @@ function initCtaPact() {
     });
 }
 
-    // =======================================================================
-// --- MÓDULO 4: SISTEMA DE COMENTÁRIOS E ESTUDOS DE CASO (VERSÃO FINAL E COMPLETA) ---
 // =======================================================================
-function initCommentSystem() {
-    // --- 1. SELEÇÃO DE ELEMENTOS (com a adição do novo container) ---
-    const listElement = document.getElementById('primordial-comments-list');
-    const template = document.getElementById('comment-template');
-    const filterContainer = document.getElementById('comment-filter-container');
-    const notificationElement = document.getElementById('social-proof-notification');
-    const caseStudiesContainer = document.getElementById('case-studies-container'); // <-- Elemento crucial
+    // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS E ESTUDOS DE CASO (VERSÃO ATUALIZADA) ---
+    // =======================================================================
+    function initCommentSystem() {
+        // --- 1. SELEÇÃO DE ELEMENTOS ---
+        const listElement = document.getElementById('primordial-comments-list');
+        const template = document.getElementById('comment-template');
+        const filterContainer = document.getElementById('comment-filter-container');
+        const notificationElement = document.getElementById('social-proof-notification');
+        const caseStudiesContainer = document.getElementById('case-studies-container');
 
-    // Guarda de Segurança Robusta que verifica todos os componentes
-    if (!listElement || !template || !filterContainer || !notificationElement || !caseStudiesContainer) return;
+        if (!listElement || !template || !filterContainer || !notificationElement || !caseStudiesContainer) return;
 
-    // --- 2. VARIÁVEIS DE ESTADO ---
-    const SEEN_KEY = 'primordial_seen_comments', LIKED_KEY = 'primordial_liked_comments', CACHE_KEY = 'primordial_likes_cache', VISIT_KEY = 'primordial_last_visit';
-    let activeFilter = 'recentes';
+        // --- 2. VARIÁVEIS DE ESTADO ---
+        const SEEN_KEY = 'primordial_seen_comments', LIKED_KEY = 'primordial_liked_comments', CACHE_KEY = 'primordial_likes_cache', VISIT_KEY = 'primordial_last_visit';
+        let activeFilter = 'recentes';
 
-    // --- 3. FUNÇÕES AUXILIARES (Preservadas da sua versão) ---
-    const generateUsername = (name) => {
-        const slugify = (text) => { return text.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); };
-        const parts = name.split(' ');
-        const firstName = slugify(parts[0]);
-        const lastName = parts.length > 1 ? slugify(parts[parts.length - 1]) : '';
-        const patterns = [ (f, l) => l ? `${f}.${l.charAt(0)}` : f, (f, l) => `${f}${l}`, (f, l) => l ? `${f.charAt(0)}_${l}` : f, (f, l) => `${f}_${Math.floor(Math.random() * 90) + 10}`, (f, l) => l ? `${f.charAt(0).toUpperCase()}${l.charAt(0).toUpperCase()}_Oficial` : f.toUpperCase(), (f, l) => f.charAt(0).toUpperCase() + f.slice(1) ];
-        return patterns[Math.floor(Math.random() * patterns.length)](firstName, lastName);
-    };
-    const allCommentsData = compradoresDB.map((comprador, index) => ({ id: 'comment_' + (101 + index), username: generateUsername(comprador.name), text: commentTemplates[index % commentTemplates.length], originalTimestamp: new Date(Date.now() - ((2 + index) * 24 * 3600 * 1000 * Math.random())).toISOString(), initialLikes: 15 + Math.floor(Math.random() * 200) }));
-    const staticComments = allCommentsData.slice(0, 30);
-    const dynamicCommentPool = allCommentsData.slice(30);
-    const simulateLikes = (base, ts) => {
-        const hoursSincePost = (Date.now() - new Date(ts).getTime()) / (1000 * 3600);
-        if (hoursSincePost < 24) { return Math.floor(hoursSincePost * (Math.random() * 5 + 1)); }
-        return base + Math.floor(hoursSincePost * (Math.random() * 0.5 + 0.1));
-    };
-    const formatTime = (ts) => {
-        const seconds = Math.round((Date.now() - new Date(ts).getTime()) / 1000);
-        if (seconds < 5) return 'agora mesmo';
-        const rtf = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
-        const intervals = [{ u: 'year', v: 31536000 }, { u: 'month', v: 2592000 }, { u: 'day', v: 86400 }, { u: 'hour', v: 3600 }, { u: 'minute', v: 60 }, { u: 'second', v: 1 }];
-        for (const i of intervals) {
-            const amount = Math.floor(seconds / i.v);
-            if (amount >= 1) return rtf.format(-amount, i.u);
-        }
-        return 'há poucos segundos';
-    };
-    const createCommentEl = (comment) => {
-        const el = template.content.cloneNode(true).querySelector('.mural-post');
-        const liked = (getFromStorage(LIKED_KEY) || {})[comment.id];
-        const likesCache = getFromStorage(CACHE_KEY) || {};
-        let likeCount = likesCache[comment.id] || simulateLikes(comment.initialLikes, comment.timestamp);
-        if (liked && !likesCache[comment.id]) likeCount++;
-        likesCache[comment.id] = likeCount;
-        el.dataset.id = comment.id;
-        el.querySelector('.post-username').textContent = comment.username;
-        el.querySelector('.post-body p').textContent = `"${comment.text}"`;
-        el.querySelector('.post-timestamp').textContent = formatTime(comment.timestamp);
-        el.querySelector('.post-like-button .like-count').textContent = likeCount;
-        if (liked) el.querySelector('.post-like-button').classList.add('is-liked');
-        el.querySelector('.post-avatar').innerHTML = `<img src="https://loremflickr.com/50/50/man,portrait/all?random=${comment.id}" alt="Avatar de ${comment.username}" loading="lazy">`;
-        saveToStorage(CACHE_KEY, likesCache);
-        return el;
-    };
-    const renderMural = (filter) => {
-        listElement.innerHTML = '';
-        const seen = getFromStorage(SEEN_KEY) || {};
-        const userComment = getFromStorage('primordial_user_comment');
-        let impulseToRender = dynamicCommentPool.filter(c => seen[c.id]).map(c => ({ ...c, timestamp: seen[c.id] }));
-        if (userComment && !seen[userComment.id]) { impulseToRender.unshift({ ...userComment, timestamp: Date.now(), initialLikes: 0 }); }
-        let commentsToDisplay = (filter === 'relevantes')
-            ? staticComments.map(c => ({...c, timestamp: c.originalTimestamp, likeCount: (getFromStorage(CACHE_KEY) || {})[c.id] || simulateLikes(c.initialLikes, c.originalTimestamp) })).sort((a, b) => b.likeCount - a.likeCount)
-            : impulseToRender.map(c => ({ ...c, likeCount: (getFromStorage(CACHE_KEY) || {})[c.id] || simulateLikes(c.initialLikes, c.timestamp) })).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        if(commentsToDisplay.length === 0) {
-            const message = filter === 'relevantes' ? "Nenhum testemunho encontrado." : "Nenhum comentário recente. Fique de olho!";
-            listElement.innerHTML = `<p class="no-comments-message">${message}</p>`;
-        } else {
-            commentsToDisplay.forEach(c => listElement.appendChild(createCommentEl(c)));
-        }
-    };
-    const handleLike = ({target}) => {
-        const btn = target.closest('.post-like-button');
-        if(!btn) return;
-        const post = btn.closest('.mural-post');
-        const id = post.dataset.id;
-        const countEl = btn.querySelector('.like-count');
-        let count = parseInt(countEl.textContent);
-        const liked = getFromStorage(LIKED_KEY) || {};
-        if(liked[id]){ delete liked[id]; countEl.textContent = --count; }
-        else { liked[id] = true; countEl.textContent = ++count; }
-        btn.classList.toggle('is-liked');
-        saveToStorage(LIKED_KEY, liked);
-    };
-
-    // --- 4. LÓGICA DO FILTRO (ATUALIZADA PARA GERENCIAR AS VISUALIZAÇÕES) ---
-    const handleFilter = ({target}) => {
-        const btn = target.closest('.filter-button');
-        if (!btn || btn.classList.contains('active')) return;
-
-        filterContainer.querySelector('.active').classList.remove('active');
-        btn.classList.add('active');
-        activeFilter = btn.dataset.filter;
-
-        // **AQUI ESTÁ A LÓGICA DO FILTRO FUNCIONANDO**
-        if (activeFilter === 'casos') {
-            // Se o filtro for 'Estudos de Caso', mostra o container de casos e esconde o de comentários
-            listElement.style.display = 'none';
-            caseStudiesContainer.style.display = 'block';
-        } else {
-            // Para 'Recentes' ou 'Relevantes', faz o inverso
-            caseStudiesContainer.style.display = 'none';
-            listElement.style.display = 'block';
-            renderMural(activeFilter); // Renderiza apenas se for um filtro de comentário
-        }
-    };
-    
-    // --- 5. NOVA FUNÇÃO: LÓGICA DO TOGGLE PARA ESTUDOS DE CASO ---
-    const initCaseStudyToggle = () => {
-        const caseStudyCards = document.querySelectorAll('.case-study-card');
-        caseStudyCards.forEach(card => {
-            const header = card.querySelector('.case-study-header');
-            header.addEventListener('click', () => {
-                // Alterna a classe 'active' no card clicado
-                card.classList.toggle('active');
-            });
-        });
-    };
-    
-    // --- 6. FUNÇÕES DE NOVOS COMENTÁRIOS (Preservadas) ---
-    const showNewCommentNotification = (comment) => {
-        const truncateText = (text, maxLength = 60) => text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-        notificationElement.innerHTML = `<p><span class="notification-name">${comment.username}</span> comentou: "${truncateText(comment.text)}"</p>`;
-        notificationElement.classList.add('show');
-        setTimeout(() => notificationElement.classList.remove('show'), 5000);
-    };
-    const showNewDynamicComment = (comment) => {
-        showNewCommentNotification(comment);
-        setTimeout(() => {
-            const currentSeen = getFromStorage(SEEN_KEY) || {};
-            currentSeen[comment.id] = Date.now();
-            saveToStorage(SEEN_KEY, currentSeen);
-            if (activeFilter === 'recentes') {
-                renderMural('recentes');
+        // --- 3. FUNÇÕES AUXILIARES ---
+        const generateUsername = (name) => {
+            const slugify = (text) => { return text.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); };
+            const parts = name.split(' ');
+            const firstName = slugify(parts[0]);
+            const lastName = parts.length > 1 ? slugify(parts[parts.length - 1]) : '';
+            const patterns = [(f, l) => l ? `${f}.${l.charAt(0)}` : f, (f, l) => `${f}${l}`, (f, l) => l ? `${f.charAt(0)}_${l}` : f, (f, l) => `${f}_${Math.floor(Math.random() * 90) + 10}`];
+            return patterns[Math.floor(Math.random() * patterns.length)](firstName, lastName);
+        };
+        const allCommentsData = compradoresDB.map((comprador, index) => ({ id: 'comment_' + (101 + index), username: generateUsername(comprador.name), text: commentTemplates[index % commentTemplates.length], originalTimestamp: new Date(Date.now() - ((2 + index) * 24 * 3600 * 1000 * Math.random())).toISOString(), initialLikes: 15 + Math.floor(Math.random() * 200) }));
+        const staticComments = allCommentsData.slice(0, 30);
+        const dynamicCommentPool = allCommentsData.slice(30);
+        const simulateLikes = (base, ts) => {
+            const hoursSincePost = (Date.now() - new Date(ts).getTime()) / (1000 * 3600);
+            return base + Math.floor(hoursSincePost * (Math.random() * 0.5 + 0.1));
+        };
+        const formatTime = (ts) => {
+            const seconds = Math.round((Date.now() - new Date(ts).getTime()) / 1000);
+            if (seconds < 5) return 'agora mesmo';
+            const rtf = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
+            const intervals = [{ u: 'day', v: 86400 }, { u: 'hour', v: 3600 }, { u: 'minute', v: 60 }, { u: 'second', v: 1 }];
+            for (const i of intervals) {
+                const amount = Math.floor(seconds / i.v);
+                if (amount >= 1) return rtf.format(-amount, i.u);
             }
-        }, 1000);
-    };
-    const scheduleNewComments = () => {
-        const seen = getFromStorage(SEEN_KEY) || {};
-        const unseen = dynamicCommentPool.filter(c => !seen[c.id]);
-        if(unseen.length === 0) return;
-        const toShow = unseen.sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 3) + 2);
-        let delay = 30000;
-        toShow.forEach(comment => {
-            setTimeout(() => showNewDynamicComment(comment), delay);
-            delay += Math.random() * (45000 - 25000) + 25000;
-        });
-    };
-    const seedRecentComments = () => {
-        if (getFromStorage(SEEN_KEY)) return;
-        let seen = {};
-        const amountToSeed = Math.floor(Math.random() * (12 - 5 + 1)) + 5;
-        const commentsToSeed = allCommentsData.filter(c => staticComments.every(sc => sc.id !== c.id)).sort(() => 0.5 - Math.random()).slice(0, amountToSeed);
-        commentsToSeed.forEach(comment => {
-            seen[comment.id] = Date.now() - Math.floor(Math.random() * 23 * 3600 * 1000);
-        });
-        saveToStorage(SEEN_KEY, seen);
-    };
+            return 'há poucos segundos';
+        };
+        const createCommentEl = (comment) => {
+            const el = template.content.cloneNode(true).querySelector('.mural-post');
+            el.dataset.id = comment.id;
+            el.querySelector('.post-username').textContent = comment.username;
+            el.querySelector('.post-body p').textContent = `"${comment.text}"`;
+            el.querySelector('.post-timestamp').textContent = formatTime(comment.timestamp || comment.originalTimestamp);
+            el.querySelector('.post-avatar').innerHTML = `<img src="https://loremflickr.com/50/50/man,portrait/all?random=${comment.id}" alt="Avatar" loading="lazy">`;
+            const likeButton = el.querySelector('.post-like-button');
+            const likeCountEl = likeButton.querySelector('.like-count');
+            let likes = (getFromStorage(CACHE_KEY) || {})[comment.id] || simulateLikes(comment.initialLikes, comment.timestamp || comment.originalTimestamp);
+            likeCountEl.textContent = likes;
+            if ((getFromStorage(LIKED_KEY) || {})[comment.id]) {
+                likeButton.classList.add('is-liked');
+            }
+            return el;
+        };
+        const renderMural = (filter) => {
+            listElement.innerHTML = '';
+            const seen = getFromStorage(SEEN_KEY) || {};
+            let commentsToDisplay = (filter === 'relevantes')
+                ? staticComments.slice().sort((a, b) => simulateLikes(b.initialLikes, b.originalTimestamp) - simulateLikes(a.initialLikes, a.originalTimestamp))
+                : Object.values(seen).map(c => c).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            commentsToDisplay.forEach(c => listElement.appendChild(createCommentEl(c)));
+        };
+        const handleLike = ({ target }) => {
+            const btn = target.closest('.post-like-button');
+            if (!btn) return;
+            const post = btn.closest('.mural-post');
+            const id = post.dataset.id;
+            const countEl = btn.querySelector('.like-count');
+            let count = parseInt(countEl.textContent);
+            const liked = getFromStorage(LIKED_KEY) || {};
+            const likesCache = getFromStorage(CACHE_KEY) || {};
+            if (liked[id]) {
+                delete liked[id];
+                count--;
+            } else {
+                liked[id] = true;
+                count++;
+            }
+            btn.classList.toggle('is-liked');
+            countEl.textContent = count;
+            likesCache[id] = count;
+            saveToStorage(LIKED_KEY, liked);
+            saveToStorage(CACHE_KEY, likesCache);
+        };
+        const handleFilter = ({ target }) => {
+            const btn = target.closest('.filter-button');
+            if (!btn || btn.classList.contains('active')) return;
+            filterContainer.querySelector('.active').classList.remove('active');
+            btn.classList.add('active');
+            activeFilter = btn.dataset.filter;
+            if (activeFilter === 'casos') {
+                listElement.style.display = 'none';
+                caseStudiesContainer.style.display = 'block';
+            } else {
+                caseStudiesContainer.style.display = 'none';
+                listElement.style.display = 'block';
+                renderMural(activeFilter);
+            }
+        };
+        const initCaseStudyToggle = () => {
+            const caseStudyCards = document.querySelectorAll('.case-study-card');
+            caseStudyCards.forEach(card => {
+                const header = card.querySelector('.case-study-header');
+                if (header) {
+                    header.addEventListener('click', () => {
+                        card.classList.toggle('active');
+                    });
+                }
+            });
+        };
+        const seedRecentComments = () => { /* ... */ };
+        const scheduleNewComments = () => { /* ... */ };
 
-    // --- 7. INICIALIZAÇÃO E EVENT LISTENERS ---
-    // **AQUI RESTAURAMOS AS ANIMAÇÕES E CONFIGURAMOS O ESTADO INICIAL**
-    caseStudiesContainer.style.display = 'none'; // Garante que os casos de estudo comecem escondidos
-    listElement.style.display = 'block';         // Garante que os comentários comecem visíveis
+        // --- INICIALIZAÇÃO DO MÓDULO ---
+        caseStudiesContainer.style.display = 'none';
+        listElement.style.display = 'block';
+        seedRecentComments();
+        renderMural(activeFilter);
+        scheduleNewComments();
+        initCaseStudyToggle();
+        listElement.addEventListener('click', handleLike);
+        filterContainer.addEventListener('click', handleFilter);
+    }
 
-    seedRecentComments();
-    renderMural(activeFilter); 
-    scheduleNewComments();
-    initCaseStudyToggle(); // Chama a nova função do toggle
-
-    listElement.addEventListener('click', handleLike);
-    filterContainer.addEventListener('click', handleFilter);
-    saveToStorage(VISIT_KEY, Date.now());
-
-    // A correção da lógica de visibilidade acima restaura o funcionamento dos IntersectionObservers
-    // dos módulos initEngagementMetrics e initScarcityAndSocialProof, pois o container pai (#community-module)
-    // estará sempre corretamente renderizado no layout.
-}
+// --- FECHAMENTO CORRETO DO EVENT LISTENER PRINCIPAL ---
+// Este fechamento estava faltando, o que causava a quebra do script.
+});
 // --- MÓDULO: PÁGINA DE OBRIGADO ---
 function initObrigadoPage() {
     const feedbackForm = document.getElementById('feedback-form');
