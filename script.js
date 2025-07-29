@@ -714,205 +714,79 @@ function initCtaPact() {
     });
 }
 
-    // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS COM FILTRO ---
+    // =======================================================================
+    // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS E ESTUDOS DE CASO (VERSÃO ATUALIZADA) ---
+    // =======================================================================
     function initCommentSystem() {
         const listElement = document.getElementById('primordial-comments-list');
         const template = document.getElementById('comment-template');
         const filterContainer = document.getElementById('comment-filter-container');
         const notificationElement = document.getElementById('social-proof-notification');
-        if (!listElement || !template || !filterContainer || !notificationElement) return;
+        const caseStudiesContainer = document.getElementById('case-studies-container'); // Adicionado
 
-        const SEEN_KEY = 'primordial_seen_comments', LIKED_KEY = 'primordial_liked_comments', CACHE_KEY = 'primordial_likes_cache', VISIT_KEY = 'primordial_last_visit';
+        if (!listElement || !template || !filterContainer || !notificationElement || !caseStudiesContainer) return;
+
         let activeFilter = 'recentes';
-
-        const generateUsername = (name) => {
-    // Função auxiliar para remover acentos e caracteres especiais
-    const slugify = (text) => {
-        return text.toString().toLowerCase()
-            .normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Remove acentos
-    };
-
-    const parts = name.split(' ');
-    const firstName = slugify(parts[0]);
-    const lastName = parts.length > 1 ? slugify(parts[parts.length - 1]) : '';
-
-    // Define diferentes padrões de username
-    const patterns = [
-        // Padrão 1: joao.p
-        (f, l) => l ? `${f}.${l.charAt(0)}` : f,
-        // Padrão 2: joaopaulo
-        (f, l) => `${f}${l}`,
-        // Padrão 3: j_paulo
-        (f, l) => l ? `${f.charAt(0)}_${l}` : f,
-        // Padrão 4: joao_78
-        (f, l) => `${f}_${Math.floor(Math.random() * 90) + 10}`,
-        // Padrão 5: JP_Oficial
-        (f, l) => l ? `${f.charAt(0).toUpperCase()}${l.charAt(0).toUpperCase()}_Oficial` : f.toUpperCase(),
-        // Padrão 6: Apenas o primeiro nome, capitalizado
-        (f, l) => f.charAt(0).toUpperCase() + f.slice(1)
-    ];
-
-    // Escolhe um padrão aleatoriamente e o aplica
-    const randomPattern = patterns[Math.floor(Math.random() * patterns.length)];
-    return randomPattern(firstName, lastName);
-};
+        const SEEN_KEY = 'primordial_seen_comments', LIKED_KEY = 'primordial_liked_comments', CACHE_KEY = 'primordial_likes_cache', VISIT_KEY = 'primordial_last_visit';
         
-        const allCommentsData = compradoresDB.map((comprador, index) => ({
-            id: 101 + index,
-            username: generateUsername(comprador.name),
-            text: commentTemplates[index % commentTemplates.length],
-            originalTimestamp: new Date(Date.now() - ((2 + (index % 28)) * 24 * 3600 * 1000) - (Math.random() * 12 * 3600 * 1000)).toISOString(),
-            initialLikes: 15 + Math.floor(Math.random() * 200)
-        }));
-        
-        const staticComments = allCommentsData.slice(0, 30);
-        const dynamicCommentPool = allCommentsData.slice(30);
+        // (As funções auxiliares como generateUsername, allCommentsData, etc. permanecem aqui)
+        const generateUsername = (name) => { const slugify = (text) => { return text.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }; const parts = name.split(' '); const firstName = slugify(parts[0]); const lastName = parts.length > 1 ? slugify(parts[parts.length - 1]) : ''; const patterns = [ (f, l) => l ? `${f}.${l.charAt(0)}` : f, (f, l) => `${f}${l}`, (f, l) => l ? `${f.charAt(0)}_${l}` : f, (f, l) => `${f}_${Math.floor(Math.random() * 90) + 10}` ]; return patterns[Math.floor(Math.random() * patterns.length)](firstName, lastName); };
+        const allCommentsData = compradoresDB.map((comprador, index) => ({ id: 101 + index, username: generateUsername(comprador.name), text: commentTemplates[index % commentTemplates.length], originalTimestamp: new Date(Date.now() - ((2 + (index % 28)) * 24 * 3600 * 1000) - (Math.random() * 12 * 3600 * 1000)).toISOString(), initialLikes: 15 + Math.floor(Math.random() * 200) }));
+        const staticComments = allCommentsData.slice(0, 30); const dynamicCommentPool = allCommentsData.slice(30);
+        const simulateLikes = (base, ts) => { const hoursSincePost = (Date.now() - new Date(ts).getTime()) / (1000 * 3600); if (hoursSincePost < 24) { return Math.floor(hoursSincePost * (Math.random() * 5 + 1)); } return base + Math.floor(hoursSincePost * (Math.random() * 0.5 + 0.1)); };
+        const formatTime = (ts) => { const seconds = Math.round((Date.now() - new Date(ts).getTime()) / 1000); if (seconds < 5) return 'agora mesmo'; const rtf = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' }); const intervals = [{ u: 'year', v: 31536000 }, { u: 'month', v: 2592000 }, { u: 'day', v: 86400 }, { u: 'hour', v: 3600 }, { u: 'minute', v: 60 }, { u: 'second', v: 1 }]; for (const i of intervals) { const amount = Math.floor(seconds / i.v); if (amount >= 1) return rtf.format(-amount, i.u); } return 'há poucos segundos'; };
+        const createCommentEl = (comment) => { const el = template.content.cloneNode(true).querySelector('.mural-post'); const liked = (getFromStorage(LIKED_KEY) || {})[comment.id]; const likesCache = getFromStorage(CACHE_KEY) || {}; let likeCount = likesCache[comment.id] || simulateLikes(comment.initialLikes, comment.timestamp); if (liked && !likesCache[comment.id]) likeCount++; likesCache[comment.id] = likeCount; el.dataset.id = comment.id; el.querySelector('.post-username').textContent = comment.username; el.querySelector('.post-body p').textContent = `${comment.text}`; el.querySelector('.post-timestamp').textContent = formatTime(comment.timestamp); el.querySelector('.post-like-button .like-count').textContent = likeCount; if (liked) el.querySelector('.post-like-button').classList.add('is-liked'); el.querySelector('.post-avatar').innerHTML = `<img src="https://i.pravatar.cc/50/50?u=${comment.id}" alt="Avatar" loading="lazy">`; saveToStorage(CACHE_KEY, likesCache); return el; };
+        const renderMural = (filter) => { listElement.innerHTML = ''; const seen = getFromStorage(SEEN_KEY) || {}; let commentsToDisplay; if (filter === 'relevantes') { commentsToDisplay = staticComments.map(c => ({ ...c, timestamp: c.originalTimestamp, likeCount: (getFromStorage(CACHE_KEY) || {})[c.id] || simulateLikes(c.initialLikes, c.originalTimestamp) })).sort((a, b) => b.likeCount - a.likeCount); } else { const impulseToRender = dynamicCommentPool.filter(c => seen[c.id]).map(c => ({...c, timestamp: seen[c.id]})); commentsToDisplay = impulseToRender.map(c => ({ ...c, likeCount: (getFromStorage(CACHE_KEY) || {})[c.id] || simulateLikes(c.initialLikes, c.timestamp) })).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); } if(commentsToDisplay.length === 0) { const message = filter === 'relevantes' ? "Nenhum testemunho encontrado." : "Nenhum comentário adicionado ainda. Fique de olho!"; listElement.innerHTML = `<p class="no-comments-message">${message}</p>`; } else { commentsToDisplay.forEach(c => { const el = createCommentEl(c); listElement.appendChild(el); setTimeout(() => el.classList.add('is-visible'), 50); }); } };
+        const handleLike = ({target}) => { const btn = target.closest('.post-like-button'); if(!btn) return; const post = btn.closest('.mural-post'); const id = post.dataset.id; const countEl = btn.querySelector('.like-count'); let count = parseInt(countEl.textContent); const liked = getFromStorage(LIKED_KEY) || {}; if(liked[id]){ delete liked[id]; btn.classList.remove('is-liked'); countEl.textContent = --count; } else { liked[id] = true; btn.classList.add('is-liked'); countEl.textContent = ++count; } saveToStorage(LIKED_KEY, liked); };
+        const showNewCommentNotification = (comment) => { const truncateText = (text, maxLength = 60) => text.length > maxLength ? text.substring(0, maxLength) + '...' : text; notificationElement.innerHTML = `<p><span class="notification-name">${comment.username}</span> comentou: "${truncateText(comment.text)}"</p>`; notificationElement.classList.add('show'); setTimeout(() => notificationElement.classList.remove('show'), 5000); };
+        const showNewDynamicComment = (comment) => { showNewCommentNotification(comment); setTimeout(() => { const currentSeen = getFromStorage(SEEN_KEY) || {}; currentSeen[comment.id] = Date.now(); saveToStorage(SEEN_KEY, currentSeen); renderMural(activeFilter); }, 1000); };
+        const scheduleNewComments = () => { const seen = getFromStorage(SEEN_KEY) || {}; const unseen = dynamicCommentPool.filter(c => !seen[c.id]); if(unseen.length === 0) return; const toShow = unseen.sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 3) + 2); let delay = 20000; toShow.forEach(comment => { setTimeout(() => showNewDynamicComment(comment), delay); delay += Math.random() * (60000 - 40000) + 40000; }); };
+        const seedRecentComments = () => { let seen = getFromStorage(SEEN_KEY); if (seen) return; seen = {}; const amountToSeed = Math.floor(Math.random() * (12 - 5 + 1)) + 5; const commentsToSeed = dynamicCommentPool.sort(() => 0.5 - Math.random()).slice(0, amountToSeed); commentsToSeed.forEach(comment => { const randomTimeInPast24h = Date.now() - Math.floor(Math.random() * 23 * 3600 * 1000); seen[comment.id] = randomTimeInPast24h; }); saveToStorage(SEEN_KEY, seen); };
 
-        const simulateLikes = (base, ts) => {
-            const hoursSincePost = (Date.now() - new Date(ts).getTime()) / (1000 * 3600);
-            if (hoursSincePost < 24) {
-                return Math.floor(hoursSincePost * (Math.random() * 5 + 1));
-            }
-            return base + Math.floor(hoursSincePost * (Math.random() * 0.5 + 0.1));
-        };
-        const formatTime = (ts) => {
-            const seconds = Math.round((Date.now() - new Date(ts).getTime()) / 1000);
-            if (seconds < 5) return 'agora mesmo';
-            const rtf = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
-            const intervals = [{ u: 'year', v: 31536000 }, { u: 'month', v: 2592000 }, { u: 'day', v: 86400 }, { u: 'hour', v: 3600 }, { u: 'minute', v: 60 }, { u: 'second', v: 1 }];
-            for (const i of intervals) {
-                const amount = Math.floor(seconds / i.v);
-                if (amount >= 1) return rtf.format(-amount, i.u);
-            }
-            return 'há poucos segundos';
-        };
-
-        const createCommentEl = (comment) => {
-            const el = template.content.cloneNode(true).querySelector('.mural-post');
-            const liked = (getFromStorage(LIKED_KEY) || {})[comment.id];
-            const likesCache = getFromStorage(CACHE_KEY) || {};
-            let likeCount = likesCache[comment.id] || simulateLikes(comment.initialLikes, comment.timestamp);
-            if (liked && !likesCache[comment.id]) likeCount++;
-            likesCache[comment.id] = likeCount;
-            el.dataset.id = comment.id;
-            el.querySelector('.post-username').textContent = comment.username;
-            el.querySelector('.post-body p').textContent = `${comment.text}`;
-            el.querySelector('.post-timestamp').textContent = formatTime(comment.timestamp);
-            el.querySelector('.post-like-button .like-count').textContent = likeCount;
-            if (liked) el.querySelector('.post-like-button').classList.add('is-liked');
-            el.querySelector('.post-avatar').innerHTML = `<img src="https://i.pravatar.cc/50/50?u=${comment.id}" alt="Avatar">`;
-            saveToStorage(CACHE_KEY, likesCache);
-            return el;
-        };
-
-        const renderMural = (filter) => {
-            listElement.innerHTML = '';
-            const seen = getFromStorage(SEEN_KEY) || {};
-            let commentsToDisplay;
-
-            if (filter === 'relevantes') {
-                commentsToDisplay = staticComments.map(c => ({
-                    ...c,
-                    timestamp: c.originalTimestamp,
-                    likeCount: (getFromStorage(CACHE_KEY) || {})[c.id] || simulateLikes(c.initialLikes, c.originalTimestamp)
-                })).sort((a, b) => b.likeCount - a.likeCount);
-            } else { // 'recentes'
-                const impulseToRender = dynamicCommentPool
-                    .filter(c => seen[c.id])
-                    .map(c => ({...c, timestamp: seen[c.id]}));
-                
-                commentsToDisplay = impulseToRender
-                    .map(c => ({ ...c, likeCount: (getFromStorage(CACHE_KEY) || {})[c.id] || simulateLikes(c.initialLikes, c.timestamp) }))
-                    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            }
-
-            if(commentsToDisplay.length === 0) {
-                const message = filter === 'relevantes' ? "Nenhum testemunho encontrado." : "Nenhum comentário adicionado ainda. Fique de olho!";
-                listElement.innerHTML = `<p class="no-comments-message">${message}</p>`;
-            } else {
-                commentsToDisplay.forEach(c => {
-                    const el = createCommentEl(c);
-                    listElement.appendChild(el);
-                    setTimeout(() => el.classList.add('is-visible'), 50);
-                });
-            }
-        };
-
-        const handleLike = ({target}) => {
-            const btn = target.closest('.post-like-button');
-            if(!btn) return;
-            const post = btn.closest('.mural-post');
-            const id = post.dataset.id;
-            const countEl = btn.querySelector('.like-count');
-            let count = parseInt(countEl.textContent);
-            const liked = getFromStorage(LIKED_KEY) || {};
-            if(liked[id]){ delete liked[id]; btn.classList.remove('is-liked'); countEl.textContent = --count; }
-            else { liked[id] = true; btn.classList.add('is-liked'); countEl.textContent = ++count; }
-            saveToStorage(LIKED_KEY, liked);
-        };
-
-        const handleFilter = ({target}) => {
+        // --- LÓGICA DO FILTRO ATUALIZADA ---
+        const handleFilter = ({ target }) => {
             const btn = target.closest('.filter-button');
-            if(!btn || btn.classList.contains('active')) return;
-            activeFilter = btn.dataset.filter;
+            if (!btn || btn.classList.contains('active')) return;
             filterContainer.querySelector('.active').classList.remove('active');
             btn.classList.add('active');
-            renderMural(activeFilter);
-        };
+            activeFilter = btn.dataset.filter;
 
-        const showNewCommentNotification = (comment) => {
-            const truncateText = (text, maxLength = 60) => text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-            notificationElement.innerHTML = `<p><span class="notification-name">${comment.username}</span> comentou: "${truncateText(comment.text)}"</p>`;
-            notificationElement.classList.add('show');
-            setTimeout(() => notificationElement.classList.remove('show'), 5000);
-        };
-        
-        const showNewDynamicComment = (comment) => {
-            showNewCommentNotification(comment);
-            setTimeout(() => {
-                const currentSeen = getFromStorage(SEEN_KEY) || {};
-                currentSeen[comment.id] = Date.now();
-                saveToStorage(SEEN_KEY, currentSeen);
+            if (activeFilter === 'casos') {
+                listElement.style.display = 'none';
+                caseStudiesContainer.style.display = 'block';
+            } else {
+                caseStudiesContainer.style.display = 'none';
+                listElement.style.display = 'block';
                 renderMural(activeFilter);
-            }, 1000);
+            }
         };
 
-        const scheduleNewComments = () => {
-            const seen = getFromStorage(SEEN_KEY) || {};
-            const unseen = dynamicCommentPool.filter(c => !seen[c.id]);
-            if(unseen.length === 0) return;
-
-            const toShow = unseen.sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 3) + 2);
-            let delay = 20000;
-            toShow.forEach(comment => {
-                setTimeout(() => showNewDynamicComment(comment), delay);
-                delay += Math.random() * (60000 - 40000) + 40000;
+        // --- NOVA FUNÇÃO PARA O TOGGLE ---
+        const initCaseStudyToggle = () => {
+            const caseStudyCards = document.querySelectorAll('.case-study-card');
+            caseStudyCards.forEach(card => {
+                const header = card.querySelector('.case-study-header');
+                if (header) { // Verificação de segurança para evitar quebras
+                    header.addEventListener('click', () => {
+                        card.classList.toggle('active');
+                    });
+                }
             });
         };
+
+        // --- INICIALIZAÇÃO DO MÓDULO ---
+        caseStudiesContainer.style.display = 'none'; // Começa escondido
+        listElement.style.display = 'block'; // Começa visível
         
-        const seedRecentComments = () => {
-            let seen = getFromStorage(SEEN_KEY);
-            if (seen) return;
-            
-            seen = {};
-            const amountToSeed = Math.floor(Math.random() * (12 - 5 + 1)) + 5;
-            const commentsToSeed = dynamicCommentPool.sort(() => 0.5 - Math.random()).slice(0, amountToSeed);
-            
-            commentsToSeed.forEach(comment => {
-                const randomTimeInPast24h = Date.now() - Math.floor(Math.random() * 23 * 3600 * 1000);
-                seen[comment.id] = randomTimeInPast24h;
-            });
-            saveToStorage(SEEN_KEY, seen);
-        };
-
         seedRecentComments();
         renderMural(activeFilter);
         scheduleNewComments();
+        initCaseStudyToggle(); // Ativa a funcionalidade de toggle
+
         listElement.addEventListener('click', handleLike);
         filterContainer.addEventListener('click', handleFilter);
         saveToStorage(VISIT_KEY, Date.now());
     }
-});
 
 // --- MÓDULO: PÁGINA DE OBRIGADO ---
 function initObrigadoPage() {
@@ -951,4 +825,6 @@ function initObrigadoPage() {
         formContainer.style.display = 'none';
         successMessage.style.display = 'block';
     });
-}
+  }
+    
+});
