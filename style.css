@@ -1086,11 +1086,13 @@ h1, h2, h3, h4 {
   .mural-post {
     width: 100%;
     max-width: none;
-      
     padding-left: 0px;
     padding-right: 0px;
   }
-}
+
+  .engagement-metrics {
+    padding: 5px;
+  }
 
 /* ========================================================== */
 /* --- ESTILOS PARA OS ESTUDOS DE CASO (ECOS DA ALCATEIA) --- */
