@@ -773,7 +773,7 @@ function initCommentSystem() {
         el.querySelector('.post-timestamp').textContent = formatTime(comment.timestamp);
         el.querySelector('.post-like-button .like-count').textContent = likeCount;
         if (liked) el.querySelector('.post-like-button').classList.add('is-liked');
-        el.querySelector('.post-avatar').innerHTML = `<img src="https://loremflickr.com/50/50/man,portrait/all?random=${comment.id}" alt="Avatar de ${comment.username}">`;
+        el.querySelector('.post-avatar').innerHTML = `<img src="https://loremflickr.com/50/50/man,portrait/all?random=${comment.id}" alt="Avatar de ${comment.username}" loading="lazy">`;
         saveToStorage(CACHE_KEY, likesCache);
         return el;
     };
@@ -816,6 +816,7 @@ function initCommentSystem() {
         btn.classList.add('active');
         activeFilter = btn.dataset.filter;
 
+        // **AQUI ESTÁ A LÓGICA DO FILTRO FUNCIONANDO**
         if (activeFilter === 'casos') {
             // Se o filtro for 'Estudos de Caso', mostra o container de casos e esconde o de comentários
             listElement.style.display = 'none';
@@ -828,7 +829,19 @@ function initCommentSystem() {
         }
     };
     
-    // --- 5. FUNÇÕES DE NOVOS COMENTÁRIOS (Preservadas) ---
+    // --- 5. NOVA FUNÇÃO: LÓGICA DO TOGGLE PARA ESTUDOS DE CASO ---
+    const initCaseStudyToggle = () => {
+        const caseStudyCards = document.querySelectorAll('.case-study-card');
+        caseStudyCards.forEach(card => {
+            const header = card.querySelector('.case-study-header');
+            header.addEventListener('click', () => {
+                // Alterna a classe 'active' no card clicado
+                card.classList.toggle('active');
+            });
+        });
+    };
+    
+    // --- 6. FUNÇÕES DE NOVOS COMENTÁRIOS (Preservadas) ---
     const showNewCommentNotification = (comment) => {
         const truncateText = (text, maxLength = 60) => text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
         notificationElement.innerHTML = `<p><span class="notification-name">${comment.username}</span> comentou: "${truncateText(comment.text)}"</p>`;
@@ -868,13 +881,23 @@ function initCommentSystem() {
         saveToStorage(SEEN_KEY, seen);
     };
 
-    // --- 6. INICIALIZAÇÃO E EVENT LISTENERS ---
+    // --- 7. INICIALIZAÇÃO E EVENT LISTENERS ---
+    // **AQUI RESTAURAMOS AS ANIMAÇÕES E CONFIGURAMOS O ESTADO INICIAL**
+    caseStudiesContainer.style.display = 'none'; // Garante que os casos de estudo comecem escondidos
+    listElement.style.display = 'block';         // Garante que os comentários comecem visíveis
+
     seedRecentComments();
-    renderMural(activeFilter);
+    renderMural(activeFilter); 
     scheduleNewComments();
+    initCaseStudyToggle(); // Chama a nova função do toggle
+
     listElement.addEventListener('click', handleLike);
     filterContainer.addEventListener('click', handleFilter);
     saveToStorage(VISIT_KEY, Date.now());
+
+    // A correção da lógica de visibilidade acima restaura o funcionamento dos IntersectionObservers
+    // dos módulos initEngagementMetrics e initScarcityAndSocialProof, pois o container pai (#community-module)
+    // estará sempre corretamente renderizado no layout.
 }
 // --- MÓDULO: PÁGINA DE OBRIGADO ---
 function initObrigadoPage() {
