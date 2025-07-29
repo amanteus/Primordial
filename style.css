@@ -1040,6 +1040,48 @@ h1, h2, h3, h4 {
     font-style: italic;
 }
 
+/* Adicione este código ao final do seu arquivo style.css */
+
+/* Estilo do cabeçalho do estudo de caso para indicar que é clicável */
+.case-study-header {
+    cursor: pointer;
+    position: relative; /* Necessário para posicionar o ícone */
+}
+
+/* Estilo do ícone de toggle (+/-) */
+.toggle-icon {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--accent-color);
+    transition: transform 0.3s ease;
+}
+
+/* Gira o ícone para 'x' quando o card estiver ativo */
+.case-study-card.active .toggle-icon {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+
+/* Corpo do estudo de caso (começa escondido) */
+.case-study-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+    padding-top: 0;
+    margin-top: -10px; /* Ajuste para compensar o padding */
+}
+
+/* Quando o card está ativo, expande o corpo */
+.case-study-card.active .case-study-body {
+    max-height: 1000px; /* Um valor alto para garantir que todo o conteúdo caiba */
+    padding-top: 20px;
+    margin-top: 0;
+}
+
 /* ========================================================== */
 /* --- ESTILOS PARA OS ESTUDOS DE CASO (ECOS DA ALCATEIA) --- */
 /* ========================================================== */
