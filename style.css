@@ -1,9 +1,4 @@
 /* --- CONFIGURAÇÕES GLOBAIS E FONTES --- */
-@font-face {
-    font-family: 'Loft';
-    src: url('fonts/Loft-Regular.woff2') format('woff2'); 
-    font-weight: normal;
-}
 
 @font-face {
     font-family: 'Houstiq';
