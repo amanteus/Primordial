@@ -1088,6 +1088,11 @@ h1, h2, h3, h4 {
     width: 100%; /* Faz o card ocupar toda a largura disponível no container */
     max-width: none; /* Remove qualquer limite máximo de largura no mobile */
   }
+
+  .post-body {
+    width: 100%; /* Faz o card ocupar toda a largura disponível no container */
+    max-width: none; /* Remove qualquer limite máximo de largura no mobile */
+  }
   
 }
 
