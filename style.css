@@ -1086,8 +1086,9 @@ h1, h2, h3, h4 {
   .mural-post {
     width: 100%;
     max-width: none;
-    padding-left: 5px;
-    padding-right: 5px;
+      
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 
@@ -1095,11 +1096,11 @@ h1, h2, h3, h4 {
 /* --- ESTILOS PARA OS ESTUDOS DE CASO (ECOS DA ALCATEIA) --- */
 /* ========================================================== */
 #case-studies-container {
-    padding: 20px;
+    padding: 5px;
 }
 
 .case-study-disclaimer {
-    padding: 20px;
+    padding: 5px;
     margin-bottom: 30px;
     background-color: rgba(0,0,0,0.2);
     border-left: 3px solid var(--accent-color);
@@ -1111,7 +1112,7 @@ h1, h2, h3, h4 {
 .case-studies-grid {
     display: grid;
     grid-template-columns: 1fr; /* Um card por linha para leitura focada */
-    gap: 20px;
+    gap: 5px;
 }
 
 /* Reutiliza e adapta o estilo de card que já criamos */
@@ -1119,7 +1120,7 @@ h1, h2, h3, h4 {
     background-color: #1a1a1a;
     border: 1px solid #2a2a2a;
     border-radius: 8px;
-    padding: 30px;
+    padding: 5px;
     text-align: left;
 }
 .case-study-card h4 {
