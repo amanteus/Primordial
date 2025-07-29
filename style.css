@@ -1081,19 +1081,14 @@ h1, h2, h3, h4 {
 /* --- OTIMIZAÇÃO MOBILE PARA LARGURA DOS CARDS DE COMENTÁRIO --- */
 /* ========================================================== */
 
+/* Bloco Corrigido e Otimizado */
 @media (max-width: 768px) {
-
-  /* Esta regra mira especificamente nos cards de comentário em telas pequenas */
   .mural-post {
-    width: 100%; /* Faz o card ocupar toda a largura disponível no container */
-    max-width: none; /* Remove qualquer limite máximo de largura no mobile */
+    width: 100%;
+    max-width: none;
+    padding-left: 5px;
+    padding-right: 5px;
   }
-
-  .post-body {
-    width: 100%; /* Faz o card ocupar toda a largura disponível no container */
-    max-width: none; /* Remove qualquer limite máximo de largura no mobile */
-  }
-  
 }
 
 /* ========================================================== */
