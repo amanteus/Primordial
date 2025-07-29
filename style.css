@@ -1402,16 +1402,25 @@ h1, h2, h3, h4 {
     font-weight: bold;
 }
 /* ========================================================== */
-/* --- OTIMIZAÇÃO MOBILE PARA A SEÇÃO "ECOS DA ALCATEIA" --- */
+/* --- OTIMIZAÇÃO MOBILE PARA LARGURA E ESPAÇAMENTO --- */
 /* ========================================================== */
 
 @media (max-width: 768px) {
-    
-    /* Adiciona mais "respiro" vertical na seção inteira */
-    .secao-ecos-alcateia .container {
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
+
+  /* Ajuste global para todos os containers no mobile */
+  .container {
+    width: 100%; /* Faz o container ocupar a largura total disponível */
+    padding-left: 10px;  /* Adiciona um respiro de 20px à esquerda */
+    padding-right: 10px; /* Adiciona um respiro de 20px à direita */
+    box-sizing: border-box; /* Garante que o padding não expanda o container para além de 100% */
+  }
+
+  /* Adiciona mais "respiro" vertical na seção Ecos da Alcateia no mobile */
+  .secao-ecos-alcateia {
+      padding-top: 60px;
+      padding-bottom: 60px;
+  }
+}
 
     /* O principal ajuste: empilha o contador e os filtros */
     .interactive-header {
