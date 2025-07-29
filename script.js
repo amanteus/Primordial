@@ -129,19 +129,17 @@ document.addEventListener('DOMContentLoaded', () => {
         initDownsellPage();
     }
 
-    // --- MÓDULO: PRE-LOADER (VERSÃO CORRIGIDA E DEFINITIVA) ---
+    // --- MÓDULO: PRE-LOADER ---
 function initPreloader() {
     const preloader = document.getElementById('preloader');
     if (preloader) {
-        // --- CORREÇÃO APLICADA ---
-        // Trocamos 'load' por 'DOMContentLoaded'.
-        // Este evento não espera por imagens externas, resolvendo o travamento
-        // e liberando a página para o usuário muito mais rápido.
-        document.addEventListener('DOMContentLoaded', () => {
-            // Um pequeno delay para uma transição suave.
+        // Garante que a página inteira, incluindo imagens, foi carregada
+        window.addEventListener('load', () => {
+            // Define o tempo total da animação (2.5s desenho + 1s preenchimento)
+            // e adiciona um pequeno delay extra antes de sumir.
             setTimeout(() => {
                 preloader.classList.add('hidden');
-            }, 500);
+            }, 1800); // 2.8 segundos no total
         });
     }
 }
@@ -716,7 +714,7 @@ function initCtaPact() {
     });
 }
 
-// --- MÓDULO 4: SISTEMA DE COMENTÁRIOS COM FILTRO ---
+    // --- MÓDULO 4: SISTEMA DE COMENTÁRIOS COM FILTRO ---
     function initCommentSystem() {
         const listElement = document.getElementById('primordial-comments-list');
         const template = document.getElementById('comment-template');
@@ -915,6 +913,7 @@ function initCtaPact() {
         saveToStorage(VISIT_KEY, Date.now());
     }
 });
+
 // --- MÓDULO: PÁGINA DE OBRIGADO ---
 function initObrigadoPage() {
     const feedbackForm = document.getElementById('feedback-form');
