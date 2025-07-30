@@ -1410,6 +1410,21 @@ h1, h2, h3, h4 {
         justify-content: center;
     }
 }
+
+/* ========================================================== */
+/* --- OTIMIZAÇÃO MOBILE: PADDING LATERAL DOS ECOs DA ALCATEIA --- */
+/* ========================================================== */
+
+@media (max-width: 768px) {
+
+  /* Esta regra mira especificamente no container da seção de comentários */
+  .secao-ecos-alcateia .container {
+    /* Reduz o padding lateral para dar mais espaço ao conteúdo */
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+}
 /* ========================================================== */
 /* --- AJUSTES FINAIS DE LAYOUT PARA O HEADER DOS COMENTÁRIOS --- */
 /* ========================================================== */
