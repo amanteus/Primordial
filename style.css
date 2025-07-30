@@ -1431,8 +1431,8 @@ h1, h2, h3, h4 {
     max-width: none; /* Remove qualquer limite máximo de largura no mobile */
     
     /* CORREÇÃO: Reduz o padding horizontal no mobile para dar mais espaço ao conteúdo */
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
   }
   
 }
@@ -1446,8 +1446,8 @@ h1, h2, h3, h4 {
   /* Ajuste global para todos os containers no mobile */
   .container {
     width: 100%; /* Faz o container ocupar a largura total disponível */
-    padding-left: 10px;  /* Adiciona um respiro de 20px à esquerda */
-    padding-right: 10px; /* Adiciona um respiro de 20px à direita */
+    padding-left: 15px;  /* Adiciona um respiro de 20px à esquerda */
+    padding-right: 15px; /* Adiciona um respiro de 20px à direita */
     box-sizing: border-box; /* Garante que o padding não expanda o container para além de 100% */
   }
 
