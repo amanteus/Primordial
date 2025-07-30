@@ -1494,8 +1494,8 @@ h1, h2, h3, h4 {
 
   .community-header {
     /* Reduz o padding horizontal de 30px para 15px em telas pequenas */
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
 }
