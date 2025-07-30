@@ -1429,8 +1429,6 @@ h1, h2, h3, h4 {
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
-    
-    /* CORREÇÃO: Remove a linha e espaçamentos herdados */
     border-top: none;
     margin-top: 0;
     padding-top: 0;
