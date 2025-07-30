@@ -1408,15 +1408,8 @@ h1, h2, h3, h4 {
     /* Garante que os filtros se centralizem corretamente */
     .comment-filter {
         justify-content: center;
+        margin-bottom: 20px;
     }
-}
-
-/* Bloco Corrigido */
-@media (max-width: 768px) {
-  .comment-filter {
-      justify-content: center;
-      margin-bottom: 20px; /* <-- ADICIONADO: Cria o espaçamento abaixo dos filtros */
-  }
 }
 
 /* ========================================================== */
