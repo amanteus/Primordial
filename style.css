@@ -1418,6 +1418,25 @@ h1, h2, h3, h4 {
     color: var(--accent-color);
     font-weight: bold;
 }
+
+/* ========================================================== */
+/* --- OTIMIZAÇÃO MOBILE PARA LARGURA DOS CARDS DE COMENTÁRIO --- */
+/* ========================================================== */
+
+@media (max-width: 768px) {
+
+  /* Esta regra mira especificamente nos cards de comentário em telas pequenas */
+  .mural-post {
+    width: 100%; /* Faz o card do comentário ocupar toda a largura disponível no container */
+    max-width: none; /* Remove qualquer limite máximo de largura no mobile */
+    
+    /* CORREÇÃO: Reduz o padding horizontal no mobile para dar mais espaço ao conteúdo */
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  
+}
+    
 /* ========================================================== */
 /* --- OTIMIZAÇÃO MOBILE PARA LARGURA E ESPAÇAMENTO --- */
 /* ========================================================== */
@@ -1553,7 +1572,7 @@ h1, h2, h3, h4 {
 /* Estilos para as Métricas de Engajamento */
 .engagement-metrics {
     margin: 60px auto;
-    padding: 30px;
+    padding: 5px;
     background-color: rgba(0,0,0,0.2);
     border-top: 1px solid #444;
     border-bottom: 1px solid #444;
