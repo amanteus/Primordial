@@ -1487,6 +1487,20 @@ h1, h2, h3, h4 {
 }
 
 /* ========================================================== */
+/* --- OTIMIZAÇÃO MOBILE PARA O CABEÇALHO DOS COMENTÁRIOS --- */
+/* ========================================================== */
+
+@media (max-width: 768px) {
+
+  .community-header {
+    /* Reduz o padding horizontal de 30px para 15px em telas pequenas */
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+}
+
+/* ========================================================== */
 /* --- ESTILOS PARA OS PILARES DE COPY (BÔNUS E MÉTRICAS) --- */
 /* ========================================================== */
 
