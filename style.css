@@ -1411,6 +1411,14 @@ h1, h2, h3, h4 {
     }
 }
 
+/* Bloco Corrigido */
+@media (max-width: 768px) {
+  .comment-filter {
+      justify-content: center;
+      margin-bottom: 20px; /* <-- ADICIONADO: Cria o espaçamento abaixo dos filtros */
+  }
+}
+
 /* ========================================================== */
 /* --- OTIMIZAÇÃO MOBILE: PADDING LATERAL DOS ECOs DA ALCATEIA --- */
 /* ========================================================== */
@@ -1420,8 +1428,8 @@ h1, h2, h3, h4 {
   /* Esta regra mira especificamente no container da seção de comentários */
   .secao-ecos-alcateia .container {
     /* Reduz o padding lateral para dar mais espaço ao conteúdo */
-    padding-left: 5px;
-    padding-right: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
 }
