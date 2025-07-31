@@ -1121,7 +1121,7 @@ h1, h2, h3, h4 {
 }
 
 /* ========================================================== */
-/* --- ESTILOS PARA OS BÔNUS "DOSSIÊ TÁTICO ANIMADO" --- */
+/* --- ESTILOS FINAIS PARA OS BÔNUS "FOCUS REVEAL" --- */
 /* ========================================================== */
 
 .bonus-card {
@@ -1130,62 +1130,70 @@ h1, h2, h3, h4 {
     padding: 30px;
     border-radius: 8px;
     text-align: center;
-    position: relative; /* Necessário para o scanner */
-    overflow: hidden;   /* Garante que o scanner não vaze */
-    transform-style: preserve-3d; /* Ativa o 3D para o hover */
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    position: relative;
+    transition: all 0.4s ease-out;
 }
 
 .bonus-card:hover {
-    transform: rotateY(-10deg) rotateX(10deg) translateY(-10px);
-    box-shadow: 20px 20px 40px rgba(0,0,0,0.4);
+    border-color: var(--accent-color);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-/* --- Container do Ícone --- */
 .bonus-icon-wrapper {
-    width: 80px;
+    /* Estado inicial: Ícone grande e centralizado */
     height: 80px;
-    margin: 0 auto 30px auto;
-    border-radius: 50%;
-    background-color: #111;
-    border: 1px solid #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin: 10px auto 20px auto;
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.4s ease-out;
+}
+
+.bonus-card:hover .bonus-icon-wrapper {
+    /* Estado no hover: Ícone encolhe e sobe */
+    height: 40px; /* Reduz a altura para o texto subir */
+    opacity: 0.7;
+    transform: scale(0.8);
+    margin-bottom: 10px;
 }
 
 .bonus-icon {
-    width: 40px;
-    height: 40px;
-    fill: var(--accent-color);
-    opacity: 0.8;
-}
-
-/* --- Animação de Scanner --- */
-.bonus-card::after {
-    content: '';
-    position: absolute;
-    top: -100%;
-    left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        to bottom,
-        rgba(196, 170, 131, 0) 0%,
-        rgba(196, 170, 131, 0.1) 98%,
-        rgba(196, 170, 131, 0.5) 100%
-    );
-    animation: scan-effect 4s linear infinite;
-    animation-delay: calc(var(--i) * 0.5s); /* Atraso diferente para cada card */
+    stroke: var(--accent-color); /* Usamos stroke para ícones de linha */
+    fill: none;
 }
 
-@keyframes scan-effect {
-    0% {
-        top: -100%;
-    }
-    100% {
-        top: 100%;
-    }
+.bonus-card h4 {
+    color: var(--text-color);
+    font-family: var(--font-headline);
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    transition: color 0.4s ease-out;
+}
+
+.bonus-card:hover h4 {
+    color: var(--accent-color);
+}
+
+.bonus-card p {
+    /* Estado inicial: Descrição oculta */
+    color: #aaa;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    height: 0;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease-out;
+    margin: 0;
+}
+
+.bonus-card:hover p {
+    /* Estado no hover: Descrição aparece */
+    height: auto; /* A altura se ajusta ao conteúdo */
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* ========================================================== */
