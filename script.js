@@ -457,14 +457,14 @@ function initScarcityAndSocialProof() {
 
     // Agenda vendas futuras
     const scheduleNextSale = () => {
-        const randomDelay = Math.random() * (45000 - 30000) + 30000;
+        const randomDelay = Math.random() * (85000 - 60000) + 60000;
         setTimeout(() => {
             simularVenda();
             scheduleNextSale();
         }, randomDelay);
     };
     
-    setTimeout(scheduleNextSale, 25000);
+    setTimeout(scheduleNextSale, 65000);
 }
 
 
@@ -740,7 +740,7 @@ function initCtaPact() {
         const handleLike = ({target}) => { const btn = target.closest('.post-like-button'); if(!btn) return; const post = btn.closest('.mural-post'); const id = post.dataset.id; const countEl = btn.querySelector('.like-count'); let count = parseInt(countEl.textContent); const liked = getFromStorage(LIKED_KEY) || {}; if(liked[id]){ delete liked[id]; btn.classList.remove('is-liked'); countEl.textContent = --count; } else { liked[id] = true; btn.classList.add('is-liked'); countEl.textContent = ++count; } saveToStorage(LIKED_KEY, liked); };
         const showNewCommentNotification = (comment) => { const truncateText = (text, maxLength = 60) => text.length > maxLength ? text.substring(0, maxLength) + '...' : text; notificationElement.innerHTML = `<p><span class="notification-name">${comment.username}</span> comentou: "${truncateText(comment.text)}"</p>`; notificationElement.classList.add('show'); setTimeout(() => notificationElement.classList.remove('show'), 5000); };
         const showNewDynamicComment = (comment) => { showNewCommentNotification(comment); setTimeout(() => { const currentSeen = getFromStorage(SEEN_KEY) || {}; currentSeen[comment.id] = Date.now(); saveToStorage(SEEN_KEY, currentSeen); renderMural(activeFilter); }, 1000); };
-        const scheduleNewComments = () => { const seen = getFromStorage(SEEN_KEY) || {}; const unseen = dynamicCommentPool.filter(c => !seen[c.id]); if(unseen.length === 0) return; const toShow = unseen.sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 3) + 2); let delay = 20000; toShow.forEach(comment => { setTimeout(() => showNewDynamicComment(comment), delay); delay += Math.random() * (60000 - 40000) + 40000; }); };
+        const scheduleNewComments = () => { const seen = getFromStorage(SEEN_KEY) || {}; const unseen = dynamicCommentPool.filter(c => !seen[c.id]); if(unseen.length === 0) return; const toShow = unseen.sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 3) + 2); let delay = 20000; toShow.forEach(comment => { setTimeout(() => showNewDynamicComment(comment), delay); delay += Math.random() * (90000 - 70000) + 70000; }); };
         const seedRecentComments = () => { let seen = getFromStorage(SEEN_KEY); if (seen) return; seen = {}; const amountToSeed = Math.floor(Math.random() * (12 - 5 + 1)) + 5; const commentsToSeed = dynamicCommentPool.sort(() => 0.5 - Math.random()).slice(0, amountToSeed); commentsToSeed.forEach(comment => { const randomTimeInPast24h = Date.now() - Math.floor(Math.random() * 23 * 3600 * 1000); seen[comment.id] = randomTimeInPast24h; }); saveToStorage(SEEN_KEY, seen); };
 
         // --- LÓGICA DO FILTRO ATUALIZADA ---
