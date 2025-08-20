@@ -1,0 +1,155 @@
+/* ========================================================== */
+/* --- ESTILOS PARA A LINKPAGE "A MESA DO MENTOR" --- */
+/* ========================================================== */
+
+/* Carregamento das fontes da marca (coloque no topo) */
+@font-face {
+  font-family: 'Houstiq';
+  src: url('fonts/Houstiq.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Loft';
+  src: url('fonts/Loft-Std-Regular.woff2') format('woff2');
+  font-weight: 400;
+}
+
+:root {
+    --bg-dark: #0f0f0f;
+    --text-light: #f0f0f0;
+    --accent-gold: #c4aa83;
+    --font-body: 'Roboto', sans-serif;
+    --font-display: 'Loft', sans-serif;
+    --font-script: 'Houstiq', cursive;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+.linkpage-body {
+    background-color: var(--bg-dark);
+    background-image: url('img/desk-texture.jpg'); /* Use uma textura sutil de madeira ou couro escuro */
+    background-size: cover;
+    background-position: center;
+    color: var(--text-light);
+    font-family: var(--font-body);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.desk-container {
+    width: 100%;
+    max-width: 450px;
+    position: relative;
+    text-align: center;
+}
+
+.linkpage-header .logo {
+    max-width: 200px;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+.linkpage-header .tagline {
+    font-family: var(--font-script);
+    font-size: 1.5rem;
+    color: var(--accent-gold);
+    opacity: 0.8;
+}
+
+.mentors-desk {
+    width: 100%;
+    height: 450px; /* Altura fixa para o posicionamento dos itens */
+    position: relative;
+    margin: 40px 0;
+    transition: transform 0.1s linear; /* Para o efeito parallax */
+}
+
+.desk-item {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-light);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.desk-item:hover {
+    transform: translateY(-10px) scale(1.05);
+}
+
+.item-icon {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.item-icon img {
+    max-width: 80px;
+    max-height: 80px;
+    transition: filter 0.4s ease;
+}
+.desk-item:hover .item-icon img {
+    filter: drop-shadow(0 0 15px rgba(196, 170, 131, 0.6));
+}
+
+.item-label {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-top: 10px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
+    white-space: nowrap;
+}
+
+.desk-item:hover .item-label {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Posicionamento artístico dos itens */
+#item-primordial { top: 30%; left: 50%; transform: translateX(-50%); }
+#item-blog { top: 0; left: 10%; }
+#item-social { top: 5%; right: 10%; }
+#item-freebie { top: 60%; left: 15%; }
+
+.linkpage-footer {
+    font-size: 0.8rem;
+    color: #666;
+    opacity: 0.8;
+}
+
+/* Responsividade para Mobile */
+@media (max-width: 600px) {
+    .mentors-desk {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .desk-item {
+        position: static;
+        transform: none !important; /* Reseta o JS do parallax */
+    }
+    .desk-item:hover {
+        transform: scale(1.05); /* Mantém um hover simples */
+    }
+    .item-label {
+        opacity: 1; /* Deixa os labels sempre visíveis no mobile */
+        transform: none;
+        background: none;
+        font-size: 1rem;
+        color: #aaa;
+    }
+    .desk-item:hover .item-label {
+        color: var(--accent-gold);
+    }
+}
