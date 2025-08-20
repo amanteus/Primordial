@@ -95,3 +95,83 @@
     }
     .desk-item:hover .item-label { color: var(--accent-gold); }
 }
+/* ... estilos do @font-face e :root ... */
+/* ... estilos do pre-loader, .linkpage-body, .desk-container, .mentors-desk, etc. ... */
+
+/* =============================================== */
+/* --- ESTILOS PARA O MAPA TÁTICO DA ALCATEIA --- */
+/* =============================================== */
+.tactical-map {
+    position: relative;
+    max-width: 500px;
+    width: 100%;
+    margin: 40px auto 20px auto;
+    border-radius: 8px;
+    background-color: #000;
+    border: 1px solid #222;
+    overflow: hidden;
+}
+.map-svg-wrapper {
+    position: relative;
+}
+#brazil-map path {
+    fill: #1a1a1a;
+    stroke: #333;
+    stroke-width: 1;
+    transition: fill 0.5s ease-out;
+}
+#brazil-map path.highlight {
+    fill: var(--accent-gold);
+}
+#map-points {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+}
+.map-point {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--accent-gold);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse-and-fade 3s ease-out forwards;
+}
+@keyframes pulse-and-fade {
+    0% { transform: translate(-50%, -50%) scale(0.5); box-shadow: 0 0 0 0 rgba(196, 170, 131, 0.7); opacity: 1; }
+    70% { box-shadow: 0 0 0 15px rgba(196, 170, 131, 0); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+.map-notification {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, 150%);
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    color: var(--text-light);
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    transition: transform 0.5s ease-out;
+}
+.map-notification.visible {
+    transform: translate(-50%, 0);
+}
+.notification-name {
+    font-weight: bold;
+    color: var(--accent-gold);
+}
+.map-overlay-text {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    text-align: left;
+}
+#map-stats-counter {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--accent-gold);
+}
