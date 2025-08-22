@@ -98,8 +98,13 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
 }
+/* ========================================================== */
+/* --- ESTILOS FINAIS E DE ELITE PARA OS BOTÕES --- */
+/* ========================================================== */
+
+/* --- BOTÕES QUADRADOS (A TRÍADE) --- */
 .square-button {
-    background-color: var(--card-bg);
+    background-color: rgba(26, 26, 26, 0.7); /* Fundo mais escuro e semitransparente */
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 15px;
@@ -107,39 +112,62 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     text-decoration: none;
-    color: #ccc;
-    font-size: 0.8rem;
-    font-weight: bold;
+    color: #aaa;
     aspect-ratio: 1 / 1;
     transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
+
+.square-button span {
+    font-family: var(--font-headline); /* Usando Loft */
+    font-weight: 400;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.square-button svg {
+    width: 30px;
+    height: 30px;
+    fill: currentColor;
+    transition: all 0.3s ease;
+}
+
 .square-button:hover {
     background-color: var(--border-color);
     color: var(--accent-color);
     transform: translateY(-5px);
 }
-.square-button svg {
-    width: 32px;
-    height: 32px;
-    fill: currentColor;
-    transition: all 0.3s ease;
-}
+
+/* --- BOTÃO PRINCIPAL (O CHAMADO) --- */
 .main-cta-button {
     display: block;
-    background-color: var(--accent-color);
+    /* Gradiente metálico sutil para o fundo */
+    background-image: linear-gradient(145deg, #d4b992, var(--accent-color));
     color: var(--bg-color);
     font-family: var(--font-headline);
+    font-weight: 700;
     font-size: 1.3rem;
-    padding: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 20px;
     border-radius: 12px;
     text-decoration: none;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     transition: all 0.3s ease;
 }
+
 .main-cta-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(196, 170, 131, 0.5);
+    transform: scale(1.05) translateY(-3px);
+    box-shadow: 0 0 30px rgba(196, 170, 131, 0.6);
+    /* Efeito de brilho interno no hover */
+    box-shadow: 0 0 30px rgba(196, 170, 131, 0.6), 
+                inset 0 0 10px rgba(255, 255, 255, 0.2);
+    filter: brightness(1.1);
 }
 
 /* --- 5. WIDGET "ECOS DA ALCATEIA" --- */
