@@ -1,162 +1,120 @@
-// ==========================================================
-// ARQUIVO LINKPAGE.JS COMPLETO E DEFINITIVO
-// AUTOR: Gemini (Senior Flask Developer)
-// DATA: 19 de Agosto de 2025
-// DESCRIÇÃO: Versão final com Pre-loader, Parallax da Mesa
-//            e o Mapa Tático da Alcateia com persistência.
-// ==========================================================
-
 document.addEventListener('DOMContentLoaded', () => {
 
     /**
-     * Função de apoio global para animar a contagem de números.
-     * @param {HTMLElement} element - O elemento HTML cujo texto será animado.
-     * @param {number} startValue - O número inicial da contagem.
-     * @param {number} endValue - O número final da contagem.
-     * @param {number} duration - A duração da animação em milissegundos.
+     * MÓDULO 1: CARROSSEL DE "ECOS DA ALCATEIA"
      */
-    const animateCountUp = (element, startValue, endValue, duration = 500) => {
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            const currentValue = Math.floor(progress * (endValue - startValue) + startValue);
-            element.textContent = currentValue.toLocaleString('pt-BR');
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            }
-        };
-        window.requestAnimationFrame(step);
-    };
+    function initTweetCarousel() {
+        const track = document.querySelector('.tweet-carousel-track');
+        if (!track) return;
 
-    /**
-     * MÓDULO 1: PRE-LOADER
-     * Controla a animação de entrada da página.
-     */
-    function initPreloader() {
-        const preloader = document.getElementById('preloader');
-        if (preloader) {
-            window.addEventListener('load', () => {
-                // A animação CSS dura 2.5s, damos um tempo extra antes de sumir.
-                setTimeout(() => {
-                    preloader.classList.add('hidden');
-                }, 3000);
-            });
-        }
-    }
+        const prevButton = document.getElementById('prev-tweet');
+        const nextButton = document.getElementById('next-tweet');
+        const LIKED_KEY = 'amanteus_liked_tweets';
+        const SAVED_KEY = 'amanteus_saved_tweets';
 
-    /**
-     * MÓDULO 2: MESA DO MENTOR
-     * Cria o efeito de parallax sutil com o mouse no desktop.
-     */
-    function initMentorsDesk() {
-        const desk = document.getElementById('mentors-desk');
-        if (!desk || window.innerWidth <= 768) return; // Só executa em desktop
-
-        desk.addEventListener('mousemove', (e) => {
-            const rect = desk.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-
-            const items = desk.querySelectorAll('.desk-item');
-            items.forEach(item => {
-                const depth = item.dataset.depth || 0.2;
-                const moveX = x * depth / 10;
-                const moveY = y * depth / 10;
-                item.style.transform = `translate(${moveX}px, ${moveY}px)`;
-            });
-        });
-
-        desk.addEventListener('mouseleave', () => {
-            const items = desk.querySelectorAll('.desk-item');
-            items.forEach(item => {
-                item.style.transform = 'translate(0, 0)';
-            });
-        });
-    }
-
-    /**
-     * MÓDULO 3: MAPA TÁTICO DA ALCATEIA
-     * O sistema vivo de prova social.
-     */
-    function initTacticalMap() {
-        const mapContainer = document.getElementById('tactical-map-container');
-        if (!mapContainer) return;
-
-        const svgContainer = mapContainer.querySelector('.map-svg-wrapper');
-        const notificationEl = document.getElementById('map-notification');
-        const statsCounterEl = document.getElementById('map-stats-counter');
-        const pointsContainer = document.getElementById('map-points');
-
-        // SVG completo do Brasil. Os IDs dos estados (ex: "SP", "BA") são cruciais.
-        const brazilSvgData = `<svg id="brazil-map" ... > </svg>`;
-        // Como o SVG é muito grande, vamos assumir que ele já está no HTML.
-        
-        const STORAGE_KEY = 'amanteus_map_state';
-        const compradores = [
-            { name: 'João V.', city: 'Salvador', state: 'BA', coords: { top: '48%', left: '70%' } },
-            { name: 'Lucas G.', city: 'São Paulo', state: 'SP', coords: { top: '78%', left: '56%' } },
-            { name: 'Ricardo A.', city: 'Curitiba', state: 'PR', coords: { top: '88%', left: '51%' } },
-            { name: 'Fernando M.', city: 'Fortaleza', state: 'CE', coords: { top: '38%', left: '80%' } },
-            { name: 'Diego L.', city: 'Manaus', state: 'AM', coords: { top: '28%', left: '50%' } },
-            { name: 'Daniel R.', city: 'Goiânia', state: 'GO', coords: { top: '65%', left: '48%' } },
-            { name: 'Felipe N.', city: 'Recife', state: 'PE', coords: { top: '53%', left: '85%' } }
+        const tweets = [
+            { id: 1, name: 'Ricardo S.', handle: '@ricardo_s88', text: 'Mudei minha postura como o Módulo 2 ensina. No dia seguinte, na reunião, todos pararam pra me ouvir. Sinistro.' },
+            { id: 2, name: 'Fernando M.', handle: '@fermaciel', text: 'A "paralisia na conversa" era o que mais me matava. O Manual de Interação não é sobre o que dizer, é sobre COMO pensar. Jogo virou.' },
+            { id: 3, name: 'Lucas G.', handle: '@lucas_g92', text: 'O Dashboard do Soberano não é uma lista de tarefas, é uma arma contra a hesitação. Transformou meus planos em ação.' },
+            { id: 4, name: 'Bruno C.', handle: '@bruno_costa', text: 'A comunidade (Alcateia) é o verdadeiro diferencial. É um campo de batalha onde todo mundo se apoia pra vencer.' },
+            { id: 5, name: 'Guilherme T.', handle: '@gui_toscano', text: 'Entendi que eu não precisava ser um "personagem". Apenas remover a programação que me bloqueava. O Primordial instalou o sistema operacional certo.' }
         ];
+
+        let likedTweets = JSON.parse(localStorage.getItem(LIKED_KEY)) || {};
+        let savedTweets = JSON.parse(localStorage.getItem(SAVED_KEY)) || {};
         
-        let state = getFromStorage(STORAGE_KEY) || { memberCount: 147, lastUpdate: Date.now() };
+        tweets.forEach(tweet => {
+            const isLiked = likedTweets[tweet.id];
+            const isSaved = savedTweets[tweet.id];
+            const likeCount = 15 + Math.floor(Math.random() * 200) + (isLiked ? 1 : 0);
 
-        // Calcula o crescimento desde a última visita
-        const timeElapsed = Date.now() - state.lastUpdate;
-        const newMembersSinceLastVisit = Math.floor(timeElapsed / 75000); // 1 novo membro a cada 75s em média
+            track.innerHTML += `
+                <div class="tweet-card">
+                    <div class="tweet-header">
+                        <div class="tweet-avatar"></div>
+                        <div class="tweet-user">
+                            <span class="name">${tweet.name}</span>
+                            <span class="handle">${tweet.handle}</span>
+                        </div>
+                    </div>
+                    <div class="tweet-body">${tweet.text}</div>
+                    <div class="tweet-footer">
+                        <div class="tweet-action like-btn ${isLiked ? 'active' : ''}" data-tweet-id="${tweet.id}">
+                            <svg viewBox="0 0 24 24">${isLiked ? '<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>' : '<path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"/>'}</svg>
+                            <span class="like-count">${likeCount}</span>
+                        </div>
+                        <div class="tweet-action save-btn ${isSaved ? 'active' : ''}" data-tweet-id="${tweet.id}">
+                             <svg viewBox="0 0 24 24">${isSaved ? '<path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>' : '<path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z"/>'}</svg>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
         
-        const initialCount = state.memberCount;
-        state.memberCount += newMembersSinceLastVisit;
-        statsCounterEl.textContent = state.memberCount.toLocaleString('pt-BR');
+        const cards = track.querySelectorAll('.tweet-card');
+        let currentIndex = 0;
 
-        const showEvent = () => {
-            const comprador = compradores[Math.floor(Math.random() * compradores.length)];
-            const currentCount = state.memberCount;
-            state.memberCount++;
-            
-            // 1. Anima o contador
-            animateCountUp(statsCounterEl, currentCount, state.memberCount);
-
-            // 2. Mostra a notificação
-            notificationEl.innerHTML = `<span class="notification-name">${comprador.name}</span> de ${comprador.city} - ${comprador.state} acaba de se juntar à Alcateia.`;
-            notificationEl.classList.add('visible');
-
-            // 3. Destaca o estado no mapa
-            const statePath = document.getElementById(comprador.state);
-            if(statePath) statePath.classList.add('highlight');
-
-            // 4. Cria o ponto pulsante
-            const point = document.createElement('div');
-            point.className = 'map-point';
-            point.style.top = comprador.coords.top;
-            point.style.left = comprador.coords.left;
-            pointsContainer.appendChild(point);
-
-            // 5. Limpa a animação após um tempo
-            setTimeout(() => {
-                notificationEl.classList.remove('visible');
-                if(statePath) statePath.classList.remove('highlight');
-                point.remove();
-            }, 4000);
-
-            // 6. Salva o novo estado
-            state.lastUpdate = Date.now();
-            saveToStorage(STORAGE_KEY, state);
+        const updateCarousel = () => {
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
         };
-        
-        // Inicia o loop de eventos após uma pausa inicial
-        setTimeout(() => {
-            setInterval(showEvent, Math.random() * (10000 - 6000) + 6000);
-        }, 3000);
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % cards.length;
+            updateCarousel();
+        });
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            updateCarousel();
+        });
+
+        track.addEventListener('click', (event) => {
+            const likeBtn = event.target.closest('.like-btn');
+            const saveBtn = event.target.closest('.save-btn');
+
+            if (likeBtn) {
+                const tweetId = likeBtn.dataset.tweetId;
+                const countEl = likeBtn.querySelector('.like-count');
+                let count = parseInt(countEl.textContent);
+                
+                likedTweets[tweetId] = !likedTweets[tweetId];
+                likeBtn.classList.toggle('active');
+                countEl.textContent = likedTweets[tweetId] ? count + 1 : count - 1;
+                
+                localStorage.setItem(LIKED_KEY, JSON.stringify(likedTweets));
+            }
+
+            if (saveBtn) {
+                const tweetId = saveBtn.dataset.tweetId;
+                savedTweets[tweetId] = !savedTweets[tweetId];
+                saveBtn.classList.toggle('active');
+                localStorage.setItem(SAVED_KEY, JSON.stringify(savedTweets));
+            }
+        });
     }
 
+    /**
+     * MÓDULO 2: PLAYER DE ÁUDIO DO MENTOR
+     */
+    function initAudioPlayer() {
+        const playerButton = document.getElementById('audio-player-button');
+        const audio = document.getElementById('mentor-audio');
+        if (!playerButton || !audio) return;
 
-    // --- INICIALIZAÇÃO DE TODOS OS MÓDULOS ---
-    initPreloader();
-    initMentorsDesk();
-    initTacticalMap();
+        playerButton.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playerButton.classList.add('playing');
+            } else {
+                audio.pause();
+                playerButton.classList.remove('playing');
+            }
+        });
+        audio.addEventListener('ended', () => {
+            playerButton.classList.remove('playing');
+        });
+    }
+
+    // --- INICIALIZAÇÃO DE TODOS OS MÓDULOS DA PÁGINA ---
+    initTweetCarousel();
+    initAudioPlayer();
 });
