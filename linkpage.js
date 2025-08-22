@@ -28,19 +28,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-/**
- * MÓDULO 2: WIDGET "ECOS DA ALCATEIA" (VERSÃO CORRIGIDA)
- */
+// ==========================================================
+// --- MÓDULO: WIDGET DE ECOS DA ALCATEIA (VERSÃO FINAL) ---
+// ==========================================================
 function initTweetCarousel() {
     const widget = document.getElementById('ecos-widget');
     const track = document.querySelector('.carousel-track');
     const indicatorsContainer = document.querySelector('.carousel-indicators');
+
     if (!widget || !track || !indicatorsContainer) return;
 
     const LIKED_KEY = 'amanteus_liked_ecos';
     const SAVED_KEY = 'amanteus_saved_ecos';
-    
-    // Seus dados dos "Ecos"
+
     const ecos = [
         { id: 1, name: 'Ricardo S.', handle: '@ricardo_s88', text: 'Mudei minha postura como o Módulo 2 ensina. No dia seguinte, na reunião, todos pararam pra me ouvir. Sinistro.' },
         { id: 2, name: 'Fernando M.', handle: '@fermaciel', text: 'A "paralisia na conversa" era o que mais me matava. O Manual de Interação não é sobre o que dizer, é sobre COMO pensar. Jogo virou.' },
@@ -52,11 +52,10 @@ function initTweetCarousel() {
     let likedEcos = getFromStorage(LIKED_KEY) || {};
     let savedEcos = getFromStorage(SAVED_KEY) || {};
     let currentIndex = 0;
-    let autoplayInterval;
+
+    // Popula o carrossel e os indicadores dinamicamente
     track.innerHTML = '';
     indicatorsContainer.innerHTML = '';
-
-    // Popula o carrossel com a estrutura completa, incluindo o footer
     ecos.forEach((eco, index) => {
         const isLiked = !!likedEcos[eco.id];
         const isSaved = !!savedEcos[eco.id];
@@ -74,11 +73,11 @@ function initTweetCarousel() {
                 <div class="eco-body"><p>${eco.text}</p></div>
                 <footer class="eco-footer">
                     <div class="eco-actions">
-                        <div class="eco-action like-btn ${isLiked ? 'active' : ''}" data-action="like">
+                        <div class="eco-action like-btn ${isLiked ? 'active' : ''}" data-action="like" title="Curtir">
                             <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                             <span class="like-count">${likeCount}</span>
                         </div>
-                        <div class="eco-action save-btn ${isSaved ? 'active' : ''}" data-action="save">
+                        <div class="eco-action save-btn ${isSaved ? 'active' : ''}" data-action="save" title="Salvar">
                             <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
                         </div>
                     </div>
@@ -91,75 +90,89 @@ function initTweetCarousel() {
     
     const cards = track.querySelectorAll('.eco-card');
     const dots = indicatorsContainer.querySelectorAll('.indicator-dot');
+    const cardWidth = cards[0].offsetWidth;
 
-    const updateCarousel = (transition = true) => {
-        track.style.transition = transition ? 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)' : 'none';
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    // --- LÓGICA DE SWIPE / ARRASTAR ---
+    let isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0, animationID;
+
+    const updateUI = () => {
+        track.style.transform = `translateX(${prevTranslate}px)`;
         dots.forEach(dot => dot.classList.remove('active'));
         dots[currentIndex].classList.add('active');
     };
 
-    const startAutoplay = () => {
-        stopAutoplay();
-        autoplayInterval = setInterval(() => {
-            currentIndex = (currentIndex + 1) % cards.length;
-            updateCarousel();
-        }, 7000); // Muda a cada 7 segundos
-    };
+    const getPositionX = (e) => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
 
-    const stopAutoplay = () => {
-        clearInterval(autoplayInterval);
-    };
-    
-    // --- LÓGICA DE SWIPE / ARRASTAR ---
-    let isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0;
-
-    const dragStart = (index) => (e) => {
+    const dragStart = (e) => {
         isDragging = true;
-        startPos = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-        stopAutoplay();
+        startPos = getPositionX(e);
+        animationID = requestAnimationFrame(animation);
+        track.style.transition = 'none';
         track.style.cursor = 'grabbing';
     };
 
     const dragMove = (e) => {
         if (isDragging) {
-            const currentPosition = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            const currentPosition = getPositionX(e);
             currentTranslate = prevTranslate + currentPosition - startPos;
-            track.style.transform = `translateX(${currentTranslate}px)`;
         }
     };
 
     const dragEnd = () => {
+        if (!isDragging) return;
         isDragging = false;
+        cancelAnimationFrame(animationID);
+        
         const movedBy = currentTranslate - prevTranslate;
-
         if (movedBy < -50 && currentIndex < cards.length - 1) currentIndex++;
         if (movedBy > 50 && currentIndex > 0) currentIndex--;
-        
-        prevTranslate = -currentIndex * widget.offsetWidth;
-        track.style.transform = `translateX(${prevTranslate}px)`;
+
+        prevTranslate = -currentIndex * cardWidth;
         track.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
-        
-        dots.forEach(dot => dot.classList.remove('active'));
-        dots[currentIndex].classList.add('active');
-        
         track.style.cursor = 'grab';
-        startAutoplay();
+        updateUI();
     };
 
-    track.addEventListener('mousedown', dragStart(currentIndex));
-    track.addEventListener('touchstart', dragStart(currentIndex));
+    function animation() {
+        track.style.transform = `translateX(${currentTranslate}px)`;
+        if (isDragging) requestAnimationFrame(animation);
+    }
+    
+    track.addEventListener('mousedown', dragStart);
+    track.addEventListener('touchstart', dragStart, { passive: true });
     track.addEventListener('mousemove', dragMove);
-    track.addEventListener('touchmove', dragMove);
+    track.addEventListener('touchmove', dragMove, { passive: true });
     track.addEventListener('mouseup', dragEnd);
     track.addEventListener('touchend', dragEnd);
     track.addEventListener('mouseleave', () => { if (isDragging) dragEnd(); });
 
-    // --- Lógica de Likes e Saves (inalterada) ---
-    track.addEventListener('click', (event) => { /* ... sua lógica de like e save ... */ });
+    // --- Lógica de Likes e Saves ---
+    track.addEventListener('click', (event) => {
+        const actionBtn = event.target.closest('.eco-action');
+        if (!actionBtn) return;
+        
+        // Impede que o clique acione o drag
+        event.stopPropagation();
 
-    // Inicia o autoplay
-    startAutoplay();
+        const action = actionBtn.dataset.action;
+        const card = actionBtn.closest('.eco-card');
+        const ecoId = card.dataset.ecoId;
+
+        if (action === 'like') {
+            const countEl = actionBtn.querySelector('.like-count');
+            let count = parseInt(countEl.textContent);
+            likedEcos[ecoId] = !likedEcos[ecoId];
+            countEl.textContent = likedEcos[ecoId] ? count + 1 : count - 1;
+            saveToStorage(LIKED_KEY, likedEcos);
+            actionBtn.classList.toggle('active');
+        }
+
+        if (action === 'save') {
+            savedEcos[ecoId] = !savedEcos[ecoId];
+            saveToStorage(SAVED_KEY, savedEcos);
+            actionBtn.classList.toggle('active');
+        }
+    });
 }
 
     /**
