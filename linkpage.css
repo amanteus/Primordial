@@ -1,91 +1,107 @@
 /* ========================================================== */
-/* --- ESTILOS PARA A LINKPAGE "HUB DE COMANDO" (VERSÃO FINAL) --- */
+/* --- ARQUIVO CSS PARA A LINKPAGE "HUB DE COMANDO" --- */
 /* ========================================================== */
 
-/* --- ESTILOS DO PRE-LOADER (LOGO AMANTEUS) --- */
-#preloader {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: #0f0f0f; /* Cor de fundo da marca */
-    z-index: 9999; display: flex;
-    justify-content: center; align-items: center; opacity: 1;
-    visibility: visible; transition: opacity 0.8s ease, visibility 0.8s ease;
+/* --- 1. FUNDAÇÃO: FONTES E VARIÁVEIS GLOBAIS --- */
+@font-face {
+    font-family: 'Loft';
+    src: url('fonts/Loft-Std-Regular.woff2') format('woff2'); /* Verifique o caminho correto */
+    font-weight: 400;
 }
-#preloader.hidden {
-    opacity: 0;
-    visibility: hidden;
+@font-face {
+    font-family: 'Houstiq';
+    src: url('fonts/Houstiq.otf') format('opentype'); /* Verifique o caminho correto */
 }
-#preloader-logo {
-    width: 100px; /* Tamanho do logo na tela */
-    height: auto;
+
+:root {
+    --bg-color: #0f0f0f;
+    --text-color: #f0f0f0;
+    --accent-color: #c4aa83;
+    --brand-green: #021710;
+    --card-bg: #1a1a1a;
+    --border-color: #2a2a2a;
+    --text-muted: #888;
+    --font-primary: 'Roboto', sans-serif;
+    --font-headline: 'Loft', sans-serif;
+    --font-script: 'Houstiq', cursive;
 }
-#preloader-logo .logo-path {
-    stroke: #c4aa83; /* Cor de destaque da marca */
-    stroke-width: 2;
-    fill: transparent;
-    stroke-dasharray: 4500; 
-    stroke-dashoffset: 4500;
-    animation: 
-        draw-logo 2s ease-in-out forwards,
-        fill-logo 1s ease-in-out 2s forwards; /* Atraso de 2s para preencher */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-@keyframes draw-logo { to { stroke-dashoffset: 0; } }
-@keyframes fill-logo { from { fill: transparent; } to { fill: #c4aa83; } }
 
-
-
-/* ========================================================== */
-/* --- ESTILOS PARA A LINKPAGE "HUB DE COMANDO" --- */
-/* ========================================================== */
-
-@font-face { /* ... suas fontes Loft e Houstiq ... */ }
-:root { /* ... suas variáveis de cor ... */ }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
+/* --- 2. LAYOUT PRINCIPAL E PRE-LOADER --- */
 .linkpage-body {
     background-color: var(--bg-color);
-    color: var(--text-light);
+    color: var(--text-color);
     font-family: var(--font-primary);
     display: flex;
     justify-content: center;
     padding: 40px 20px;
+    font-size: 16px;
 }
+
+#preloader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: var(--bg-color); z-index: 9999; display: flex;
+    justify-content: center; align-items: center; opacity: 1;
+    visibility: visible; transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#preloader.hidden { opacity: 0; visibility: hidden; }
+#preloader-logo { width: 100px; height: auto; }
+#preloader-logo .logo-path {
+    stroke: var(--accent-color); stroke-width: 2; fill: transparent;
+    stroke-dasharray: 4500; stroke-dashoffset: 4500;
+    animation: draw-logo 2s ease-in-out forwards, fill-logo 1s ease-in-out 2s forwards;
+}
+@keyframes draw-logo { to { stroke-dashoffset: 0; } }
+@keyframes fill-logo { from { fill: transparent; } to { fill: var(--accent-color); } }
+
 .linkpage-container {
     width: 100%;
     max-width: 420px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Espaçamento principal entre os blocos */
 }
-/* 1. HEADER (LEAD MAGNET) */
-.linkpage-header { margin-bottom: 30px; }
-.profile-picture {
+
+/* --- 3. HEADER (LEAD MAGNET) --- */
+.linkpage-header .profile-picture {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     border: 3px solid var(--accent-color);
     margin-bottom: 20px;
-    box-shadow: 0 0 20px rgba(196, 170, 131, 0.3);
+    object-fit: cover;
 }
-.logo { max-width: 180px; margin-bottom: 10px; }
+.linkpage-header .logo {
+    max-width: 180px;
+    margin-bottom: 10px;
+}
 .linkpage-header h1 {
     font-family: var(--font-headline);
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     line-height: 1.3;
 }
 .linkpage-header p {
     font-size: 1rem;
-    color: #aaa;
+    color: var(--text-muted);
     margin-top: 10px;
 }
-/* 2. BOTÕES */
+
+/* --- 4. BOTÕES E CTA --- */
 .button-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
-    margin-bottom: 20px;
 }
 .square-button {
-    background-color: #1a1a1a;
-    border: 1px solid #2a2a2a;
-    border-radius: 8px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -93,14 +109,14 @@
     justify-content: center;
     gap: 8px;
     text-decoration: none;
-    color: #aaa;
+    color: #ccc;
     font-size: 0.8rem;
     font-weight: bold;
     aspect-ratio: 1 / 1;
     transition: all 0.3s ease;
 }
 .square-button:hover {
-    background-color: #2a2a2a;
+    background-color: var(--border-color);
     color: var(--accent-color);
     transform: translateY(-5px);
 }
@@ -108,6 +124,7 @@
     width: 32px;
     height: 32px;
     fill: currentColor;
+    transition: all 0.3s ease;
 }
 .main-cta-button {
     display: block;
@@ -116,28 +133,28 @@
     font-family: var(--font-headline);
     font-size: 1.3rem;
     padding: 18px;
-    border-radius: 8px;
+    border-radius: 12px;
     text-decoration: none;
-    margin-bottom: 30px;
     transition: all 0.3s ease;
 }
 .main-cta-button:hover {
     transform: scale(1.05);
     box-shadow: 0 0 20px rgba(196, 170, 131, 0.5);
 }
-/* 3. WIDGET "ECOS DA ALCATEIA" */
-.tweet-carousel-wrapper {
-    background-color: #1a1a1a;
-    border: 1px solid #2a2a2a;
-    border-radius: 8px;
+
+/* --- 5. WIDGET "ECOS DA ALCATEIA" --- */
+.ecos-widget {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
     padding: 20px;
-    margin-bottom: 20px;
 }
 .carousel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    padding: 0 5px;
 }
 .carousel-header h3 {
     font-family: var(--font-headline);
@@ -153,36 +170,64 @@
     border-radius: 50%;
     cursor: pointer;
     font-size: 1.5rem;
+    line-height: 1;
+    transition: background-color 0.3s;
 }
-.tweet-carousel-track-container { overflow: hidden; }
-.tweet-carousel-track {
+.carousel-nav button:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+}
+.carousel-track-container { overflow: hidden; }
+.carousel-track {
     display: flex;
-    transition: transform 0.5s ease;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
-.tweet-card {
+.eco-card {
     flex: 0 0 100%;
-    padding: 10px;
+    padding: 10px 5px;
     text-align: left;
 }
-.tweet-header { display: flex; gap: 10px; align-items: center; }
-.tweet-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #333; }
-.tweet-user span { display: block; }
-.tweet-user .name { font-weight: bold; }
-.tweet-user .handle { font-size: 0.9rem; color: #888; }
-.tweet-body { margin: 15px 0; color: #ccc; line-height: 1.6; }
-.tweet-footer { display: flex; gap: 20px; color: #888; }
-.tweet-action { cursor: pointer; display: flex; align-items: center; gap: 5px; }
-.tweet-action:hover, .tweet-action.active { color: var(--accent-color); }
-.tweet-action svg { width: 18px; height: 18px; fill: currentColor; }
+.eco-header { display: flex; gap: 10px; align-items: center; }
+.eco-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #333;
+    flex-shrink: 0;
+}
+.eco-user span { display: block; line-height: 1.3; }
+.eco-user .name { font-weight: bold; }
+.eco-user .handle { font-size: 0.9rem; color: var(--text-muted); }
+.eco-body { margin: 15px 0; color: #ccc; line-height: 1.6; }
+.eco-footer { display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); }
+.eco-actions { display: flex; gap: 20px; }
+.eco-action { cursor: pointer; display: flex; align-items: center; gap: 5px; transition: color 0.3s; }
+.eco-action:hover, .eco-action.active { color: var(--accent-color); }
+.eco-action svg { width: 18px; height: 18px; fill: currentColor; }
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+}
+.indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #444;
+    transition: background-color 0.3s;
+}
+.indicator-dot.active {
+    background-color: var(--accent-color);
+}
 
-/* 4. PLAYER DE ÁUDIO */
+/* --- 6. PLAYER DE ÁUDIO --- */
 #audio-player-button .pause-icon { display: none; }
 #audio-player-button.playing .pause-icon { display: block; }
 #audio-player-button.playing .play-icon { display: none; }
 
-/* 5. RODAPÉ */
+/* --- 7. RODAPÉ --- */
 .linkpage-footer {
     font-size: 0.8rem;
     color: #666;
-    margin-top: 20px;
 }
