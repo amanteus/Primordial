@@ -28,20 +28,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
- * MÓDULO 2: WIDGET "ECOS DA ALCATEIA" (FLUXO CONTÍNUO)
- * Controla o carrossel de prova social com autoplay e swipe.
+/**
+ * MÓDULO 2: WIDGET "ECOS DA ALCATEIA" (VERSÃO CORRIGIDA)
  */
 function initTweetCarousel() {
     const widget = document.getElementById('ecos-widget');
     const track = document.querySelector('.carousel-track');
     const indicatorsContainer = document.querySelector('.carousel-indicators');
-
     if (!widget || !track || !indicatorsContainer) return;
 
     const LIKED_KEY = 'amanteus_liked_ecos';
     const SAVED_KEY = 'amanteus_saved_ecos';
-
+    
+    // Seus dados dos "Ecos"
     const ecos = [
         { id: 1, name: 'Ricardo S.', handle: '@ricardo_s88', text: 'Mudei minha postura como o Módulo 2 ensina. No dia seguinte, na reunião, todos pararam pra me ouvir. Sinistro.' },
         { id: 2, name: 'Fernando M.', handle: '@fermaciel', text: 'A "paralisia na conversa" era o que mais me matava. O Manual de Interação não é sobre o que dizer, é sobre COMO pensar. Jogo virou.' },
@@ -54,8 +53,10 @@ function initTweetCarousel() {
     let savedEcos = getFromStorage(SAVED_KEY) || {};
     let currentIndex = 0;
     let autoplayInterval;
+    track.innerHTML = '';
+    indicatorsContainer.innerHTML = '';
 
-    // Popula o carrossel
+    // Popula o carrossel com a estrutura completa, incluindo o footer
     ecos.forEach((eco, index) => {
         const isLiked = !!likedEcos[eco.id];
         const isSaved = !!savedEcos[eco.id];
@@ -71,8 +72,20 @@ function initTweetCarousel() {
                     </div>
                 </header>
                 <div class="eco-body"><p>${eco.text}</p></div>
-                <footer class="eco-footer"></footer>
+                <footer class="eco-footer">
+                    <div class="eco-actions">
+                        <div class="eco-action like-btn ${isLiked ? 'active' : ''}" data-action="like">
+                            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            <span class="like-count">${likeCount}</span>
+                        </div>
+                        <div class="eco-action save-btn ${isSaved ? 'active' : ''}" data-action="save">
+                            <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+                        </div>
+                    </div>
+                    <time class="eco-timestamp">${index + 1}d</time>
+                </footer>
             </article>`;
+        
         indicatorsContainer.innerHTML += `<div class="indicator-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>`;
     });
     
