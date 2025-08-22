@@ -1,4 +1,39 @@
 /* ========================================================== */
+/* --- ESTILOS PARA A LINKPAGE "HUB DE COMANDO" (VERSÃO FINAL) --- */
+/* ========================================================== */
+
+/* --- ESTILOS DO PRE-LOADER (LOGO AMANTEUS) --- */
+#preloader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #0f0f0f; /* Cor de fundo da marca */
+    z-index: 9999; display: flex;
+    justify-content: center; align-items: center; opacity: 1;
+    visibility: visible; transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+#preloader-logo {
+    width: 100px; /* Tamanho do logo na tela */
+    height: auto;
+}
+#preloader-logo .logo-path {
+    stroke: #c4aa83; /* Cor de destaque da marca */
+    stroke-width: 2;
+    fill: transparent;
+    stroke-dasharray: 4500; 
+    stroke-dashoffset: 4500;
+    animation: 
+        draw-logo 2s ease-in-out forwards,
+        fill-logo 1s ease-in-out 2s forwards; /* Atraso de 2s para preencher */
+}
+@keyframes draw-logo { to { stroke-dashoffset: 0; } }
+@keyframes fill-logo { from { fill: transparent; } to { fill: #c4aa83; } }
+
+
+
+/* ========================================================== */
 /* --- ESTILOS PARA A LINKPAGE "HUB DE COMANDO" --- */
 /* ========================================================== */
 
