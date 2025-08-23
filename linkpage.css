@@ -108,72 +108,109 @@
 /* --- ESTILOS FINAIS E DE ELITE PARA OS BOTÕES --- */
 /* ========================================================== */
 
-* --- 3. REDESIGN DOS BOTÕES --- */
+/* --- 2. BOTÕES (NOVO DESIGN DE ELITE) --- */
 
-/* Botões Quadrados (Tríade) */
+/* Botões Quadrados (A Tríade) */
 .square-button {
-    background-color: rgba(26, 26, 26, 0.5); /* Mais transparente */
-    border: 1px solid #2a2a2a;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #aaa;
+    aspect-ratio: 1 / 1;
+    transition: all 0.3s ease;
 }
 .square-button span {
-    font-family: var(--font-headline); /* Fonte Houstiq para contraste */
-    font-size: 1rem;
-    text-transform: none; /* Remove o uppercase para um look mais sofisticado */
-    letter-spacing: 0;
+    font-family: var(--font-primary); /* Roboto */
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.square-button svg {
+    width: 30px;
+    height: 30px;
+    fill: currentColor;
+    transition: all 0.3s ease;
 }
 .square-button:hover {
     border-color: var(--accent-color);
+    background-color: var(--card-bg);
+    color: var(--accent-color);
+    transform: translateY(-5px);
 }
 
-/* Botão Principal (CTA) */
+/* Botão Principal (O Chamado) */
 .main-cta-button {
+    display: block;
     background-image: linear-gradient(145deg, #d4b992, var(--accent-color));
+    color: var(--bg-color);
     font-family: var(--font-headline); /* Loft */
     font-weight: 700;
+    font-size: 1.3rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
+    padding: 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    border: none;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
 }
 .main-cta-button:hover {
-    filter: brightness(1.1);
+    transform: scale(1.05) translateY(-3px);
     box-shadow: 0 0 30px rgba(196, 170, 131, 0.6);
+    filter: brightness(1.1);
 }
-/* --- 5. WIDGET "ECOS DA ALCATEIA" --- */
+
+/* --- 3. CARROSSEL DE "ECOS" (NOVOS CONTROLES E ESTILO) --- */
+
 .ecos-widget {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 20px;
+    background-color: transparent; /* Remove o fundo para um visual mais integrado */
+    border: none; /* Remove a borda */
+    padding: 0; /* Remove o padding interno */
+    margin-bottom: 20px;
 }
 .carousel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    padding: 0 5px;
+    padding: 0 5px; /* Adiciona um pequeno padding para alinhar com os cards */
 }
 .carousel-header h3 {
-    font-family: var(--font-headline);
+    font-family: var(--font-headline); /* Loft */
     color: var(--text-color);
     font-size: 1.2rem;
 }
 .carousel-nav button {
-    background: #333;
-    border: none;
-    color: var(--text-color);
-    width: 30px;
-    height: 30px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 1.5rem;
-    line-height: 1;
-    transition: background-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s;
 }
 .carousel-nav button:hover {
     background-color: var(--accent-color);
     color: var(--bg-color);
+    border-color: var(--accent-color);
+}
+.carousel-nav button svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
 }
 .carousel-track-container { overflow: hidden; }
 .carousel-track {
