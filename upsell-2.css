@@ -1,0 +1,179 @@
+/* ========================================================== */
+/* --- ARQUIVO CSS PARA A PÁGINA UPSELL 2: "O ORÁCULO" --- */
+/* ========================================================== */
+
+/* --- 1. FUNDAÇÃO: FONTES E VARIÁVEIS GLOBAIS --- */
+@font-face {
+    font-family: 'Loft';
+    src: url('fonts/Loft-Std-Regular.woff2') format('woff2'); /* Verifique o caminho */
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'Houstiq';
+    src: url('fonts/Houstiq.otf') format('opentype'); /* Verifique o caminho */
+}
+
+:root {
+    --bg-color: #0f0f0f;
+    --text-color: #f0f0f0;
+    --accent-color: #c4aa83;
+    --font-primary: 'Roboto', sans-serif;
+    --font-headline: 'Loft', sans-serif;
+    --font-script: 'Houstiq', cursive;
+}
+
+/* --- ESTILOS GERAIS HERDADOS --- */
+.protocolo-body { background-color: #151515; }
+.protocolo-page { /* Estilos da página principal */ }
+.secao { padding: 80px 0; position: relative; }
+.container { width: 90%; max-width: 900px; margin: 0 auto; }
+.section-title { font-family: var(--font-headline); font-size: clamp(2.2rem, 5vw, 3.5rem); text-align: center; margin-bottom: 20px; }
+.section-subtitle-gold { font-family: var(--font-headline); color: var(--accent-color); text-align: center; margin-bottom: 20px; }
+.protocolo-subtitle { color: #aaa; text-align: center; max-width: 700px; margin: 0 auto; }
+.copy-block { max-width: 700px; margin: 40px auto; text-align: center; }
+.copy-block p { margin-bottom: 20px; line-height: 1.8; }
+.highlight-dark { color: var(--accent-color); }
+.anim-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+.anim-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+.upsell-pre-header { /* Estilo do pre-header já existe no seu style.css principal */ }
+
+/* --- ATO 1: O ABISMO --- */
+.abyss-header { margin-bottom: 60px; }
+.abyss-visual {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 700px;
+    margin: 60px auto;
+}
+.abyss-side {
+    font-family: var(--font-headline);
+    font-size: 1.2rem;
+    color: #888;
+    letter-spacing: 2px;
+}
+.abyss-bridge {
+    flex-grow: 1;
+    height: 2px;
+    background: linear-gradient(to right, var(--accent-color), transparent 40%, transparent 60%, var(--accent-color));
+    opacity: 0.3;
+    margin: 0 20px;
+}
+
+/* --- ATO 2: AS DUAS JORNADAS --- */
+.journeys-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 50px;
+}
+.journey-card {
+    border: 1px solid #333;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    padding: 30px;
+    transition: all 0.3s ease;
+}
+.journey-card h3 {
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #444;
+}
+.journey-card.journey-man1 h3 { color: #888; }
+.journey-card.journey-man2 {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 30px rgba(196, 170, 131, 0.2);
+}
+.journey-card.journey-man2 h3 {
+    color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
+}
+
+/* --- ATO 3: O ORÁCULO (CHAT) --- */
+.oracle-chat-window {
+    max-width: 700px;
+    margin: 50px auto;
+    background-color: #000;
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(196, 170, 131, 0.2);
+    display: flex;
+    flex-direction: column;
+    height: 450px;
+}
+.oracle-header {
+    background-color: #1a1a1a;
+    color: var(--accent-color);
+    padding: 15px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    border-bottom: 1px solid #333;
+    text-align: center;
+    flex-shrink: 0;
+}
+.oracle-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+.oracle-message {
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fade-in-up 0.6s ease-out forwards;
+}
+.oracle-message .sender {
+    display: block;
+    font-family: var(--font-headline);
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.oracle-message.user .sender { color: #ccc; }
+.oracle-message.oracle .sender { color: var(--accent-color); }
+.oracle-message .text {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 15px;
+}
+.oracle-message.user .text {
+    background-color: #2a2a2a;
+}
+.oracle-message.oracle .text {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: transparent;
+    padding-left: 0;
+}
+.typing-cursor {
+    animation: blink 1s infinite;
+    display: inline-block;
+    background-color: var(--accent-color);
+    width: 10px;
+    height: 1.2rem;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* --- ATO 4: A OFERTA --- */
+.offer-box {
+    /* Estilos herdados do seu CSS principal, sem necessidade de novas regras */
+}
+.price-section .price-descriptor {
+    color: #888;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+    .secao { padding: 60px 0; }
+    .journeys-grid {
+        grid-template-columns: 1fr;
+    }
+    .oracle-chat-window {
+        height: 400px;
+    }
+}
