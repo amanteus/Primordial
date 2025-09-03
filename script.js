@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initNotionAnimation();
         initCtaPact();
         initUpsellPage();
+        initUpsell2Page();
         initScarcityAndSocialProof();
         initCommentSystem();
         initObrigadoPage();
