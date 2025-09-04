@@ -1,106 +1,190 @@
 // ==========================================================
-// --- SCRIPT PARA A PÁGINA UPSELL 2: "O ORÁCULO" ---
+// --- SCRIPT DEDICADO PARA UPSELL 2: "O ORÁCULO" ---
 // ==========================================================
 
-function initUpsell2Page() {
-    // --- Seleção de Elementos ---
-    const chatWindow = document.getElementById('oracle-chat-window');
-    const messagesContainer = document.getElementById('oracle-messages');
+document.addEventListener('DOMContentLoaded', () => {
 
-    // Guarda de segurança: só executa se os elementos da página existirem.
-    if (!chatWindow || !messagesContainer) {
-        return;
-    }
+    function initUpsell2Page() {
+        // --- GUARDA DE SEGURANÇA ---
+        const pageIdentifier = document.getElementById('oracle-section');
+        if (!pageIdentifier) return;
 
-    // --- Roteiro da Simulação Socrática ---
-    const chatScript = [
-        {
-            sender: 'user',
-            text: 'Vou encontrar uma mulher que me intimida hoje à noite. O que eu digo?',
-            delay: 1500
-        },
-        {
-            sender: 'oracle',
-            text: '// INICIANDO PROTOCOLO SOCRÁTICO...',
-            delay: 2000
-        },
-        {
-            sender: 'oracle',
-            text: 'Analisando... Sua pergunta assume que o "o quê" é mais importante que o "quem". Por que você acredita que precisa de um roteiro para validar sua presença?',
-            delay: 4000
-        },
-        {
-            sender: 'user',
-            text: '...porque tenho medo do silêncio ou de dizer a coisa errada.',
-            delay: 3500
-        },
-        {
-            sender: 'oracle',
-            text: 'Correto. A fissura na sua estratégia não é a falta de palavras, é o medo da sua própria autenticidade. Seu objetivo hoje não é "dizer a coisa certa". É calibrar sua presença para que seu silêncio seja mais poderoso que as palavras de outros homens.',
-            delay: 5000
-        },
-        {
-            sender: 'oracle',
-            text: 'Protocolo sugerido: Foco em Contato Visual e Dominância de Frame. Iniciar?',
-            delay: 3000
+        // --- MÓDULO 1: ANIMAÇÕES DE SCROLL COM GSAP ---
+        function startScrollAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Animação do fundo dinâmico
+            const dynamicBg = document.querySelector('.dynamic-background');
+            if (dynamicBg) {
+                gsap.to(dynamicBg, {
+                    scrollTrigger: {
+                        trigger: "body",
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 1.5
+                    },
+                    opacity: 0.2,
+                    scale: 1.5,
+                    rotate: 45
+                });
+            }
+
+            // Animação de revelação de texto para headlines
+            const textReveals = document.querySelectorAll('[data-animation="text-reveal"]');
+            textReveals.forEach(textEl => {
+                // Prepara o texto dividindo em spans
+                const chars = textEl.textContent.split('').map(char => `<span class="char">${char === ' ' ? '&nbsp;' : char}</span>`).join('');
+                textEl.innerHTML = chars;
+
+                gsap.from(textEl.querySelectorAll('.char'), {
+                    scrollTrigger: {
+                        trigger: textEl,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none none"
+                    },
+                    opacity: 0,
+                    y: 40,
+                    ease: "back.out(1.7)",
+                    stagger: 0.03,
+                    duration: 0.8
+                });
+            });
+
+            // Animação de Parallax para as "Duas Jornadas"
+            const journeyCards = document.querySelectorAll('.journey-card');
+            journeyCards.forEach(card => {
+                const speed = card.dataset.speed || 1;
+                gsap.to(card, {
+                    y: (i, target) => -(target.offsetHeight * (1 - speed)) * ScrollTrigger.maxScroll(window),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
         }
-    ];
 
-    // --- Funções do Motor de Animação ---
-    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+        // --- MÓDULO 2: SIMULAÇÃO DE CHAT DO ORÁCULO ---
+        function startOracleChat() {
+            const browserWindow = document.querySelector('.browser-window');
+            if (!browserWindow) return;
 
-    async function typeText(element, text) {
-        element.innerHTML = '';
-        for (let char of text) {
-            element.innerHTML += char;
-            await wait(40); // Velocidade da digitação
-        }
-    }
+            const tabs = browserWindow.querySelectorAll('.browser-tab');
+            const chatSimulations = browserWindow.querySelectorAll('.chat-simulation');
+            const playedTabs = new Set(); // Armazena as abas que já tiveram a animação executada
 
-    async function startChatAnimation() {
-        messagesContainer.innerHTML = ''; // Limpa o chat antes de começar
-        await wait(1000); // Pausa inicial
+            const chatScripts = {
+                '1': [ // Dúvida Pré-Interação
+                    { sender: 'user', text: 'Vou encontrar uma mulher que me intimida hoje. O que eu digo?' },
+                    { sender: 'oracle', text: '// INICIANDO PROTOCOLO SOCRÁTICO...' },
+                    { sender: 'oracle', text: 'Analisando... Sua pergunta assume que o "o quê" é mais importante que o "quem". Por que você acredita que precisa de um roteiro para validar sua presença?' }
+                ],
+                '2': [ // Análise Pós-Ação
+                    { sender: 'user', text: 'A conversa morreu. Falei do meu trabalho e ela pareceu entediada.' },
+                    { sender: 'oracle', text: '// AUTÓPSIA DE INTERAÇÃO EM ANDAMENTO...' },
+                    { sender: 'oracle', text: 'Você descreveu fatos ou transmitiu paixão? O tédio não nasce do assunto, mas da ausência de emoção. Qual sentimento você queria que ela sentisse ao ouvir sobre seu trabalho?' }
+                ],
+                '3': [ // Calibragem Estratégica
+                    { sender: 'user', text: 'Tenho uma negociação de salário amanhã. Sinto que não mereço o valor que vou pedir.' },
+                    { sender: 'oracle', text: '// RECALIBRANDO FRAME DE VALOR...' },
+                    { sender: 'oracle', text: 'A negociação não é sobre o que você acha que merece. É sobre o custo que a empresa teria para substituir o valor que você gera. Liste três problemas críticos que você resolveu nos últimos 6 meses.' }
+                ]
+            };
 
-        for (const msg of chatScript) {
-            await wait(msg.delay);
+            const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+            async function typeText(element, text) { /* ... (função de digitação) ... */ }
 
-            const messageEl = document.createElement('div');
-            messageEl.className = `oracle-message ${msg.sender}`;
+            async function runChatAnimation(simulationEl) {
+    const messagesContainer = simulationEl.querySelector('.oracle-messages');
+    const scriptKey = simulationEl.id.split('-')[2];
+    const script = chatScripts[scriptKey];
+    
+    if (!script) return;
+    
+    messagesContainer.innerHTML = '';
+    await wait(500);
 
-            const senderEl = document.createElement('span');
-            senderEl.className = 'sender';
-            senderEl.textContent = msg.sender === 'user' ? 'Você:' : 'Oráculo IA:';
+    for (const msg of script) {
+        await wait(msg.delay || 1500);
+
+        const messageEl = document.createElement('div');
+        messageEl.className = `oracle-message ${msg.sender}`;
+
+        const senderEl = document.createElement('span');
+        senderEl.className = 'sender';
+        senderEl.textContent = msg.sender === 'user' ? 'Você:' : 'Oráculo IA:';
+        
+        const textEl = document.createElement('div');
+        textEl.className = 'text';
+
+        messageEl.appendChild(senderEl);
+        messageEl.appendChild(textEl);
+        messagesContainer.appendChild(messageEl);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        
+        const cursor = document.createElement('span');
+        cursor.className = 'typing-cursor';
+        cursor.textContent = '_';
+
+        if (msg.sender === 'oracle') {
+            textEl.appendChild(cursor);
+            await wait(1000 + Math.random() * 500); // Simula "pensamento"
             
-            const textEl = document.createElement('div');
-            textEl.className = 'text';
-
-            messageEl.appendChild(senderEl);
-            messageEl.appendChild(textEl);
-            messagesContainer.appendChild(messageEl);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-            if (msg.sender === 'oracle') {
-                const cursor = document.createElement('span');
-                cursor.className = 'typing-cursor';
-                cursor.textContent = '_';
+            let currentText = '';
+            for (let char of msg.text) {
+                currentText += char;
+                textEl.textContent = currentText;
                 textEl.appendChild(cursor);
-                await wait(1000); // Simula "pensamento"
-                await typeText(textEl, msg.text);
-            } else {
-                textEl.textContent = msg.text;
+                await wait(30); // Velocidade de digitação
             }
+            cursor.remove();
+        } else {
+            textEl.textContent = msg.text;
         }
     }
-
-    // --- Gatilho da Animação ---
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                startChatAnimation();
-                observer.unobserve(entry.target); // Roda a animação apenas uma vez
-            }
-        });
-    }, { threshold: 0.6 }); // Dispara quando 60% do chat estiver visível
-
-    observer.observe(chatWindow);
 }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+                    
+                    tabs.forEach(t => t.classList.remove('active'));
+                    chatSimulations.forEach(s => s.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    const activeSimulation = document.getElementById(`chat-tab-${tabId}`);
+                    activeSimulation.classList.add('active');
+                    
+                    if (!playedTabs.has(tabId)) {
+                        runChatAnimation(activeSimulation);
+                        playedTabs.add(tabId);
+                    }
+                });
+            });
+
+            // Inicia a primeira animação assim que a seção se torna visível
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !playedTabs.has('1')) {
+                        runChatAnimation(document.getElementById('chat-tab-1'));
+                        playedTabs.add('1');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.6 });
+
+            observer.observe(browserWindow);
+        }
+
+        // --- INICIALIZAÇÃO DOS MÓDULOS DA PÁGINA ---
+        startScrollAnimations();
+        startOracleChat();
+    }
+    
+    // Chama a função principal da página
+    initUpsell2Page();
+});
