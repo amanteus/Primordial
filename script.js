@@ -121,13 +121,13 @@ document.addEventListener('DOMContentLoaded', () => {
         initEngagementMetrics();
         setupGeneralUI();
         initNotionAnimation();
-        initCtaPact();
-        initUpsellPage();
-        initUpsell2Page();
         initScarcityAndSocialProof();
         initCommentSystem();
-        initObrigadoPage();
+        initCtaPact();
+        initUpsellPage();
         initDownsellPage();
+        initObrigadoPage();
+        initUpsell2Page();
     }
 
     // --- MÓDULO: PRE-LOADER ---
