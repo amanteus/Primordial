@@ -100,7 +100,41 @@ function initHorizontalScroll() {
     // --- MÓDULO: SALA DE GUERRA DO AFILIADO (FLUXOGRAMA E DOSSIÊS) ---
 function initFunnelBlueprint() {
     const section = document.getElementById('funnel-blueprint-section');
-    if (!section) return;
+    const svg = document.getElementById('funnel-svg');
+    if (!section || !svg) return;
+
+    // Seleciona todos os nós e caminhos
+    const nodes = gsap.utils.toArray("#funnel-svg .node");
+    const paths = gsap.utils.toArray("#funnel-svg .path");
+
+    // Prepara os caminhos para a animação de "desenho"
+    paths.forEach(path => {
+        const length = path.getTotalLength();
+        path.style.strokeDasharray = length;
+        path.style.strokeDashoffset = length;
+    });
+
+    // Cria a linha do tempo principal com o ScrollTrigger
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: section,
+            start: "top center",
+            end: "bottom bottom",
+            scrub: 1.5,
+        }
+    });
+
+    // Adiciona as animações em sequência à linha do tempo
+    tl
+        .to("#node-primordial", { opacity: 1, duration: 0.5 })
+        .to("#path-1", { strokeDashoffset: 0, duration: 1 })
+        .to("#node-bump", { opacity: 1, duration: 0.5 })
+        .to("#path-2", { strokeDashoffset: 0, duration: 1 })
+        .to("#node-upsell", { opacity: 1, duration: 0.5 })
+        .to("#path-4", { strokeDashoffset: 0, duration: 1 }, "<") // Anima ao mesmo tempo que a anterior
+        .to("#node-downsell", { opacity: 1, duration: 0.5 })
+        .to("#path-3", { strokeDashoffset: 0, duration: 1 })
+        .to("#node-final", { opacity: 1, duration: 0.5 });
 
     const svgContainer = section.querySelector('.blueprint-svg-container');
     const menu = section.querySelector('.product-menu-scrollable');
