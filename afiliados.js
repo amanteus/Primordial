@@ -13,26 +13,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // Registra o plugin ScrollTrigger do GSAP
     gsap.registerPlugin(ScrollTrigger);
 
+// SUBSTITUA A FUNÇÃO initHorizontalScroll PELA VERSÃO ABAIXO
 function initHorizontalScroll() {
-    const track = document.querySelector('.comando-track');
-    const cards = gsap.utils.toArray('.dossier-card');
     const secaoComando = document.querySelector('.secao-comando');
+    const track = document.querySelector('.comando-track');
+    if (!secaoComando || !track) return;
 
-    if (!track || cards.length === 0 || !secaoComando) return;
-
-    // USA O matchMedia DO GSAP PARA APLICAR ANIMAÇÕES APENAS EM DESKTOP
+    // Apenas executa a animação em telas de desktop
     ScrollTrigger.matchMedia({
         "(min-width: 769px)": function() {
-            // Esta animação só será criada em telas com mais de 768px
-            gsap.to(cards, {
-                xPercent: -100 * (cards.length - 1),
+            
+            // Calcula a distância total que o track precisa rolar
+            const scrollDistance = track.offsetWidth - window.innerWidth;
+
+            // Define a altura da seção dinamicamente para ser o dobro da distância de rolagem
+            // Isso cria um ritmo de scroll confortável, sem espaços vazios excessivos
+            secaoComando.style.height = `${scrollDistance * 1.5}px`;
+
+            gsap.to(track, {
+                x: -scrollDistance, // Anima o eixo X até o final do track
                 ease: "none",
                 scrollTrigger: {
                     trigger: secaoComando,
-                    pin: true,
+                    pin: ".comando-wrapper", // "Pina" o wrapper na tela
                     scrub: 1,
-                    snap: 1 / (cards.length - 1),
-                    end: () => "+=" + track.offsetWidth
+                    start: "top top",
+                    end: "bottom bottom", // A animação dura toda a altura da seção
                 }
             });
         }
