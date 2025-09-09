@@ -1,59 +1,66 @@
 // ==========================================================
-// --- SCRIPT DEFINITIVO PARA A PÁGINA DE AFILIADOS (VERSÃO 33.0) ---
+// --- SCRIPT DEDICADO PARA A PÁGINA DE AFILIADOS ---
 // ==========================================================
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- ORQUESTRADOR PRINCIPAL DA PÁGINA DE AFILIADOS ---
-    function initAfiliadosPage() {
-        const afiliadosPageIdentifier = document.querySelector('.afiliados-page');
-        if (!afiliadosPageIdentifier) return;
-
-        gsap.registerPlugin(ScrollTrigger);
-        
-        initHorizontalScroll();
-        initCountUpAnimations();
-        initStaggeredReveals();
-        initFunnelBlueprint();
-        initRewardTrailAnimation();
+    // Guarda de segurança: só executa se estivermos na página de afiliados
+    const comandoSection = document.getElementById('comando-section');
+    if (!comandoSection) {
+        return;
     }
 
-    // --- MÓDULO 1: SCROLL HORIZONTAL (VERSÃO CORRIGIDA E ROBUSTA) ---
-    function initHorizontalScroll() {
-        const secaoComando = document.getElementById('comando-section');
-        if (!secaoComando) return;
+    // Registra o plugin ScrollTrigger do GSAP
+    gsap.registerPlugin(ScrollTrigger);
 
-        const track = secaoComando.querySelector('.comando-track');
-        const cards = gsap.utils.toArray(secaoComando.querySelectorAll('.dossier-card'));
-        if (!track || cards.length === 0) return;
-        
-        // Lógica de scroll horizontal que funciona em TODAS as telas
-        gsap.to(track, {
-            // Move o track horizontalmente pela sua largura de scroll menos a largura da tela
-            x: () => -(track.scrollWidth - document.documentElement.clientWidth),
-            ease: "none",
-            scrollTrigger: {
-                trigger: secaoComando,
-                pin: true,
-                scrub: 1,
-                end: () => "+=" + track.scrollWidth, // A duração do pin é a largura total do track
-            }
-        });
-    }
+// SUBSTITUA A FUNÇÃO initHorizontalScroll PELA VERSÃO ABAIXO
+function initHorizontalScroll() {
+    const secaoComando = document.querySelector('.secao-comando');
+    const track = document.querySelector('.comando-track');
+    if (!secaoComando || !track) return;
 
-    // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS ---
+    // Apenas executa a animação em telas de desktop
+    ScrollTrigger.matchMedia({
+        "(min-width: 769px)": function() {
+
+            // Calcula a distância total que o track precisa rolar
+            const scrollDistance = track.offsetWidth - window.innerWidth;
+
+            // Define a altura da seção dinamicamente para ser o dobro da distância de rolagem
+            // Isso cria um ritmo de scroll confortável, sem espaços vazios excessivos
+            secaoComando.style.height = `${scrollDistance * 1.5}px`;
+
+            gsap.to(track, {
+                x: -scrollDistance, // Anima o eixo X até o final do track
+                ease: "none",
+                scrollTrigger: {
+                    trigger: secaoComando,
+                    pin: ".comando-wrapper", // "Pina" o wrapper na tela
+                    scrub: 1,
+                    start: "top top",
+                    end: "bottom bottom", // A animação dura toda a altura da seção
+                }
+            });
+        }
+    });
+}
+
+    // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS (CORRIGIDO) ---
     function initCountUpAnimations() {
         const counters = document.querySelectorAll('[data-count-up]');
+
         counters.forEach(counter => {
             const endValue = parseFloat(counter.dataset.countUp);
             if (isNaN(endValue)) return;
+
+            // Usamos .fromTo() para definir o início e o fim, corrigindo o bug
             gsap.fromTo(counter, 
-                { textContent: "R$ 0,00" },
+                { textContent: 0 }, // Estado inicial
                 {
-                    textContent: endValue,
+                    textContent: endValue, // Estado final
                     duration: 2.5,
                     ease: 'power3.out',
-                    snap: { textContent: 0.01 },
+                    snap: { textContent: 1 },
                     scrollTrigger: {
                         trigger: counter,
                         start: 'top 85%',
@@ -61,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     onUpdate: function() {
                         const value = parseFloat(this.targets()[0].textContent);
+                        // Formata para moeda brasileira
                         this.targets()[0].textContent = `R$ ${value.toFixed(2).replace('.', ',')}`;
                     }
                 }
@@ -68,49 +76,69 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- MÓDULO 3: ANIMAÇÃO DE ENTRADA DAS SEÇÕES ---
+    // --- MÓDULO 3: ANIMAÇÃO DE ENTRADA PARA NOVAS SEÇÕES ---
     function initStaggeredReveals() {
-        const sectionsToAnimate = ['.regras-card', '.trilha-item'];
+        const sectionsToAnimate = ['.regras-card', '.recompensa-card'];
+
         sectionsToAnimate.forEach(selector => {
             const elements = gsap.utils.toArray(selector);
-            if (elements.length === 0) return;
             gsap.from(elements, {
                 scrollTrigger: {
-                    trigger: elements[0].parentElement,
-                    start: 'top 85%',
+                    trigger: elements[0].parentElement, // O container pai dos elementos
+                    start: 'top 80%',
                     toggleActions: 'play none none none'
                 },
                 opacity: 0,
                 y: 50,
                 duration: 0.8,
                 ease: 'power3.out',
-                stagger: 0.2
+                stagger: 0.2 // Efeito de cascata
             });
         });
     }
-    
-    // --- MÓDULO 4: ANIMAÇÃO DA TRILHA DA RECOMPENSA ---
-    function initRewardTrailAnimation() {
-        const container = document.getElementById('trilha-container');
-        const icon = document.getElementById('trilha-icon-animado');
-        if (!container || !icon) return;
-        gsap.to(icon, {
-            scrollTrigger: {
-                trigger: container,
-                start: "top center",
-                end: "bottom center",
-                scrub: 1.5,
-            },
-            y: container.offsetHeight - icon.offsetHeight,
-            ease: "none"
-        });
-    
+
+    // --- MÓDULO: SALA DE GUERRA DO AFILIADO (FLUXOGRAMA E DOSSIÊS) ---
     // ==========================================================
 // --- MÓDULO: SALA DE GUERRA DO AFILIADO (VERSÃO FINAL E COMPLETA) ---
 // ==========================================================
 function initFunnelBlueprint() {
     // --- 1. SELEÇÃO DE ELEMENTOS ---
     const section = document.getElementById('funnel-blueprint-section');
+    const svg = document.getElementById('funnel-svg');
+    if (!section || !svg) return;
+
+    // Seleciona todos os nós e caminhos
+    const nodes = gsap.utils.toArray("#funnel-svg .node");
+    const paths = gsap.utils.toArray("#funnel-svg .path");
+
+    // Prepara os caminhos para a animação de "desenho"
+    paths.forEach(path => {
+        const length = path.getTotalLength();
+        path.style.strokeDasharray = length;
+        path.style.strokeDashoffset = length;
+    });
+
+    // Cria a linha do tempo principal com o ScrollTrigger
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: section,
+            start: "top center",
+            end: "bottom bottom",
+            scrub: 1.5,
+        }
+    });
+
+    // Adiciona as animações em sequência à linha do tempo
+    tl
+        .to("#node-primordial", { opacity: 1, duration: 0.5 })
+        .to("#path-1", { strokeDashoffset: 0, duration: 1 })
+        .to("#node-bump", { opacity: 1, duration: 0.5 })
+        .to("#path-2", { strokeDashoffset: 0, duration: 1 })
+        .to("#node-upsell", { opacity: 1, duration: 0.5 })
+        .to("#path-4", { strokeDashoffset: 0, duration: 1 }, "<") // Anima ao mesmo tempo que a anterior
+        .to("#node-downsell", { opacity: 1, duration: 0.5 })
+        .to("#path-3", { strokeDashoffset: 0, duration: 1 })
+        .to("#node-final", { opacity: 1, duration: 0.5 });
     if (!section) return; // Guarda de segurança principal
 
     const svgContainer = section.querySelector('.blueprint-svg-container');
@@ -128,28 +156,16 @@ function initFunnelBlueprint() {
     const dossierData = {
         primordial: {
             title: "Dossiê: O Primordial (Produto Principal)",
-            content: `<p><strong>Como Funciona:</strong> O ponto de entrada. Um sistema de 4 módulos que desinstala a programação social defeituosa e recalibra o instinto masculino.</p>
-                      <p><strong>Base Científica:</strong> Neuroplasticidade, Psicologia Evolutiva e Cognição Incorporada. Ataca a raiz do problema (o software mental), não os sintomas.</p>
-                      <p><strong>Estratégia no Funil:</strong> A oferta principal. Qualifica apenas os homens mais comprometidos, criando um cliente de altíssimo valor que está pronto para a próxima etapa.</p>
-                      <p><strong>Objetivo para o Cliente:</strong> Quebrar a inércia, destruir a persona do "bom moço" e construir a fundação da confiança inabalável.</p>`
-        },
-        bump: {
-            title: "Dossiê: Order Bump (Aceleração Imediata)",
-            content: `<p><strong>Como Funciona:</strong> Um protocolo de ação rápida oferecido no checkout para gerar uma vitória instantânea.</p>
-                      <p><strong>Base Científica:</strong> Princípio do Compromisso e Consistência. Uma pequena primeira vitória (o "sim" ao bump) aumenta drasticamente a probabilidade de o cliente se manter engajado no processo principal.</p>
-                      <p><strong>Estratégia no Funil:</strong> Aumenta o Valor Médio do Carrinho (AOV) sem adicionar fricção à compra principal.</p>
-                      <p><strong>Objetivo para o Cliente:</strong> Uma ferramenta de aplicação imediata que gera um resultado tangível nas primeiras 24 horas.</p>`
-        },
-        upsell: {
+@@ -162,7 +136,7 @@
             title: "Dossiê: Upsell (Protocolo de Ativação)",
             content: `<p><strong>Como Funciona:</strong> Um programa intensivo de 30 dias com acompanhamento para mestria avançada.</p>
             <p><strong>Base Científica:</strong> Imersão Focada e Feedback Contínuo, os dois aceleradores de aprendizado mais potentes.</p>
+            <p><strong>Estratégia no Funil:</strong> Oferta de alto valor para os clientes mais engajados, maximizando o Lucro Por Cliente (LTV). <strong>No futuro, esta etapa será substituída pelo Acesso ao Agente de IA 'O Oráculo'</strong>, uma ferramenta de calibragem em tempo real.</p>
             <p><strong>Estratégia no Funil:</strong> Oferta de alto valor para os clientes mais engajados, maximizando o Lucro Por Cliente (LTV).</p>
             <p><strong>Objetivo para o Cliente:</strong> Transformar o conhecimento em habilidade de forma acelerada, sob orientação direta.</p>`
         },
         downsell: {
-            title: "Dossiê: Downsell (Arsenal de Conversa)",
-            content: `<p><strong>Como Funciona:</strong> Um manual de bolso digital com 30 frameworks de conversa.</p>
+@@ -171,52 +145,82 @@
             <p><strong>Base Científica:</strong> Heurísticas e Modelos Mentais. Oferece "atalhos" cognitivos para momentos de alta pressão, como a abordagem inicial.</p>
             <p><strong>Estratégia no Funil:</strong> Recupera parte da receita de clientes que recusam o Upsell. Garante que mesmo aqueles que não estão prontos para a imersão total saiam com uma ferramenta valiosa, mantendo uma percepção positiva da marca.</p>
             <p><strong>Objetivo para o Cliente:</strong> O "kit de primeiros socorros" para aniquilar a paralisia na conversa.</p>`
@@ -163,11 +179,12 @@ function initFunnelBlueprint() {
                       <p><strong>Objetivo para o Cliente:</strong> A aniquilação do delay entre o conhecimento e a dominação, com feedback instantâneo e socrático.</p>`
         }
     };
-    
+
     // --- 3. LÓGICA DA ANIMAÇÃO DO FLUXOGRAMA (GSAP) ---
     // Injeta o SVG dinamicamente
     svgContainer.innerHTML = `
         <svg id="funnel-svg" viewBox="0 0 900 250" preserveAspectRatio="xMidYMid meet">
+            <path id="funnel-svg-path" d="M50 125 H 250 L 350 50 L 550 50 L 650 125 L 850 125 M 550 50 L 550 200 L 350 200" />
             <g class="node" id="node-primordial"><rect x="20" y="100" width="160" height="50" rx="5"/><text x="100" y="130">O Primordial</text></g>
             <g class="node" id="node-bump"><rect x="220" y="100" width="160" height="50" rx="5"/><text x="300" y="130">Order Bump</text></g>
             <g class="node" id="node-upsell"><rect x="420" y="30" width="160" height="50" rx="5"/><text x="500" y="60">Upsell</text></g>
@@ -178,6 +195,15 @@ function initFunnelBlueprint() {
             <path class="path" id="path-3" d="M 580 55 C 600 55, 600 125, 620 125"/>
             <path class="path" id="path-4" d="M 500 80 V 170"/>
         </svg>`;
+    const path = document.getElementById('funnel-svg-path');
+    const length = path.getTotalLength();
+    path.style.strokeDasharray = length;
+    path.style.strokeDashoffset = length;
+
+    // Anima o "desenho" do fluxograma com GSAP ScrollTrigger
+    gsap.to(path, {
+        strokeDashoffset: 0,
+        ease: "power1.inOut",
         
     const paths = gsap.utils.toArray("#funnel-svg .path");
     paths.forEach(path => {
@@ -190,11 +216,13 @@ function initFunnelBlueprint() {
         scrollTrigger: {
             trigger: section,
             start: "top center",
+            end: "bottom bottom",
             end: "bottom 80%",
             scrub: 1.5,
         }
     });
 
+    // Lógica do Modal
     tl
         .to("#node-primordial", { opacity: 1, duration: 1 })
         .to("#path-1", { strokeDashoffset: 0, duration: 2 })
@@ -209,10 +237,12 @@ function initFunnelBlueprint() {
     // --- 4. LÓGICA DO MODAL (POP-UP) ---
     const openModal = (dossierId) => {
         const data = dossierData[dossierId];
+        if (!data) return;
         if (!data || !modalContent) return;
         modalContent.innerHTML = `<h4>${data.title}</h4>${data.content}`;
         modal.classList.add('visible');
     };
+    const closeModal = () => modal.classList.remove('visible');
     const closeModal = () => {
         if (modal) modal.classList.remove('visible');
     };
@@ -222,6 +252,8 @@ function initFunnelBlueprint() {
             openModal(e.target.dataset.dossier);
         }
     });
+    closeModalBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
     if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
     if(backdrop) backdrop.addEventListener('click', closeModal);
 }
