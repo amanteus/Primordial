@@ -131,36 +131,61 @@
     text-align: center;
 }
 
-/* --- 2. BOTÃO DE SUPORTE FLUTUANTE --- */
+/* ========================================================== */
+/* --- AJUSTES FINAIS DE ESTILO E LAYOUT (AFILIADOS) --- */
+/* ========================================================== */
+
+/* --- 1. BOTÃO DE SUPORTE COM EFEITO GLASS --- */
 #whatsapp-support-button {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 20px;
-    background-color: rgba(37, 211, 102, 0.8); /* Verde WhatsApp com transparência */
+    background-color: rgba(15, 15, 15, 0.6); /* Fundo escuro translúcido */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    color: #fff;
-    border-radius: 50px;
-    text-decoration: none;
-    font-family: var(--font-primary);
-    font-weight: bold;
-    font-size: 1rem;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 #whatsapp-support-button:hover {
-    transform: scale(1.05);
-    background-color: rgba(37, 211, 102, 1);
+    background-color: rgba(37, 211, 102, 0.9); /* Verde WhatsApp no hover */
     box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
 }
+/* Mantém o ícone verde para identidade */
 #whatsapp-support-button svg {
-    width: 24px;
-    height: 24px;
+    color: #25D366; 
+}
+
+/* --- 2. CENTRALIZAÇÃO DOS BOTÕES DE PRODUTO --- */
+.product-menu-scrollable {
+    /* Em telas maiores, centraliza o grupo de botões */
+    justify-content: center;
+}
+@media (max-width: 768px) {
+    .product-menu-scrollable {
+        /* No mobile, alinha à esquerda para indicar que há mais conteúdo */
+        justify-content: flex-start;
+    }
+}
+
+/* --- 3. ESTILOS PARA O NOVO FLUXOGRAMA ANIMADO --- */
+.blueprint-svg-container svg .path {
+    stroke: var(--accent-color);
+    stroke-width: 2;
+    stroke-dasharray: 1; /* Será preenchido pelo JS */
+    stroke-dashoffset: 1; /* Começa invisível */
+    fill: none;
+}
+.blueprint-svg-container svg .node {
+    opacity: 0; /* Começa invisível */
+    transition: opacity 0.5s ease;
+}
+.blueprint-svg-container svg rect {
+    fill: var(--card-bg);
+    stroke: var(--border-color);
+    stroke-width: 1;
+}
+.blueprint-svg-container svg text {
+    fill: var(--text-muted);
+    font-family: var(--font-primary);
+    font-size: 16px;
+    font-weight: bold;
+    text-anchor: middle; /* Centraliza o texto no nó */
 }
 
 /* --- 3. AJUSTE DO CTA FINAL --- */
