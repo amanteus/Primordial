@@ -1,55 +1,59 @@
 // ==========================================================
-// --- SCRIPT DEDICADO PARA A PÁGINA DE AFILIADOS ---
+// --- SCRIPT DEFINITIVO PARA A PÁGINA DE AFILIADOS (VERSÃO 33.0) ---
 // ==========================================================
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Guarda de segurança: só executa se estivermos na página de afiliados
-    const comandoSection = document.getElementById('comando-section');
-    if (!comandoSection) {
-        return;
+    // --- ORQUESTRADOR PRINCIPAL DA PÁGINA DE AFILIADOS ---
+    function initAfiliadosPage() {
+        const afiliadosPageIdentifier = document.querySelector('.afiliados-page');
+        if (!afiliadosPageIdentifier) return;
+
+        gsap.registerPlugin(ScrollTrigger);
+        
+        initHorizontalScroll();
+        initCountUpAnimations();
+        initStaggeredReveals();
+        initFunnelBlueprint();
+        initRewardTrailAnimation();
     }
 
-    // Registra o plugin ScrollTrigger do GSAP
-    gsap.registerPlugin(ScrollTrigger);
+    // --- MÓDULO 1: SCROLL HORIZONTAL (VERSÃO CORRIGIDA E ROBUSTA) ---
+    function initHorizontalScroll() {
+        const secaoComando = document.getElementById('comando-section');
+        if (!secaoComando) return;
 
-function initHorizontalScroll() {
-    const track = document.querySelector('.comando-track');
-    const cards = gsap.utils.toArray('.dossier-card');
-    const secaoComando = document.querySelector('.secao-comando');
+        const track = secaoComando.querySelector('.comando-track');
+        const cards = gsap.utils.toArray(secaoComando.querySelectorAll('.dossier-card'));
+        if (!track || cards.length === 0) return;
+        
+        // Lógica de scroll horizontal que funciona em TODAS as telas
+        gsap.to(track, {
+            // Move o track horizontalmente pela sua largura de scroll menos a largura da tela
+            x: () => -(track.scrollWidth - document.documentElement.clientWidth),
+            ease: "none",
+            scrollTrigger: {
+                trigger: secaoComando,
+                pin: true,
+                scrub: 1,
+                end: () => "+=" + track.scrollWidth, // A duração do pin é a largura total do track
+            }
+        });
+    }
 
-    if (!track || cards.length === 0 || !secaoComando) return;
-
-    // A animação agora será criada em TODAS as larguras de tela
-    gsap.to(cards, {
-        // CORREÇÃO: O cálculo de xPercent deve ser feito sobre o track, não sobre os cards
-        x: () => -(track.scrollWidth - window.innerWidth + secaoComando.querySelector('.container').offsetLeft * 2),
-        ease: "none",
-        scrollTrigger: {
-            trigger: secaoComando,
-            pin: true,
-            scrub: 1,
-            // O snap foi removido para uma rolagem mais livre e fluida no mobile
-            end: () => "+=" + (track.scrollWidth - window.innerWidth),
-        }
-    });
-}
-    // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS (CORRIGIDO) ---
+    // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS ---
     function initCountUpAnimations() {
         const counters = document.querySelectorAll('[data-count-up]');
-        
         counters.forEach(counter => {
             const endValue = parseFloat(counter.dataset.countUp);
             if (isNaN(endValue)) return;
-
-            // Usamos .fromTo() para definir o início e o fim, corrigindo o bug
             gsap.fromTo(counter, 
-                { textContent: 0 }, // Estado inicial
+                { textContent: "R$ 0,00" },
                 {
-                    textContent: endValue, // Estado final
+                    textContent: endValue,
                     duration: 2.5,
                     ease: 'power3.out',
-                    snap: { textContent: 1 },
+                    snap: { textContent: 0.01 },
                     scrollTrigger: {
                         trigger: counter,
                         start: 'top 85%',
@@ -57,7 +61,6 @@ function initHorizontalScroll() {
                     },
                     onUpdate: function() {
                         const value = parseFloat(this.targets()[0].textContent);
-                        // Formata para moeda brasileira
                         this.targets()[0].textContent = `R$ ${value.toFixed(2).replace('.', ',')}`;
                     }
                 }
@@ -65,27 +68,43 @@ function initHorizontalScroll() {
         });
     }
 
-    // --- MÓDULO 3: ANIMAÇÃO DE ENTRADA PARA NOVAS SEÇÕES ---
+    // --- MÓDULO 3: ANIMAÇÃO DE ENTRADA DAS SEÇÕES ---
     function initStaggeredReveals() {
-        const sectionsToAnimate = ['.regras-card', '.recompensa-card'];
-
+        const sectionsToAnimate = ['.regras-card', '.trilha-item'];
         sectionsToAnimate.forEach(selector => {
             const elements = gsap.utils.toArray(selector);
+            if (elements.length === 0) return;
             gsap.from(elements, {
                 scrollTrigger: {
-                    trigger: elements[0].parentElement, // O container pai dos elementos
-                    start: 'top 80%',
+                    trigger: elements[0].parentElement,
+                    start: 'top 85%',
                     toggleActions: 'play none none none'
                 },
                 opacity: 0,
                 y: 50,
                 duration: 0.8,
                 ease: 'power3.out',
-                stagger: 0.2 // Efeito de cascata
+                stagger: 0.2
             });
         });
     }
-
+    
+    // --- MÓDULO 4: ANIMAÇÃO DA TRILHA DA RECOMPENSA ---
+    function initRewardTrailAnimation() {
+        const container = document.getElementById('trilha-container');
+        const icon = document.getElementById('trilha-icon-animado');
+        if (!container || !icon) return;
+        gsap.to(icon, {
+            scrollTrigger: {
+                trigger: container,
+                start: "top center",
+                end: "bottom center",
+                scrub: 1.5,
+            },
+            y: container.offsetHeight - icon.offsetHeight,
+            ease: "none"
+        });
+    
     // ==========================================================
 // --- MÓDULO: SALA DE GUERRA DO AFILIADO (VERSÃO FINAL E COMPLETA) ---
 // ==========================================================
