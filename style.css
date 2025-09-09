@@ -2618,11 +2618,11 @@ h1, h2, h3, h4 {
     color: var(--accent-color);
 }
 .regras-card-nos li::before {
-    content: '✅';
+    content: '';
 }
 /* Estilo para "O que esperamos" */
 .regras-card-voce li::before {
-    content: '➡️';
+    content: '';
 }
 
 /* --- ESTILOS PARA A SEÇÃO "A TRILHA DA RECOMPENSA" --- */
