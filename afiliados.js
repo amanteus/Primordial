@@ -1,50 +1,92 @@
-// afiliados.js
+// ==========================================================
+// --- SCRIPT DEDICADO PARA A PÁGINA DE AFILIADOS ---
+// ==========================================================
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Garante que o GSAP e o ScrollTrigger estão disponíveis
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-        console.error('GSAP ou ScrollTrigger não encontrados. Verifique a inclusão no HTML.');
+
+    // Guarda de segurança: só executa se estivermos na página de afiliados
+    const comandoSection = document.getElementById('comando-section');
+    if (!comandoSection) {
         return;
     }
 
+    // Registra o plugin ScrollTrigger do GSAP
     gsap.registerPlugin(ScrollTrigger);
 
-    // Animação para os cards de pilares e seletividade
-    const cards = document.querySelectorAll('.pilar-card, .seletividade-box');
-    cards.forEach(card => {
-        gsap.from(card, {
-            scrollTrigger: {
-                trigger: card,
-                start: 'top 85%',
-                toggleActions: 'play none none none',
-            },
-            opacity: 0,
-            y: 50,
-            duration: 0.8,
-            ease: 'power3.out',
-        });
-    });
+    // --- MÓDULO 1: SCROLL HORIZONTAL DO "COMANDO" ---
+    function initHorizontalScroll() {
+        const track = document.querySelector('.comando-track');
+        const cards = gsap.utils.toArray('.dossier-card');
 
-    // Animação de contagem para os números
-    const counters = document.querySelectorAll('[data-count-up]');
-    counters.forEach(counter => {
-        const endValue = parseFloat(counter.dataset.countUp);
-        if (isNaN(endValue)) return;
-
-        gsap.from(counter, {
+        // Cria a animação de scroll horizontal
+        gsap.to(cards, {
+            xPercent: -100 * (cards.length - 1),
+            ease: "none",
             scrollTrigger: {
-                trigger: counter,
-                start: 'top 90%',
-                toggleActions: 'play none none none',
-            },
-            textContent: 0,
-            duration: 2,
-            ease: 'power2.out',
-            snap: { textContent: 1 },
-            onUpdate: function() {
-                // Formata o número para ter duas casas decimais e usar vírgula
-                const value = parseFloat(this.targets()[0].textContent);
-                this.targets()[0].textContent = `R$ ${value.toFixed(2).replace('.', ',')}`;
+                trigger: ".secao-comando",
+                pin: true,
+                scrub: 1,
+                snap: 1 / (cards.length - 1),
+                // Define o fim do scroll para que seja proporcional ao número de cards
+                end: () => "+=" + (track.offsetWidth / cards.length)
             }
         });
-    });
+    }
+
+    // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS (CORRIGIDO) ---
+    function initCountUpAnimations() {
+        const counters = document.querySelectorAll('[data-count-up]');
+        
+        counters.forEach(counter => {
+            const endValue = parseFloat(counter.dataset.countUp);
+            if (isNaN(endValue)) return;
+
+            // Usamos .fromTo() para definir o início e o fim, corrigindo o bug
+            gsap.fromTo(counter, 
+                { textContent: 0 }, // Estado inicial
+                {
+                    textContent: endValue, // Estado final
+                    duration: 2.5,
+                    ease: 'power3.out',
+                    snap: { textContent: 1 },
+                    scrollTrigger: {
+                        trigger: counter,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    },
+                    onUpdate: function() {
+                        const value = parseFloat(this.targets()[0].textContent);
+                        // Formata para moeda brasileira
+                        this.targets()[0].textContent = `R$ ${value.toFixed(2).replace('.', ',')}`;
+                    }
+                }
+            );
+        });
+    }
+
+    // --- MÓDULO 3: ANIMAÇÃO DE ENTRADA PARA NOVAS SEÇÕES ---
+    function initStaggeredReveals() {
+        const sectionsToAnimate = ['.regras-card', '.recompensa-card'];
+
+        sectionsToAnimate.forEach(selector => {
+            const elements = gsap.utils.toArray(selector);
+            gsap.from(elements, {
+                scrollTrigger: {
+                    trigger: elements[0].parentElement, // O container pai dos elementos
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                opacity: 0,
+                y: 50,
+                duration: 0.8,
+                ease: 'power3.out',
+                stagger: 0.2 // Efeito de cascata
+            });
+        });
+    }
+
+    // --- INICIALIZAÇÃO DE TODOS OS MÓDULOS ---
+    initHorizontalScroll();
+    initCountUpAnimations();
+    initStaggeredReveals();
 });
