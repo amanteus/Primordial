@@ -87,6 +87,127 @@
 }
 
 /* ========================================================== */
+/* --- AJUSTES FINAIS DE ESTILO E LAYOUT (AFILIADOS) --- */
+/* ========================================================== */
+
+/* --- 1. PRE-HEADER TRANSLÚCIDO --- */
+.pre-header {
+    background-color: rgba(10, 10, 10, 0.7); /* Fundo semitransparente */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid #222;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 0;
+}
+.pre-header p {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    color: var(--accent-color);
+}
+
+/* --- 2. BOTÃO DE SUPORTE FLUTUANTE --- */
+#whatsapp-support-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background-color: rgba(37, 211, 102, 0.8); /* Verde WhatsApp com transparência */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: var(--font-primary);
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+#whatsapp-support-button:hover {
+    transform: scale(1.05);
+    background-color: rgba(37, 211, 102, 1);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+}
+#whatsapp-support-button svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* --- 3. AJUSTE DO CTA FINAL --- */
+.secao-afiliados-cta .cta-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Espaçamento entre as linhas */
+    margin-top: 40px;
+}
+.secao-afiliados-cta .afiliados-cta {
+    width: 100%;
+    max-width: 500px; /* Garante que o botão não fique largo demais */
+}
+
+/* --- 4. ESTILIZAÇÃO DO RODAPÉ --- */
+.footer {
+    background-color: #000;
+    color: #666;
+    padding: 60px 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border-color);
+}
+.footer-logo {
+    max-width: 120px;
+    margin-bottom: 30px;
+    opacity: 0.5;
+}
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.footer-links a:hover {
+    color: var(--accent-color);
+}
+.footer-copyright {
+    margin-bottom: 20px;
+}
+.footer-disclaimer {
+    font-size: 0.8rem;
+    max-width: 700px;
+    margin: 0 auto;
+    opacity: 0.7;
+}
+
+/* --- RESPONSIVIDADE DO BOTÃO DE SUPORTE --- */
+@media (max-width: 768px) {
+    #whatsapp-support-button {
+        width: 60px;
+        height: 60px;
+        padding: 0;
+        justify-content: center;
+    }
+    #whatsapp-support-button span {
+        display: none; /* Esconde o texto no mobile */
+    }
+}
+
+
+/* ========================================================== */
 /* --- ESTILOS CORRIGIDOS PARA "O COMANDO" (SCROLL HORIZONTAL) --- */
 /* ========================================================== */
 
