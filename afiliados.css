@@ -132,23 +132,59 @@
 }
 
 /* ========================================================== */
-/* --- AJUSTES FINAIS DE ESTILO E LAYOUT (AFILIADOS) --- */
+/* --- BOTÃO DE SUPORTE COM EFEITO GLASS (VERSÃO FINAL) --- */
 /* ========================================================== */
 
-/* --- 1. BOTÃO DE SUPORTE COM EFEITO GLASS --- */
 #whatsapp-support-button {
-    background-color: rgba(15, 15, 15, 0.6); /* Fundo escuro translúcido */
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    
+    /* 1. EFEITO GLASS APLICADO */
+    background-color: rgba(37, 211, 102, 0.8); /* Cor verde do WhatsApp com 80% de opacidade */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil para definir a forma */
+    
+    color: #fff;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: var(--font-primary);
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
 }
+
 #whatsapp-support-button:hover {
-    background-color: rgba(37, 211, 102, 0.9); /* Verde WhatsApp no hover */
+    transform: scale(1.05);
+    background-color: rgba(37, 211, 102, 1); /* Verde sólido no hover */
     box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
 }
-/* Mantém o ícone verde para identidade */
+
 #whatsapp-support-button svg {
-    color: #25D366; 
+    width: 24px;
+    height: 24px;
+    /* Remove a cor verde do ícone para que ele fique branco, como o texto */
+    color: #fff;
+}
+
+/* A regra de responsividade para esconder o texto no mobile permanece a mesma */
+@media (max-width: 768px) {
+    #whatsapp-support-button {
+        width: 60px;
+        height: 60px;
+        padding: 0;
+        justify-content: center;
+    }
+    #whatsapp-support-button span {
+        display: none;
+    }
 }
 
 /* --- 2. CENTRALIZAÇÃO DOS BOTÕES DE PRODUTO --- */
