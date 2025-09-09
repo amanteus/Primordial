@@ -2575,6 +2575,108 @@ h1, h2, h3, h4 {
     }
 }
 
+/* --- ESTILOS PARA A SEÇÃO "AS REGRAS DO JOGO" --- */
+.regras-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+.regras-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 30px;
+    border-radius: 8px;
+}
+.regras-card h4 {
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+.regras-card ul {
+    list-style: none;
+    padding: 0;
+}
+.regras-card li {
+    margin-bottom: 15px;
+    padding-left: 35px;
+    position: relative;
+    line-height: 1.6;
+}
+.regras-card li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    font-size: 1.5rem;
+}
+/* Estilo para "O que nós oferecemos" */
+.regras-card-nos {
+    border-left: 3px solid var(--accent-color);
+}
+.regras-card-nos h4 {
+    color: var(--accent-color);
+}
+.regras-card-nos li::before {
+    content: '✅';
+}
+/* Estilo para "O que esperamos" */
+.regras-card-voce li::before {
+    content: '➡️';
+}
+
+/* --- ESTILOS PARA A SEÇÃO "A TRILHA DA RECOMPENSA" --- */
+.recompensas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+}
+.recompensa-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.recompensa-card:hover {
+    transform: translateY(-5px);
+}
+.recompensa-level {
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+}
+.recompensa-value {
+    font-family: var(--font-headline);
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--text-color);
+}
+.recompensa-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+/* Estilos para os tiers mais altos */
+.card-elite {
+    border-color: #555;
+}
+.card-soberano {
+    border-color: var(--accent-color);
+    background: radial-gradient(circle, #1a1a1a 0%, #111 100%);
+    box-shadow: 0 0 25px rgba(196, 170, 131, 0.15);
+}
+.card-soberano .recompensa-level,
+.card-soberano .recompensa-value {
+    color: var(--accent-color);
+}
+
 .secao-pilares {
     background-color: var(--bg-color);
 }
