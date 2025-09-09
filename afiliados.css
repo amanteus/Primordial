@@ -560,10 +560,10 @@
 
     /* --- 1. CORREÇÃO DA HEADLINE E SUBHEADLINE --- */
     .afiliados-header .section-title {
-        font-size: 2.5rem; /* Reduz o tamanho da fonte para evitar quebra de linha excessiva */
+        font-size: 1.6rem; /* Reduz o tamanho da fonte para evitar quebra de linha excessiva */
     }
     .afiliados-header .section-subtitle-gold {
-        font-size: 1.5rem; /* Reduz também a subheadline */
+        font-size: 1.2rem; /* Reduz também a subheadline */
     }
 
     /* --- 2. CORREÇÃO DO POP-UP (MODAL) --- */
