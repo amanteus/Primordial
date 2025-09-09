@@ -13,25 +13,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // Registra o plugin ScrollTrigger do GSAP
     gsap.registerPlugin(ScrollTrigger);
 
-    // --- MÓDULO 1: SCROLL HORIZONTAL DO "COMANDO" ---
-    function initHorizontalScroll() {
-        const track = document.querySelector('.comando-track');
-        const cards = gsap.utils.toArray('.dossier-card');
+function initHorizontalScroll() {
+    const track = document.querySelector('.comando-track');
+    const cards = gsap.utils.toArray('.dossier-card');
+    const secaoComando = document.querySelector('.secao-comando');
 
-        // Cria a animação de scroll horizontal
-        gsap.to(cards, {
-            xPercent: -100 * (cards.length - 1),
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".secao-comando",
-                pin: true,
-                scrub: 1,
-                snap: 1 / (cards.length - 1),
-                // Define o fim do scroll para que seja proporcional ao número de cards
-                end: () => "+=" + (track.offsetWidth / cards.length)
-            }
-        });
-    }
+    if (!track || cards.length === 0 || !secaoComando) return;
+
+    // USA O matchMedia DO GSAP PARA APLICAR ANIMAÇÕES APENAS EM DESKTOP
+    ScrollTrigger.matchMedia({
+        "(min-width: 769px)": function() {
+            // Esta animação só será criada em telas com mais de 768px
+            gsap.to(cards, {
+                xPercent: -100 * (cards.length - 1),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: secaoComando,
+                    pin: true,
+                    scrub: 1,
+                    snap: 1 / (cards.length - 1),
+                    end: () => "+=" + track.offsetWidth
+                }
+            });
+        }
+    });
+}
 
     // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS (CORRIGIDO) ---
     function initCountUpAnimations() {
