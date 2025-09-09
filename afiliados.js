@@ -13,38 +13,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Registra o plugin ScrollTrigger do GSAP
     gsap.registerPlugin(ScrollTrigger);
 
-// SUBSTITUA A FUNÇÃO initHorizontalScroll PELA VERSÃO ABAIXO
 function initHorizontalScroll() {
-    const secaoComando = document.querySelector('.secao-comando');
     const track = document.querySelector('.comando-track');
-    if (!secaoComando || !track) return;
+    const cards = gsap.utils.toArray('.dossier-card');
+    const secaoComando = document.querySelector('.secao-comando');
 
-    // Apenas executa a animação em telas de desktop
-    ScrollTrigger.matchMedia({
-        "(min-width: 769px)": function() {
-            
-            // Calcula a distância total que o track precisa rolar
-            const scrollDistance = track.offsetWidth - window.innerWidth;
+    if (!track || cards.length === 0 || !secaoComando) return;
 
-            // Define a altura da seção dinamicamente para ser o dobro da distância de rolagem
-            // Isso cria um ritmo de scroll confortável, sem espaços vazios excessivos
-            secaoComando.style.height = `${scrollDistance * 1.5}px`;
-
-            gsap.to(track, {
-                x: -scrollDistance, // Anima o eixo X até o final do track
-                ease: "none",
-                scrollTrigger: {
-                    trigger: secaoComando,
-                    pin: ".comando-wrapper", // "Pina" o wrapper na tela
-                    scrub: 1,
-                    start: "top top",
-                    end: "bottom bottom", // A animação dura toda a altura da seção
-                }
-            });
+    // A animação agora será criada em TODAS as larguras de tela
+    gsap.to(cards, {
+        // CORREÇÃO: O cálculo de xPercent deve ser feito sobre o track, não sobre os cards
+        x: () => -(track.scrollWidth - window.innerWidth + secaoComando.querySelector('.container').offsetLeft * 2),
+        ease: "none",
+        scrollTrigger: {
+            trigger: secaoComando,
+            pin: true,
+            scrub: 1,
+            // O snap foi removido para uma rolagem mais livre e fluida no mobile
+            end: () => "+=" + (track.scrollWidth - window.innerWidth),
         }
     });
 }
-
     // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS (CORRIGIDO) ---
     function initCountUpAnimations() {
         const counters = document.querySelectorAll('[data-count-up]');
