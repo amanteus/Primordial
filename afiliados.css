@@ -86,11 +86,16 @@
     font-size: clamp(1.5rem, 4vw, 2.2rem);
 }
 
-/* --- SEÇÃO "O COMANDO" (SCROLL HORIZONTAL) --- */
+/* ========================================================== */
+/* --- ESTILOS CORRIGIDOS PARA "O COMANDO" (SCROLL HORIZONTAL) --- */
+/* ========================================================== */
+
 .secao-comando {
-    height: 300vh; /* Controla a "duração" do scroll horizontal */
     padding: 0;
+    /* A altura será controlada pelo JS, mas definimos uma altura mínima */
+    min-height: 100vh; 
 }
+
 .comando-wrapper {
     height: 100vh;
     width: 100%;
@@ -98,51 +103,89 @@
     top: 0;
     display: flex;
     align-items: center;
-    overflow: hidden;
+    overflow-x: hidden; /* Esconde o scroll horizontal do navegador */
 }
+
 .comando-track {
     display: flex;
-    width: 500%; /* 5 cards = 500% */
-    height: 100%;
+    align-items: center; /* Centraliza verticalmente os cards */
+    height: auto; /* Altura se ajusta ao conteúdo */
+    width: max-content; /* A largura será a soma de todos os cards */
 }
+
 .dossier-card {
-    width: 100%; /* Cada card ocupa 1/5 da largura do track */
-    height: 100%;
+    /* CORREÇÃO: Define uma largura fixa e espaçamento */
+    width: 80vw; /* Cada card ocupa 80% da largura da tela */
+    max-width: 600px; /* Limite máximo de largura para telas grandes */
+    margin: 0 10vw; /* Cria um espaçamento generoso entre os cards */
+
+    height: auto; /* A altura se ajusta ao conteúdo */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0 8vw; /* Espaçamento entre os cards */
     position: relative;
+    z-index: 2; /* Garante que o conteúdo fique acima do número */
 }
+
 .dossier-number {
     position: absolute;
-    top: 15%;
-    left: 8vw;
+    top: 0;
+    left: 0;
     font-family: var(--font-headline);
-    font-size: 10rem;
+    font-size: clamp(8rem, 20vw, 12rem);
     color: rgba(255, 255, 255, 0.03);
     z-index: 1;
 }
+
 .dossier-card h4 {
     font-family: var(--font-headline);
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 4vw, 2.8rem);
     color: var(--accent-color);
     margin-bottom: 20px;
-    position: relative;
-    z-index: 2;
 }
-.dossier-card p { max-width: 500px; color: #aaa; position: relative; z-index: 2; line-height: 1.8; }
-.dossier-card ul { list-style: none; padding-left: 0; margin: 20px 0; position: relative; z-index: 2; max-width: 500px; }
-.dossier-card li { margin-bottom: 15px; }
+
+.dossier-card p {
+    color: #aaa;
+    line-height: 1.8;
+}
+
+.dossier-card ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 20px 0;
+}
+.dossier-card li {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
 .dossier-result {
     margin-top: 30px;
     padding-top: 20px;
     border-top: 1px solid #333;
     font-weight: bold;
     font-size: 1.1rem;
-    position: relative;
-    z-index: 2;
-    max-width: 500px;
+}
+
+/* Responsividade: desativa o scroll horizontal e empilha os cards */
+@media (max-width: 768px) {
+    .secao-comando {
+        height: auto;
+        padding: 60px 20px; /* Adiciona padding vertical no mobile */
+    }
+    .comando-wrapper {
+        height: auto;
+        position: static;
+        display: block;
+    }
+    .comando-track {
+        flex-direction: column;
+        gap: 80px;
+    }
+    .dossier-card {
+        width: 100%;
+        margin: 0;
+    }
 }
 
 /* --- SEÇÃO "AS REGRAS DO JOGO" --- */
@@ -164,8 +207,8 @@
 .regras-card li::before { content: ''; position: absolute; left: 0; top: 5px; font-size: 1.5rem; }
 .regras-card-nos { border-left: 3px solid var(--accent-color); }
 .regras-card-nos h4 { color: var(--accent-color); }
-.regras-card-nos li::before { content: '✅'; }
-.regras-card-voce li::before { content: '➡️'; }
+.regras-card-nos li::before { content: ''; }
+.regras-card-voce li::before { content: ''; }
 
 /* --- SEÇÃO "A TRILHA DA RECOMPENSA" --- */
 .trilha-container { display: flex; flex-direction: column; align-items: center; gap: 0; position: relative; }
