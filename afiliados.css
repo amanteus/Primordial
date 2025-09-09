@@ -90,24 +90,45 @@
 /* --- AJUSTES FINAIS DE ESTILO E LAYOUT (AFILIADOS) --- */
 /* ========================================================== */
 
-/* --- 1. PRE-HEADER TRANSLÚCIDO --- */
+/* ========================================================== */
+/* PRE-HEADER FIXO COM EFEITO GLASS --- */
+/* ========================================================== */
+
+/* Adiciona um espaçamento no topo da página para compensar o header fixo */
+.afiliados-body {
+    padding-top: 50px; 
+}
+
 .pre-header {
-    background-color: rgba(10, 10, 10, 0.7); /* Fundo semitransparente */
+    /* 1. Fixa o header no topo da tela */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+
+    /* 2. Cria o efeito de vidro translúcido */
+    background-color: rgba(15, 15, 15, 0.75); /* Fundo escuro com 75% de opacidade */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid #222;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    /* 3. Garante a centralização do conteúdo interno */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px;
 }
-.pre-header p {
+
+.pre-header-content {
+    /* Estilos para o texto dentro do header */
+    color: var(--accent-color);
     font-family: var(--font-primary);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 0.8rem;
-    color: var(--accent-color);
+    text-align: center;
 }
 
 /* --- 2. BOTÃO DE SUPORTE FLUTUANTE --- */
