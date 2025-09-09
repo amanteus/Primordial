@@ -282,6 +282,22 @@
     color: var(--bg-color);
     border-color: var(--accent-color);
 }
+
+/* --- ESTILO PARA O BOTÃO "EM BREVE" --- */
+.product-menu-button.is-coming-soon {
+    background-color: transparent;
+    border-style: dashed;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.product-menu-button.is-coming-soon:hover {
+    background-color: transparent;
+    color: #666;
+    border-color: #444;
+    transform: none;
+}
+
 /* Estilos do Modal de Dossiê */
 .dossier-modal {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
