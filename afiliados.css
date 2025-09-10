@@ -424,6 +424,11 @@
         max-height: 1000px; /* Um valor alto para permitir a expansão */
     }
 }
+/* Esconde o accordion por padrão; a media query irá exibi-lo no mobile */
+.accordion-container {
+    display: none;
+}
+
 .secao-comando { 
     padding: 0; 
     /* Garante que a seção tenha no mínimo a altura da tela, evitando cortes */
