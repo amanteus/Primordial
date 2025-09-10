@@ -13,62 +13,67 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================
     // --- MÓDULO 1: SCROLL HORIZONTAL ---
     // ==========================================================
-    function initHorizontalScroll() {
-        const secaoComando = document.querySelector('.secao-comando');
-        const track = document.querySelector('.comando-track');
-        if (!secaoComando || !track) return;
+function initHorizontalScroll() {
+    const secaoComando = document.querySelector('.secao-comando');
+    const track = document.querySelector('.comando-track');
+    if (!secaoComando || !track) return;
 
-        // Apenas em telas desktop
-        ScrollTrigger.matchMedia({
-            "(min-width: 769px)": function () {
-                const scrollDistance = track.offsetWidth - window.innerWidth;
-                secaoComando.style.height = `${scrollDistance * 1.5}px`;
+    // Calcula a distância total que o track precisa rolar
+    const scrollDistance = track.scrollWidth - window.innerWidth;
 
-                gsap.to(track, {
-                    x: -scrollDistance,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: secaoComando,
-                        pin: ".comando-wrapper",
-                        scrub: 1,
-                        start: "top top",
-                        end: "bottom bottom",
-                    }
-                });
-            }
-        });
-    }
+    // Define a altura da seção dinamicamente (mantém o "pino" no scroll)
+    secaoComando.style.height = `${scrollDistance * 1.2}px`;
+
+    gsap.to(track, {
+        x: -scrollDistance,
+        ease: "none",
+        scrollTrigger: {
+            trigger: secaoComando,
+            pin: ".comando-wrapper",
+            scrub: 1,
+            start: "top top",
+            end: "bottom bottom",
+        }
+    });
+}
+
 
     // ==========================================================
     // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS ---
     // ==========================================================
-    function initCountUpAnimations() {
-        const counters = document.querySelectorAll('[data-count-up]');
-        counters.forEach(counter => {
-            const endValue = parseFloat(counter.dataset.countUp);
-            if (isNaN(endValue)) return;
+function initCountUpAnimations() {
+    const counters = document.querySelectorAll('[data-count-up]');
 
-            gsap.fromTo(counter,
-                { textContent: 0 },
-                {
-                    textContent: endValue,
-                    duration: 2.5,
-                    ease: 'power3.out',
-                    snap: { textContent: 1 },
-                    scrollTrigger: {
-                        trigger: counter,
-                        start: 'top 85%',
-                        toggleActions: 'play none none none'
-                    },
-                    onUpdate: function () {
-                        const value = parseFloat(this.targets()[0].textContent);
-                        this.targets()[0].textContent =
-                            `R$ ${value.toFixed(2).replace('.', ',')}`;
-                    }
+    counters.forEach(counter => {
+        const endValue = parseFloat(counter.dataset.countUp);
+        if (isNaN(endValue)) return;
+
+        // Detecta se deve formatar como moeda
+        const isCurrency = counter.dataset.currency === "true";
+
+        gsap.fromTo(counter,
+            { textContent: 0 },
+            {
+                textContent: endValue,
+                duration: 2.5,
+                ease: "power3.out",
+                snap: { textContent: 1 },
+                scrollTrigger: {
+                    trigger: counter,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
+                },
+                onUpdate: function() {
+                    const value = parseFloat(this.targets()[0].textContent);
+                    counter.textContent = isCurrency
+                        ? `R$ ${value.toFixed(2).replace('.', ',')}`
+                        : value.toLocaleString("pt-BR");
                 }
-            );
-        });
-    }
+            }
+        );
+    });
+}
+
 
     // ==========================================================
     // --- MÓDULO 3: ANIMAÇÃO DE ENTRADA (STAGGERED REVEALS) ---
