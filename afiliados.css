@@ -520,3 +520,19 @@
   margin: 20px auto;
   text-align: center;
 }
+
+/* Centralizar headlines principais */
+.section-title {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Garantir subtítulos também */
+.section-subtitle,
+.section-subtitle-gold {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
