@@ -83,6 +83,7 @@
   height: 3px;
   background: var(--accent-color);
   margin: 15px auto 0 auto;
+  text-align: center;
 }
 
 /* Destaques no texto */
