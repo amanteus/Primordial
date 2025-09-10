@@ -13,12 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================================
 // --- MÓDULO 1: LÓGICA CONDICIONAL (SCROLL DESKTOP / SLIDER MOBILE) ---
 // ==========================================================
+// ==========================================================
+// --- MÓDULO 1: LÓGICA CONDICIONAL (SCROLL DESKTOP / SLIDER MOBILE) ---
+// ==========================================================
 function initHorizontalScroll() {
-    // Usamos o MatchMedia para executar códigos diferentes dependendo do tamanho da tela
     gsap.matchMedia().add({
-        // isDesktop - para telas maiores que 768px
         isDesktop: "(min-width: 769px)",
-        // isMobile - para telas de até 768px
         isMobile: "(max-width: 768px)"
     }, (context) => {
         let { isDesktop, isMobile } = context.conditions;
@@ -26,16 +26,12 @@ function initHorizontalScroll() {
         if (isDesktop) {
             // --- CÓDIGO DO SCROLL HORIZONTAL PARA DESKTOP (GSAP) ---
             const secaoComando = document.querySelector('.secao-comando');
-            // No desktop, os slides são o .comando-track original do seu HTML antigo
-            // Para isso funcionar, precisamos garantir que o HTML antigo ainda exista para o desktop.
-            // A melhor abordagem é ter as DUAS estruturas no HTML e esconder/mostrar com CSS.
-            // **PORÉM, uma solução mais limpa é usar a nova estrutura para TUDO.**
-            // O GSAP pode animar os .swiper-wrapper e .swiper-slide também.
-
-            const track = document.querySelector('.swiper-wrapper'); // Usando a nova estrutura!
+            const track = document.querySelector('.swiper-wrapper');
             const wrapper = document.querySelector('.comando-wrapper');
             if (!secaoComando || !track || !wrapper) return;
             
+            // Força a atualização dos cálculos do ScrollTrigger
+            ScrollTrigger.refresh();
             const scrollDistance = track.scrollWidth - wrapper.offsetWidth;
 
             gsap.to(track, {
@@ -54,24 +50,19 @@ function initHorizontalScroll() {
         } else if (isMobile) {
             // --- CÓDIGO DO SLIDER PARA MOBILE (Swiper.js) ---
             new Swiper('#comando-slider', {
-                // Efeito visual de "cards" passando
-                effect: 'cards',
-                cardsEffect: {
-                    slideShadows: false,
-                },
-                // Opções adicionais
+                // MUDANÇA IMPORTANTE: O efeito 'slide' é mais estável e ideal para este layout.
+                effect: 'slide',
+                
                 slidesPerView: 'auto',
                 centeredSlides: true,
                 loop: true,
                 spaceBetween: 15,
                 
-                // Paginação (bolinhas)
                 pagination: {
                     el: '.swiper-pagination',
                     clickable: true,
                 },
 
-                // Navegação (setas)
                 navigation: {
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev',
