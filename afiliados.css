@@ -330,45 +330,33 @@
 /* ========================================================== */
 /*
     ================================================================
-    --- SLIDER "O COMANDO" PARA MOBILE (VERSÃO SÊNIOR E DEFINITIVA) ---
+    --- SLIDER "O COMANDO" PARA MOBILE (VERSÃO FINAL E ROBUSTA) ---
     ================================================================
     */
 
     /* O contêiner principal do slider */
     #comando-slider.swiper {
-        /* O SEGREDO: Permite que os slides laterais "vazem" para fora do contêiner. */
-        overflow: visible;
-        position: relative;
+        width: 100%;
+        /* O SEGREDO: Criamos 'margens de segurança' internas de 30px em cada lado. */
+        padding: 0 30px; 
     }
 
     #comando-slider .swiper-wrapper {
-        /* Garante que todos os cards tenham a mesma altura. */
         align-items: stretch;
     }
 
-    /* Estilo para TODOS os slides */
+    /* O card do slide */
     .dossier-card.swiper-slide {
-        /* Damos um tamanho fixo para o card ativo. */
-        width: 75vw !important;
-        max-width: 320px;
-        height: auto; /* A altura se ajusta ao conteúdo */
+        /* O card ocupa 100% do espaço DENTRO das margens de segurança. */
+        width: 100% !important;
+        height: auto;
         display: flex;
         flex-direction: column;
-
-        /* EFEITO DE FOCO: Slides inativos ficam menores e com menos opacidade. */
-        transform: scale(0.9);
-        opacity: 0.6;
-        transition: transform 0.4s ease, opacity 0.4s ease;
-    }
-
-    /* Estilo APENAS para o slide ATIVO (no centro) */
-    .dossier-card.swiper-slide-active {
-        /* O card ativo fica em seu tamanho normal e totalmente visível. */
-        transform: scale(1);
-        opacity: 1;
+        justify-content: center;
+        /* Removemos o transform e opacity para uma aparência mais limpa e direta. */
     }
     
-    /* Setas com a identidade visual e posicionamento correto */
+    /* As setas ficam posicionadas DENTRO das margens de segurança. */
     .swiper-button-next,
     .swiper-button-prev {
         width: 44px;
@@ -383,9 +371,10 @@
         top: 50%;
         transform: translateY(-50%);
     }
-
-    .swiper-button-prev { left: -5px; }
-    .swiper-button-next { right: -5px; }
+    
+    /* Posição exata das setas */
+    .swiper-button-prev { left: -10px; }
+    .swiper-button-next { right: -10px; }
     
     .swiper-button-disabled { opacity: 0.3; cursor: not-allowed; }
     
