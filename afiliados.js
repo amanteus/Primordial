@@ -11,74 +11,68 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
 // ==========================================================
-// --- MÓDULO 1: LÓGICA CONDICIONAL (SCROLL DESKTOP / SLIDER MOBILE) ---
+// --- MÓDULO 1: LÓGICA CONDICIONAL (VERSÃO FINAL E ROBUSTA) ---
 // ==========================================================
-// ==========================================================
-// --- MÓDULO 1: LÓGICA CONDICIONAL (VERSÃO SÊNIOR E DEFINITIVA) ---
-// ==========================================================
-function initHorizontalScroll() {
-    gsap.matchMedia().add({
-        isDesktop: "(min-width: 769px)",
-        isMobile: "(max-width: 768px)"
-    }, (context) => {
-        let { isDesktop, isMobile } = context.conditions;
+// ESPERAMOS A PÁGINA INTEIRA CARREGAR (INCLUINDO FONTES E IMAGENS)
+window.onload = function() {
+    function initHorizontalScroll() {
+        gsap.matchMedia().add({
+            isDesktop: "(min-width: 769px)",
+            isMobile: "(max-width: 768px)"
+        }, (context) => {
+            let { isDesktop, isMobile } = context.conditions;
 
-        if (isDesktop) {
-            // --- CÓDIGO DO SCROLL HORIZONTAL PARA DESKTOP (GSAP) ---
-            const secaoComando = document.querySelector('.secao-comando');
-            const track = document.querySelector('.swiper-wrapper');
-            const wrapper = document.querySelector('.comando-wrapper');
-            if (!secaoComando || !track || !wrapper) return;
-            
-            ScrollTrigger.refresh();
-            const scrollDistance = track.scrollWidth - wrapper.offsetWidth;
-
-            gsap.to(track, {
-                x: -scrollDistance,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: secaoComando,
-                    pin: wrapper,
-                    scrub: 1,
-                    start: "top top",
-                    end: () => `+=${scrollDistance}`,
-                    invalidateOnRefresh: true
-                }
-            });
-
-        } else if (isMobile) {
-            // --- CÓDIGO DO SLIDER PARA MOBILE (Swiper.js) ---
-            new Swiper('#comando-slider', {
-                // Efeito padrão, o mais estável e customizável.
-                effect: 'slide',
+            if (isDesktop) {
+                // --- CÓDIGO DO SCROLL HORIZONTAL PARA DESKTOP (GSAP) ---
+                const secaoComando = document.querySelector('.secao-comando');
+                const track = document.querySelector('.swiper-wrapper');
+                const wrapper = document.querySelector('.comando-wrapper');
+                if (!secaoComando || !track || !wrapper) return;
                 
-                // O carrossel será infinito.
-                loop: true,
-                
-                // O slide ativo ficará sempre no centro.
-                centeredSlides: true,
+                ScrollTrigger.refresh();
+                const scrollDistance = track.scrollWidth - wrapper.offsetWidth;
 
-                // Deixa o CSS controlar a largura dos slides. Essencial para o efeito de "espiar".
-                slidesPerView: 'auto',
-                
-                // Espaçamento entre os cards.
-                spaceBetween: 15,
+                gsap.to(track, {
+                    x: -scrollDistance,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: secaoComando,
+                        pin: wrapper,
+                        scrub: 1,
+                        start: "top top",
+                        end: () => "+=" + scrollDistance,
+                        invalidateOnRefresh: true
+                    }
+                });
 
-                grabCursor: true,
-                
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
+            } else if (isMobile) {
+                // --- CÓDIGO DO SLIDER PARA MOBILE (Swiper.js) ---
+                new Swiper('#comando-slider', {
+                    effect: 'slide',
+                    loop: false, // Mantemos a ordem de 1 a 5, como solicitado
+                    slidesPerView: 1, // Exibe um slide por vez
+                    spaceBetween: 20, // Espaço entre os slides quando em transição
 
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-            });
-        }
-    });
-}
+                    // OPÇÕES DE ROBUSTEZ:
+                    observer: true, // O Swiper se auto-corrige se você modificar os slides com JS
+                    observeParents: true, // O Swiper se auto-corrige se o tamanho do container mudar
+
+                    grabCursor: true,
+                    
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                });
+            }
+        });
+    }
+    
     // ==========================================================
     // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS ---
     // ==========================================================
