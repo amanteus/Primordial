@@ -113,28 +113,28 @@ document.addEventListener('DOMContentLoaded', () => {
          // --- 2. BASE DE DADOS DOS DOSSIÊS (com a adição do Oráculo) ---
     const dossierData = {
         primordial: {
-            title: "Dossiê: O Primordial (Produto Principal)",
+            title: "O Primordial",
             content: `<p><strong>Como Funciona:</strong> O ponto de entrada. Um sistema de 4 módulos que desinstala a programação social defeituosa e recalibra o instinto masculino.</p>
                       <p><strong>Base Científica:</strong> Neuroplasticidade, Psicologia Evolutiva e Cognição Incorporada. Ataca a raiz do problema (o software mental), não os sintomas.</p>
                       <p><strong>Estratégia no Funil:</strong> A oferta principal. Qualifica apenas os homens mais comprometidos, criando um cliente de altíssimo valor que está pronto para a próxima etapa.</p>
                       <p><strong>Objetivo para o Cliente:</strong> Quebrar a inércia, destruir a persona do "bom moço" e construir a fundação da confiança inabalável.</p>`
         },
         bump: {
-            title: "Dossiê: Order Bump (Aceleração Imediata)",
+            title: "Order Bump",
             content: `<p><strong>Como Funciona:</strong> Um protocolo de ação rápida oferecido no checkout para gerar uma vitória instantânea.</p>
                       <p><strong>Base Científica:</strong> Princípio do Compromisso e Consistência. Uma pequena primeira vitória (o "sim" ao bump) aumenta drasticamente a probabilidade de o cliente se manter engajado no processo principal.</p>
                       <p><strong>Estratégia no Funil:</strong> Aumenta o Valor Médio do Carrinho (AOV) sem adicionar fricção à compra principal.</p>
                       <p><strong>Objetivo para o Cliente:</strong> Uma ferramenta de aplicação imediata que gera um resultado tangível nas primeiras 24 horas.</p>`
         },
         upsell: {
-            title: "Dossiê: Upsell (Protocolo de Ativação)",
+            title: "Upsell - Protocolo de Ativação",
             content: `<p><strong>Como Funciona:</strong> Um programa intensivo de 30 dias com acompanhamento para mestria avançada.</p>
             <p><strong>Base Científica:</strong> Imersão Focada e Feedback Contínuo, os dois aceleradores de aprendizado mais potentes.</p>
             <p><strong>Estratégia no Funil:</strong> Oferta de alto valor para os clientes mais engajados, maximizando o Lucro Por Cliente (LTV).</p>
             <p><strong>Objetivo para o Cliente:</strong> Transformar o conhecimento em habilidade de forma acelerada, sob orientação direta.</p>`
         },
         downsell: {
-            title: "Dossiê: Downsell (Arsenal de Conversa)",
+            title: "Downsell - Arsenal de Conversa",
             content: `<p><strong>Como Funciona:</strong> Um manual de bolso digital com 30 frameworks de conversa.</p>
             <p><strong>Base Científica:</strong> Heurísticas e Modelos Mentais. Oferece "atalhos" cognitivos para momentos de alta pressão, como a abordagem inicial.</p>
             <p><strong>Estratégia no Funil:</strong> Recupera parte da receita de clientes que recusam o Upsell. Garante que mesmo aqueles que não estão prontos para a imersão total saiam com uma ferramenta valiosa, mantendo uma percepção positiva da marca.</p>
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         // NOVO DOSSIÊ PARA O ORÁCULO
         oraculo: {
-            title: "Dossiê: O Oráculo (Lançamento Futuro)",
+            title: "O Oráculo (Lançamento Futuro)",
             content: `<p><strong>Status:</strong> Em desenvolvimento.</p>
                       <p><strong>Como Funciona:</strong> Um Agente de IA treinado com a filosofia Amanteus, servindo como um mentor 24/7 no bolso do cliente para calibragem de interações em tempo real.</p>
                       <p><strong>Estratégia no Funil:</strong> Será o nosso principal produto de assinatura (MRR), criando uma fonte de receita recorrente e de longo prazo para nossos parceiros.</p>
