@@ -46,33 +46,33 @@ window.onload = function() {
                 });
 
             } else if (isMobile) {
-                // --- CÓDIGO DO SLIDER PARA MOBILE (Swiper.js) ---
-                new Swiper('#comando-slider', {
-                    effect: 'slide',
-                    loop: false, // Mantemos a ordem de 1 a 5, como solicitado
-                    slidesPerView: 1, // Exibe um slide por vez
-                    spaceBetween: 20, // Espaço entre os slides quando em transição
+                // --- CÓDIGO DO ACCORDION PARA MOBILE (LEVE E ROBUSTO) ---
+                const accordionItems = document.querySelectorAll('.accordion-item');
 
-                    // OPÇÕES DE ROBUSTEZ:
-                    observer: true, // O Swiper se auto-corrige se você modificar os slides com JS
-                    observeParents: true, // O Swiper se auto-corrige se o tamanho do container mudar
+                // Abre o primeiro item por padrão
+                if (accordionItems.length > 0) {
+                    accordionItems[0].classList.add('active');
+                }
 
-                    grabCursor: true,
-                    
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                    },
+                accordionItems.forEach(item => {
+                    const button = item.querySelector('.accordion-button');
+                    button.addEventListener('click', () => {
+                        const isActive = item.classList.contains('active');
 
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                    },
+                        // Fecha todos os outros itens
+                        accordionItems.forEach(otherItem => {
+                            otherItem.classList.remove('active');
+                        });
+
+                        // Se o item clicado não estava ativo, abre ele
+                        if (!isActive) {
+                            item.classList.add('active');
+                        }
+                    });
                 });
             }
         });
     }
-    
     // ==========================================================
     // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS ---
     // ==========================================================
