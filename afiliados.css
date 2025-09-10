@@ -321,21 +321,25 @@
 /* ========================================================== */
 /* SEÇÃO "O COMANDO" (Scroll Horizontal) --- */
 /* ========================================================== */
-.secao-comando { padding: 0; min-height: 100vh; }
+.secao-comando { 
+    padding: 0; 
+    /* Garante que a seção tenha no mínimo a altura da tela, evitando cortes */
+    min-height: 100vh; 
+}
 .comando-wrapper {
     width: 100%;
     position: relative;
     display: flex;
     align-items: center;
     height: 100vh;
-    overflow: hidden; /* só bloqueia o vertical */
+    /* Remove o overflow-x daqui para deixar o track controlar */
 }
 .comando-track {
     display: flex;
     align-items: stretch;
     gap: 8vw;
-    padding: 0 5vw;
-    width: max-content;
+    padding: 0 5vw; /* Mantém o espaçamento nas bordas */
+    /* Este elemento que deve ter o scroll no mobile */
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -ms-overflow-style: none; scrollbar-width: none;
