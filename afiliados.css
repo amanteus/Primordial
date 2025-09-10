@@ -330,55 +330,99 @@
 /* ========================================================== */
 /*
     ================================================================
-    --- SLIDER "O COMANDO" PARA MOBILE (VERSÃO FINAL E ROBUSTA) ---
+    --- ACCORDION "O COMANDO" PARA MOBILE (VERSÃO DEFINITIVA) ---
     ================================================================
     */
 
-    /* O contêiner principal do slider */
-    #comando-slider.swiper {
-        width: 100%;
-        /* O SEGREDO: Criamos 'margens de segurança' internas de 30px em cada lado. */
-        padding: 0 30px; 
+    /* 1. Esconde a versão de scroll horizontal (desktop) */
+    .secao-comando .comando-wrapper {
+        display: none;
+    }
+    /* Exibe o container do accordion que estava escondido */
+    .secao-comando .accordion-container {
+        display: block;
     }
 
-    #comando-slider .swiper-wrapper {
-        align-items: stretch;
+    /* 2. Estilo de cada item do accordion */
+    .accordion-item {
+        border-bottom: 1px solid var(--border-color);
     }
 
-    /* O card do slide */
-    .dossier-card.swiper-slide {
-        /* O card ocupa 100% do espaço DENTRO das margens de segurança. */
-        width: 100% !important;
-        height: auto;
+    /* 3. Estilo do botão/título clicável */
+    .accordion-button {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        /* Removemos o transform e opacity para uma aparência mais limpa e direta. */
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+        padding: 20px 0;
+        background: none;
+        border: none;
+        color: var(--text-color);
+        text-align: left;
+        cursor: pointer;
     }
-    
-    /* As setas ficam posicionadas DENTRO das margens de segurança. */
-    .swiper-button-next,
-    .swiper-button-prev {
-        width: 44px;
-        height: 44px;
-        background-color: rgba(26, 26, 26, 0.5);
-        backdrop-filter: blur(5px);
-        border-radius: 50%;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: var(--accent-color);
-        --swiper-navigation-size: 20px;
-        transition: all 0.3s ease;
+    .accordion-button span:first-child { /* O número '01', '02', etc. */
+        font-family: var(--font-headline);
+        font-size: 1.5rem;
+        color: var(--text-muted);
+    }
+    .accordion-button h4 {
+        font-family: var(--font-headline);
+        font-size: 1.6rem;
+        color: var(--text-color);
+        margin: 0;
+        flex-grow: 1; /* Faz o título ocupar o espaço restante */
+    }
+
+    /* 4. O ícone de '+' e '-' (feito com CSS puro) */
+    .accordion-icon {
+        position: relative;
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+    }
+    .accordion-icon::before,
+    .accordion-icon::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 2px;
+        background-color: var(--accent-color);
         top: 50%;
-        transform: translateY(-50%);
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: transform 0.3s ease;
     }
-    
-    /* Posição exata das setas */
-    .swiper-button-prev { left: -10px; }
-    .swiper-button-next { right: -10px; }
-    
-    .swiper-button-disabled { opacity: 0.3; cursor: not-allowed; }
-    
-    .swiper-pagination-bullet-active { background-color: var(--accent-color); }
+    .accordion-icon::after {
+        transform: translate(-50%, -50%) rotate(90deg);
+    }
+    .accordion-item.active .accordion-icon::after {
+        transform: translate(-50%, -50%) rotate(0deg); /* Esconde a barra vertical para formar um '-' */
+    }
+
+    /* 5. O painel de conteúdo */
+    .accordion-content {
+        max-height: 0; /* Começa fechado */
+        overflow: hidden;
+        transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        /* Estiliza o conteúdo para se parecer com o card original */
+        color: var(--text-muted);
+        line-height: 1.8;
+    }
+    .accordion-content p,
+    .accordion-content ul {
+        padding: 0 5px 20px 5px;
+    }
+    .accordion-content ul { list-style: none; }
+    .accordion-content .dossier-result {
+        margin-top: 10px;
+        padding-top: 15px;
+        border-top: 1px solid var(--border-color);
+    }
+    /* Quando o item está ativo, o conteúdo se expande */
+    .accordion-item.active .accordion-content {
+        max-height: 1000px; /* Um valor alto para permitir a expansão */
+    }
 }
 .secao-comando { 
     padding: 0; 
