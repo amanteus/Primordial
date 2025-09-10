@@ -13,30 +13,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================
     // --- MÓDULO 1: SCROLL HORIZONTAL ---
     // ==========================================================
+// ==========================================================
+// --- MÓDULO 1: SCROLL HORIZONTAL (VERSÃO CORRIGIDA) ---
+// ==========================================================
 function initHorizontalScroll() {
     const secaoComando = document.querySelector('.secao-comando');
     const track = document.querySelector('.comando-track');
-    if (!secaoComando || !track) return;
+    const wrapper = document.querySelector('.comando-wrapper');
+    if (!secaoComando || !track || !wrapper) return;
 
-    // Distância real que o track precisa percorrer
-    const scrollDistance = track.scrollWidth - window.innerWidth;
+    // Usamos o MatchMedia do GSAP para aplicar lógicas diferentes
+    // dependendo do tamanho da tela. Isso é ótimo para responsividade!
+    ScrollTrigger.matchMedia({
+        // Aplica para telas maiores (desktop)
+        "(min-width: 769px)": function() {
+            // Cálculo mais preciso da distância de rolagem
+            // Subtrai a largura visível do wrapper da largura total do conteúdo
+            const scrollDistance = track.scrollWidth - wrapper.offsetWidth;
 
-    // Ajusta a altura para permitir rolagem completa + um buffer
-    secaoComando.style.height = `${scrollDistance + window.innerHeight}px`;
-
-    gsap.to(track, {
-        x: -scrollDistance,
-        ease: "none",
-        scrollTrigger: {
-            trigger: secaoComando,
-            pin: ".comando-wrapper",
-            scrub: 1,
-            start: "top top",
-            end: () => `+=${scrollDistance}`, // garante o fim correto
-        }
+            gsap.to(track, {
+                x: -scrollDistance,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: secaoComando,
+                    pin: wrapper, // "Prende" o wrapper na tela durante o scroll
+                    scrub: 1, // Suaviza a animação
+                    start: "top top",
+                    end: () => "+=" + scrollDistance, // O final é a distância calculada
+                    invalidateOnRefresh: true // Recalcula tudo se a janela mudar de tamanho
+                }
+            });
+        },
+        // Para telas menores (mobile), o comportamento de scroll horizontal nativo já funciona bem
+        // então não aplicamos a animação GSAP.
     });
 }
-
     // ==========================================================
     // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS ---
     // ==========================================================
