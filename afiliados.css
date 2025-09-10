@@ -421,37 +421,65 @@
 /* ========================================================== */
 /* CTA FINAL --- */
 /* ========================================================== */
+/* ========================================================== */
+/* CTA FINAL --- */
+/* ========================================================== */
 .secao-afiliados-cta { background-color: #111; }
+
 .cta-button.afiliados-cta {
-    display: inline-block; background-color: var(--accent-color); color: var(--bg-color);
-    font-family: var(--font-headline); font-size: 1.5rem; padding: 18px 40px;
-    text-decoration: none; border-radius: 8px; transition: all 0.3s ease;
-    border: none; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    display: block; /* Alterado de inline-block para block para funcionar com margin auto */
+    margin: 20px auto;
+    text-align: center;
+    background: linear-gradient(90deg, #c4aa83, #e0cfa0);
+    color: var(--bg-color);
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    padding: 18px 40px;
+    text-decoration: none;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative; /* Essencial para o pseudo-elemento */
+    overflow: hidden;   /* Essencial para o efeito de brilho */
+    transition: all 0.3s ease; /* Mantemos a transição para o hover */
 }
 
-/* Botões */
-.cta-button.afiliados-cta {
-  background: linear-gradient(90deg, #c4aa83, #e0cfa0);
-  position: relative;
-  overflow: hidden;
-}
+/* O pseudo-elemento que cria o brilho */
 .cta-button.afiliados-cta::after {
-  content: "";
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: rgba(255,255,255,0.3);
-  transform: skewX(-20deg);
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%; /* Posição inicial, fora da tela à esquerda */
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.3);
+    transform: skewX(-20deg);
+    
+    /* A MÁGICA ESTÁ AQUI: Aplicamos a animação diretamente */
+    animation: continuous-shine 3s ease-out infinite;
 }
-.cta-button.afiliados-cta:hover::after {
-  animation: shine 0.7s forwards;
-}
-@keyframes shine {
-  to { left: 120%; }
-}
-.cta-button.afiliados-cta:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(196, 170, 131, 0.5); }
-.secure-checkout-text { margin-top: 15px; font-size: 0.9rem; color: #888; }
 
+/* EFEITO DE HOVER: Mantemos o feedback para o usuário */
+.cta-button.afiliados-cta:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(196, 170, 131, 0.5);
+}
+
+/* NOVA ANIMAÇÃO: Criada para um loop com pausa */
+@keyframes continuous-shine {
+    0% {
+        left: -100%; /* Começa totalmente à esquerda */
+    }
+    20% {
+        left: 120%; /* Passa rapidamente pelo botão */
+    }
+    100% {
+        left: 120%; /* Permanece fora da tela, criando uma pausa de ~2.4s */
+    }
+}
+
+.secure-checkout-text { margin-top: 15px; font-size: 0.9rem; color: #888; }
 /* ========================================================== */
 /* RODAPÉ --- */
 /* ========================================================== */
