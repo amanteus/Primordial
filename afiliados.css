@@ -66,12 +66,32 @@
   background: linear-gradient(180deg, #0f0f0f 0%, #151515 100%);
 }
 
+/* Headline sempre forte */
 .afiliados-section-title {
-    font-family: var(--font-headline);
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
-    text-align: center;
-    margin-bottom: 20px;
-    line-height: 1.2;
+  font-family: var(--font-headline);
+  font-size: clamp(2.4rem, 6vw, 3.5rem);
+  color: var(--text-color);
+  margin-bottom: 30px;
+  position: relative;
+}
+
+/* Linha dourada abaixo do título */
+.afiliados-section-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: var(--accent-color);
+  margin: 15px auto 0 auto;
+}
+
+/* Destaques no texto */
+.blockquote-highlight {
+  border-left: 4px solid var(--accent-color);
+  padding-left: 15px;
+  font-style: italic;
+  color: var(--text-muted);
+  margin: 20px 0;
 }
 
 .section-subtitle {
@@ -176,6 +196,29 @@
     }
     #whatsapp-support-button span { display: none; }
 }
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  background: #111;
+  color: var(--accent-color);
+  font-weight: bold;
+  padding: 12px 0;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.marquee span {
+  display: inline-block;
+  padding: 0 2rem;
+  animation: scroll 15s linear infinite;
+}
+@keyframes scroll {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-100%); }
+}
+
 
 /* ========================================================== */
 /* PRODUTOS (botões roláveis) --- */
@@ -307,6 +350,15 @@
 .dossier-card li { margin-bottom: 15px; font-size: 1.1rem; }
 .dossier-result { margin-top: 30px; padding-top: 20px; border-top: 1px solid #333; font-weight: bold; font-size: 1.1rem; }
 
+/* Cards de Dossiê */
+.dossier-card {
+  transition: all 0.3s ease;
+}
+.dossier-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(196,170,131,0.15);
+}
+
 /* ========================================================== */
 /* REGRAS DO JOGO --- */
 /* ========================================================== */
@@ -345,6 +397,27 @@
     font-family: var(--font-headline); font-size: 1.5rem; padding: 18px 40px;
     text-decoration: none; border-radius: 8px; transition: all 0.3s ease;
     border: none; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Botões */
+.cta-button.afiliados-cta {
+  background: linear-gradient(90deg, #c4aa83, #e0cfa0);
+  position: relative;
+  overflow: hidden;
+}
+.cta-button.afiliados-cta::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: rgba(255,255,255,0.3);
+  transform: skewX(-20deg);
+}
+.cta-button.afiliados-cta:hover::after {
+  animation: shine 0.7s forwards;
+}
+@keyframes shine {
+  to { left: 120%; }
 }
 .cta-button.afiliados-cta:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(196, 170, 131, 0.5); }
 .secure-checkout-text { margin-top: 15px; font-size: 0.9rem; color: #888; }
