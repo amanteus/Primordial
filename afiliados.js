@@ -18,11 +18,11 @@ function initHorizontalScroll() {
     const track = document.querySelector('.comando-track');
     if (!secaoComando || !track) return;
 
-    // Calcula a distância total que o track precisa rolar
+    // Distância real que o track precisa percorrer
     const scrollDistance = track.scrollWidth - window.innerWidth;
 
-    // Define a altura da seção dinamicamente (mantém o "pino" no scroll)
-    secaoComando.style.height = `${scrollDistance * 1.2}px`;
+    // Ajusta a altura para permitir rolagem completa + um buffer
+    secaoComando.style.height = `${scrollDistance + window.innerHeight}px`;
 
     gsap.to(track, {
         x: -scrollDistance,
@@ -32,11 +32,10 @@ function initHorizontalScroll() {
             pin: ".comando-wrapper",
             scrub: 1,
             start: "top top",
-            end: "bottom bottom",
+            end: () => `+=${scrollDistance}`, // garante o fim correto
         }
     });
 }
-
 
     // ==========================================================
     // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS ---
