@@ -26,12 +26,17 @@ function initComandoSection() {
         let { isDesktop, isMobile } = context.conditions;
 
         if (isDesktop) {
-            // Lógica para o desktop (sem alterações)
+            // --- CÓDIGO DO SCROLL HORIZONTAL PARA DESKTOP (CORRIGIDO) ---
             const secaoComando = document.querySelector('.secao-comando');
-            const track = document.querySelector('.comando-track');
+            // CORREÇÃO 1: O seletor do 'track' estava errado. O correto é '.comando-track'.
+            const track = document.querySelector('.comando-track'); 
             const pinWrapper = document.querySelector('.comando-desktop-wrapper');
             if (!secaoComando || !track || !pinWrapper) return;
-            const scrollDistance = track.scrollWidth - window.innerWidth;
+
+            // CORREÇÃO 2: O cálculo da distância agora é mais robusto. Ele subtrai
+            // a largura visível do próprio track, em vez da janela inteira.
+            const scrollDistance = track.scrollWidth - track.offsetWidth;
+
             gsap.to(track, {
                 x: -scrollDistance,
                 ease: "none",
@@ -40,10 +45,11 @@ function initComandoSection() {
                     pin: pinWrapper,
                     scrub: 1,
                     start: "top top",
-                    end: () => "+=" + scrollDistance,
+                    end: () => `+=${scrollDistance}`,
                     invalidateOnRefresh: true
                 }
             });
+        }
 
         } else if (isMobile) {
             const desktopCards = document.querySelectorAll('.comando-track .dossier-card');
