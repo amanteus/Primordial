@@ -460,3 +460,47 @@
     .footer { padding: 40px 15px; font-size: 0.8rem; }
     .footer-links { flex-direction: column; gap: 15px; }
 }
+
+.divider-icons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 1.5rem;
+  padding: 15px 0;
+  background: rgba(255,255,255,0.02);
+}
+.divider-icons span {
+  animation: floatIcon 4s ease-in-out infinite;
+}
+.divider-icons span:nth-child(2) { animation-delay: 0.5s; }
+.divider-icons span:nth-child(3) { animation-delay: 1s; }
+.divider-icons span:nth-child(4) { animation-delay: 1.5s; }
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.divider-zigzag {
+  width: 100%;
+  height: 30px;
+  overflow: hidden;
+  line-height: 0;
+}
+.divider-zigzag svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.divider-glow {
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  animation: pulseGlow 3s infinite;
+}
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
