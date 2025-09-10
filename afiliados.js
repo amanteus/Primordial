@@ -10,31 +10,76 @@ document.addEventListener('DOMContentLoaded', () => {
     // Registra o plugin ScrollTrigger do GSAP
     gsap.registerPlugin(ScrollTrigger);
 
-    // ==========================================================
-    // --- MÓDULO 1: SCROLL HORIZONTAL ---
-    // ==========================================================
+// ==========================================================
+// --- MÓDULO 1: LÓGICA CONDICIONAL (SCROLL DESKTOP / SLIDER MOBILE) ---
+// ==========================================================
 function initHorizontalScroll() {
-        // Guarda de segurança movida para dentro da função
-        const secaoComando = document.getElementById('comando-section');
-        if (!secaoComando) return;
+    // Usamos o MatchMedia para executar códigos diferentes dependendo do tamanho da tela
+    gsap.matchMedia().add({
+        // isDesktop - para telas maiores que 768px
+        isDesktop: "(min-width: 769px)",
+        // isMobile - para telas de até 768px
+        isMobile: "(max-width: 768px)"
+    }, (context) => {
+        let { isDesktop, isMobile } = context.conditions;
 
-        const track = secaoComando.querySelector('.comando-track');
-        const cards = gsap.utils.toArray(secaoComando.querySelectorAll('.dossier-card'));
+        if (isDesktop) {
+            // --- CÓDIGO DO SCROLL HORIZONTAL PARA DESKTOP (GSAP) ---
+            const secaoComando = document.querySelector('.secao-comando');
+            // No desktop, os slides são o .comando-track original do seu HTML antigo
+            // Para isso funcionar, precisamos garantir que o HTML antigo ainda exista para o desktop.
+            // A melhor abordagem é ter as DUAS estruturas no HTML e esconder/mostrar com CSS.
+            // **PORÉM, uma solução mais limpa é usar a nova estrutura para TUDO.**
+            // O GSAP pode animar os .swiper-wrapper e .swiper-slide também.
 
-        if (!track || cards.length === 0) return;
+            const track = document.querySelector('.swiper-wrapper'); // Usando a nova estrutura!
+            const wrapper = document.querySelector('.comando-wrapper');
+            if (!secaoComando || !track || !wrapper) return;
+            
+            const scrollDistance = track.scrollWidth - wrapper.offsetWidth;
 
-        gsap.to(cards, {
-            xPercent: -100 * (cards.length - 1),
-            ease: "none",
-            scrollTrigger: {
-                trigger: secaoComando,
-                pin: true,
-                scrub: 1,
-                snap: 1 / (cards.length - 1),
-                end: () => "+=" + track.offsetWidth
-            }
-        });
-    }
+            gsap.to(track, {
+                x: -scrollDistance,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: secaoComando,
+                    pin: wrapper,
+                    scrub: 1,
+                    start: "top top",
+                    end: () => "+=" + scrollDistance,
+                    invalidateOnRefresh: true
+                }
+            });
+
+        } else if (isMobile) {
+            // --- CÓDIGO DO SLIDER PARA MOBILE (Swiper.js) ---
+            new Swiper('#comando-slider', {
+                // Efeito visual de "cards" passando
+                effect: 'cards',
+                cardsEffect: {
+                    slideShadows: false,
+                },
+                // Opções adicionais
+                slidesPerView: 'auto',
+                centeredSlides: true,
+                loop: true,
+                spaceBetween: 15,
+                
+                // Paginação (bolinhas)
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+
+                // Navegação (setas)
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            });
+        }
+    });
+}
     // ==========================================================
     // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS ---
     // ==========================================================
