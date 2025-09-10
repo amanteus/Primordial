@@ -50,13 +50,17 @@ function initHorizontalScroll() {
         } else if (isMobile) {
             // --- CÓDIGO DO SLIDER PARA MOBILE (Swiper.js) ---
             new Swiper('#comando-slider', {
-                // MUDANÇA IMPORTANTE: O efeito 'slide' é mais estável e ideal para este layout.
-                effect: 'slide',
-                
-                slidesPerView: 'auto',
-                centeredSlides: true,
+                // VOLTAMOS PARA O EFEITO DE IMPACTO QUE VOCÊ GOSTOU!
+                effect: 'cards',
+                cardsEffect: {
+                    // Impede que os slides girem muito, mantendo-os mais estáveis
+                    rotate: false, 
+                    // Remove as sombras padrão para um look mais limpo
+                    slideShadows: false, 
+                },
+                // Garante que o slider não saia do limite ao arrastar
+                grabCursor: true, 
                 loop: true,
-                spaceBetween: 15,
                 
                 pagination: {
                     el: '.swiper-pagination',
