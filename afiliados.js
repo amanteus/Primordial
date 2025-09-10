@@ -13,9 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================================
 // --- MÓDULO 1: LÓGICA CONDICIONAL (VERSÃO FINAL E ROBUSTA) ---
 // ==========================================================
-// ESPERAMOS A PÁGINA INTEIRA CARREGAR (INCLUINDO FONTES E IMAGENS)
-window.onload = function() {
-    function initHorizontalScroll() {
+function initComandoSection() {
         gsap.matchMedia().add({
             isDesktop: "(min-width: 769px)",
             isMobile: "(max-width: 768px)"
@@ -23,13 +21,11 @@ window.onload = function() {
             let { isDesktop, isMobile } = context.conditions;
 
             if (isDesktop) {
-                // --- CÓDIGO DO SCROLL HORIZONTAL PARA DESKTOP (GSAP) ---
                 const secaoComando = document.querySelector('.secao-comando');
                 const track = document.querySelector('.swiper-wrapper');
                 const wrapper = document.querySelector('.comando-wrapper');
                 if (!secaoComando || !track || !wrapper) return;
-                
-                ScrollTrigger.refresh();
+
                 const scrollDistance = track.scrollWidth - wrapper.offsetWidth;
 
                 gsap.to(track, {
@@ -44,27 +40,17 @@ window.onload = function() {
                         invalidateOnRefresh: true
                     }
                 });
-
             } else if (isMobile) {
-                // --- CÓDIGO DO ACCORDION PARA MOBILE (LEVE E ROBUSTO) ---
                 const accordionItems = document.querySelectorAll('.accordion-item');
-
-                // Abre o primeiro item por padrão
                 if (accordionItems.length > 0) {
-                    accordionItems[0].classList.add('active');
+                    accordionItems[0].classList.add('active'); // Abre o primeiro item por padrão
                 }
 
                 accordionItems.forEach(item => {
                     const button = item.querySelector('.accordion-button');
                     button.addEventListener('click', () => {
                         const isActive = item.classList.contains('active');
-
-                        // Fecha todos os outros itens
-                        accordionItems.forEach(otherItem => {
-                            otherItem.classList.remove('active');
-                        });
-
-                        // Se o item clicado não estava ativo, abre ele
+                        accordionItems.forEach(otherItem => otherItem.classList.remove('active'));
                         if (!isActive) {
                             item.classList.add('active');
                         }
@@ -73,6 +59,7 @@ window.onload = function() {
             }
         });
     }
+    
     // ==========================================================
     // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS ---
     // ==========================================================
@@ -254,7 +241,7 @@ function initCountUpAnimations() {
     // ==========================================================
     // --- INICIALIZAÇÃO DE TODOS OS MÓDULOS ---
     // ==========================================================
-    initHorizontalScroll();
+    initComandoSection();
     initCountUpAnimations();
     initStaggeredReveals();
     initFunnelBlueprint();
