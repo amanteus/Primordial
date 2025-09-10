@@ -43,10 +43,27 @@
     margin: 0 auto;
 }
 
+/* Fundo base já existente */
 .secao {
-    padding: 100px 0;
-    position: relative;
-    overflow-x: hidden;
+  padding: 100px 0;
+  position: relative;
+  overflow-x: hidden;
+  background: var(--bg-color); /* padrão */
+}
+
+/* Seção O Comando */
+.secao-comando {
+  background: linear-gradient(135deg, #0f0f0f 0%, #021710 100%);
+}
+
+/* Seção Funnel Blueprint */
+#funnel-blueprint-section {
+  background: radial-gradient(circle at top, #111 0%, #000 100%);
+}
+
+/* Seção Trilha da Recompensa */
+.secao-trilha {
+  background: linear-gradient(180deg, #0f0f0f 0%, #151515 100%);
 }
 
 .afiliados-section-title {
