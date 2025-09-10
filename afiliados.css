@@ -328,42 +328,37 @@
 /* ========================================================== */
 /* SEÇÃO "O COMANDO" (Scroll Horizontal) --- */
 /* ========================================================== */
-============================================================
-    --- SLIDER "O COMANDO" PARA MOBILE (VERSÃO LAPIDADA) ---
-    ============================================================
+================================================================
+    --- SLIDER "O COMANDO" PARA MOBILE (VERSÃO CORRIGIDA FINAL) ---
+    ================================================================
     */
 
-    /* 1. ORGANIZAÇÃO GERAL E CENTRALIZAÇÃO */
     #comando-slider.swiper {
-        /* Damos ao slider 90% da largura da tela e o centralizamos.
-           Isso cria 'respiros' laterais e melhora a organização. */
-        width: 90%;
-        margin: 0 auto;
-        padding: 0 10px; /* Pequeno padding interno para segurança */
-        overflow: visible;
-        position: relative; /* Necessário para posicionar as setas */
+        /* MUDANÇA 1: Voltamos o 'palco' para 100% da largura.
+           Isso dá espaço de sobra para a animação 'cards' funcionar sem cortes. */
+        width: 100%;
+        overflow: visible; 
     }
 
-    /* 2. GARANTINDO A MESMA ALTURA NOS CARDS */
     #comando-slider .swiper-wrapper {
-        /* Este é o segredo para a mesma altura: 
-           o wrapper se alinha esticando todos os slides. */
         align-items: stretch;
     }
 
     .dossier-card.swiper-slide {
-        /* O card agora ocupa 100% do seu contêiner 'slide' */
-        width: 100% !important; 
-        height: 100%; /* O card se estica para preencher a altura do slide */
-        display: flex; /* Habilita flexbox para alinhar o conteúdo interno */
+        /* MUDANÇA 2: Controlamos o tamanho do card diretamente aqui.
+           Ele ocupará 80% da largura da tela (viewport width), criando os respiros
+           laterais de forma natural e garantindo que nunca seja grande demais. */
+        width: 80vw !important;
+        max-width: 340px; /* Um limite máximo para telas um pouco maiores */
+        height: 100%;
+        display: flex;
         flex-direction: column;
         justify-content: center;
     }
     
-    /* 3. REFINANDO AS SETAS (IDENTIDADE VISUAL) */
+    /* As setas e a paginação continuam com o mesmo estilo refinado */
     .swiper-button-next,
     .swiper-button-prev {
-        /* Mantemos o estilo visual */
         width: 44px;
         height: 44px;
         background-color: rgba(26, 26, 26, 0.5);
@@ -373,25 +368,16 @@
         color: var(--accent-color);
         --swiper-navigation-size: 20px;
         transition: background-color 0.3s ease;
-
-        /* MUDANÇA: Posicionamento vertical perfeito e ajuste fino horizontal */
         top: 50%;
         transform: translateY(-50%);
     }
 
-    /* Posiciona a seta 'prev' FORA do contêiner do slider, à esquerda */
     .swiper-button-prev {
-        left: -25px; 
+        left: 5px; /* Ajuste para ficarem mais próximas do card */
     }
 
-    /* Posiciona a seta 'next' FORA do contêiner do slider, à direita */
     .swiper-button-next {
-        right: -25px;
-    }
-
-    .swiper-button-next:hover,
-    .swiper-button-prev:hover {
-        background-color: rgba(26, 26, 26, 0.8);
+        right: 5px; /* Ajuste para ficarem mais próximas do card */
     }
     
     .swiper-button-disabled {
@@ -399,12 +385,10 @@
         cursor: not-allowed;
     }
     
-    /* Paginação (bolinhas) */
     .swiper-pagination-bullet-active {
         background-color: var(--accent-color);
     }
 }
-
 .secao-comando { 
     padding: 0; 
     /* Garante que a seção tenha no mínimo a altura da tela, evitando cortes */
