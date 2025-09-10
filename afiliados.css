@@ -222,6 +222,11 @@
   color: var(--accent-color);
 }
 
+.marquee span {
+  flex: 0 0 100%; /* cada frase ocupa toda a largura da viewport */
+  justify-content: center;
+}
+
 .marquee .logo-icon {
   width: 32px;
   height: 32px;
