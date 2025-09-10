@@ -198,25 +198,39 @@
 }
 
 .marquee {
+  width: 100%;
   overflow: hidden;
-  white-space: nowrap;
   background: #111;
-  color: var(--accent-color);
-  font-weight: bold;
-  padding: 12px 0;
-  font-family: var(--font-primary);
-  font-size: 1rem;
-  border-top: 1px solid rgba(255,255,255,0.05);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
+
+.marquee-track {
+  display: flex;
+  gap: 80px;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+  padding: 20px 0;
+}
+
 .marquee span {
-  display: inline-block;
-  padding: 0 2rem;
-  animation: scroll 15s linear infinite;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  color: var(--accent-color);
 }
-@keyframes scroll {
-  from { transform: translateX(100%); }
-  to { transform: translateX(-100%); }
+
+.marquee .logo-icon {
+  width: 32px;
+  height: 32px;
+  fill: var(--accent-color);
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 
