@@ -68,11 +68,12 @@
 
 /* Headline sempre forte */
 .afiliados-section-title {
-  font-family: var(--font-headline);
-  font-size: clamp(2.4rem, 6vw, 3.5rem);
-  color: var(--text-color);
-  margin-bottom: 30px;
-  position: relative;
+    font-family: var(--font-headline);
+    font-size: clamp(2.4rem, 6vw, 3.5rem);
+    color: var(--text-color);
+    margin-bottom: 30px;
+    position: relative;
+    text-align: center; /* <<< ADICIONE ESTA LINHA */
 }
 
 /* Linha dourada abaixo do título */
