@@ -410,14 +410,35 @@
 }
 
 /* --- LAYOUT PARA TELAS GRANDES (DESKTOP) --- */
-
 @media (min-width: 769px) {
-    /* Invertemos a lógica com autoridade máxima */
-    .comando-desktop-wrapper {
-        display: block !important; /* Mostra a versão desktop */
-    }
+    /* 1. Esconde a versão mobile (Accordion) */
     .accordion-mobile-container {
-        display: none !important; /* Esconde a versão mobile */
+        display: none !important;
+    }
+
+    /* 2. Mostra e prepara o container do scroll horizontal */
+    .comando-desktop-wrapper {
+        display: block !important;
+        height: 100vh; /* Ocupa a altura toda da tela para o efeito 'pin' */
+        overflow: hidden; /* Esconde qualquer conteúdo que exceda a área */
+        position: relative;
+    }
+
+    /* 3. Estiliza a 'trilha' onde os cards irão correr */
+    .comando-track {
+        display: flex;
+        align-items: center; /* Centraliza os cards verticalmente */
+        height: 100%; /* Garante que a trilha ocupe toda a altura */
+        width: max-content; /* A largura será a soma de todos os cards */
+        gap: 8vw; /* Espaçamento generoso entre os cards */
+        padding: 0 5vw; /* Margens de segurança nas laterais */
+    }
+
+    /* 4. Garante que os cards mantenham seu tamanho original */
+    .comando-track .dossier-card {
+        flex-shrink: 0; /* Impede que os cards sejam 'espremidos' */
+        width: 80vw;
+        max-width: 600px;
     }
 }
 
