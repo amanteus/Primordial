@@ -327,6 +327,42 @@
 /* ========================================================== */
 /* SEÇÃO "O COMANDO" (Scroll Horizontal) --- */
 /* ========================================================== */
+============================================================
+    --- SLIDER "O COMANDO" PARA MOBILE ---
+    ============================================================
+    */
+    /* Removemos a lógica de scroll horizontal antiga */
+    .comando-track {
+        overflow-x: visible; /* Swiper controla o overflow */
+        padding: 0;
+        gap: 0;
+    }
+    
+    .dossier-card.swiper-slide {
+        /* Reduzimos as dimensões dos cards para o slider */
+        width: 85% !important; /* !important para garantir a sobreposição */
+        max-width: 320px;
+        margin: 0 auto;
+        flex-shrink: 0; /* Garante que o Swiper controle o tamanho */
+    }
+    
+    /* Estilização dos botões de navegação (setas) */
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: var(--accent-color); /* Usa a cor de destaque da sua marca */
+        transform: scale(0.7); /* Deixa as setas um pouco menores */
+    }
+
+    /* Estilização da paginação (bolinhas) */
+    .swiper-pagination-bullet {
+        background-color: #555; /* Cor da bolinha inativa */
+    }
+    
+    .swiper-pagination-bullet-active {
+        background-color: var(--accent-color); /* Cor da bolinha ativa */
+    }
+}
+
 .secao-comando { 
     padding: 0; 
     /* Garante que a seção tenha no mínimo a altura da tela, evitando cortes */
@@ -418,9 +454,6 @@
 .trilha-content.card-soberano .trilha-level, .trilha-content.card-soberano .trilha-value { color: var(--accent-color); }
 .trilha-condicao { text-align: center; margin-top: 40px; font-size: 0.9rem; color: var(--text-muted); }
 
-/* ========================================================== */
-/* CTA FINAL --- */
-/* ========================================================== */
 /* ========================================================== */
 /* CTA FINAL --- */
 /* ========================================================== */
@@ -537,23 +570,6 @@
 @keyframes floatIcon {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
-}
-
-.divider-zigzag {
-    /* Ajustamos a altura para o nosso novo padrão */
-    height: 15px; 
-    width: 100%;
-    
-    /* A MÁGICA ACONTECE AQUI */
-    /* Usamos um pequeno SVG como imagem de fundo. 
-       Ele contém apenas um "dente" do zigzag. */
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath d='M0 20 L10 0 L20 20 Z' fill='%230f0f0f' stroke='%23c4aa83' stroke-width='0.5'/%3e%3c/svg%3e");
-    
-    /* Definimos o tamanho de cada "dente" do padrão */
-    background-size: 20px 15px; 
-    
-    /* E mandamos repetir horizontalmente por toda a tela */
-    background-repeat: repeat-x;
 }
 
 .divider-glow {
