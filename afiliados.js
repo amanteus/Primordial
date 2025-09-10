@@ -50,17 +50,23 @@ function initHorizontalScroll() {
         } else if (isMobile) {
             // --- CÓDIGO DO SLIDER PARA MOBILE (Swiper.js) ---
             new Swiper('#comando-slider', {
-                // VOLTAMOS PARA O EFEITO DE IMPACTO QUE VOCÊ GOSTOU!
+                // Efeito visual que você gostou
                 effect: 'cards',
                 cardsEffect: {
-                    // Impede que os slides girem muito, mantendo-os mais estáveis
-                    rotate: false, 
-                    // Remove as sombras padrão para um look mais limpo
-                    slideShadows: false, 
+                    rotate: false,
+                    slideShadows: false,
                 },
-                // Garante que o slider não saia do limite ao arrastar
-                grabCursor: true, 
-                loop: true,
+                
+                // MUDANÇA 1: Garante a ordem de 1 a 5, sem repetição infinita.
+                loop: false,
+                
+                // MUDANÇA 2: Garante que apenas 1 card é o foco principal.
+                slidesPerView: 1,
+
+                // MUDANÇA 3: Desativado para um comportamento mais padrão e ordenado.
+                centeredSlides: false,
+
+                grabCursor: true,
                 
                 pagination: {
                     el: '.swiper-pagination',
