@@ -334,15 +334,6 @@
     ================================================================
     */
 
-    /* 1. Esconde a versão de scroll horizontal (desktop) */
-    .secao-comando .comando-wrapper {
-        display: none;
-    }
-    /* Exibe o container do accordion que estava escondido */
-    .secao-comando .accordion-container {
-        display: block;
-    }
-
     /* 2. Estilo de cada item do accordion */
     .accordion-item {
         border-bottom: 1px solid var(--border-color);
@@ -424,9 +415,29 @@
         max-height: 1000px; /* Um valor alto para permitir a expansão */
     }
 }
-/* Esconde o accordion por padrão; a media query irá exibi-lo no mobile */
-.accordion-container {
+
+/*
+================================================================
+--- LÓGICA DE EXIBIÇÃO MOBILE-FIRST PARA A SEÇÃO "O COMANDO" ---
+================================================================
+*/
+
+/* POR PADRÃO (MOBILE): Mostramos o Accordion e escondemos o Scroll Horizontal */
+.secao-comando .comando-wrapper {
     display: none;
+}
+.secao-comando .accordion-container {
+    display: block;
+}
+
+/* APENAS EM TELAS GRANDES (DESKTOP): Invertemos a lógica */
+@media (min-width: 769px) {
+    .secao-comando .comando-wrapper {
+        display: flex; /* O valor correto para o GSAP funcionar */
+    }
+    .secao-comando .accordion-container {
+        display: none;
+    }
 }
 
 .secao-comando { 
