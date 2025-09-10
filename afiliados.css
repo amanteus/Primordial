@@ -547,9 +547,37 @@
     /* Botão CTA */
     .cta-button.afiliados-cta { font-size: 1.2rem; padding: 15px 20px; }
 
+    /* Garante que o slider não seja cortado por um contêiner pai */
+    #comando-slider.swiper {
+        overflow: visible;
+    }
+
     /* Rodapé */
     .footer { padding: 40px 15px; font-size: 0.8rem; }
     .footer-links { flex-direction: column; gap: 15px; }
+}
+
+/* ========================================================== */
+/* ESTILOS PARA DESKTOP (Telas maiores que 768px) --- */
+/* ========================================================== */
+@media (min-width: 769px) {
+    /* 1. Restaura o espaçamento original entre os cards */
+    #comando-section .swiper-wrapper {
+        gap: 8vw;
+    }
+
+    /* 2. Restaura a largura e max-width originais dos cards */
+    #comando-section .dossier-card.swiper-slide {
+        width: 80vw;
+        max-width: 600px;
+    }
+
+    /* 3. Oculta os controles de navegação do Swiper no desktop */
+    #comando-section .swiper-button-prev,
+    #comando-section .swiper-button-next,
+    #comando-section .swiper-pagination {
+        display: none !important; /* O !important garante a sobreposição */
+    }
 }
 
 .divider-icons {
