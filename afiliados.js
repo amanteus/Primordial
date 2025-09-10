@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- MÓDULO 1: LÓGICA CONDICIONAL (SCROLL DESKTOP / SLIDER MOBILE) ---
 // ==========================================================
 // ==========================================================
-// --- MÓDULO 1: LÓGICA CONDICIONAL (SCROLL DESKTOP / SLIDER MOBILE) ---
+// --- MÓDULO 1: LÓGICA CONDICIONAL (VERSÃO SÊNIOR E DEFINITIVA) ---
 // ==========================================================
 function initHorizontalScroll() {
     gsap.matchMedia().add({
@@ -30,7 +30,6 @@ function initHorizontalScroll() {
             const wrapper = document.querySelector('.comando-wrapper');
             if (!secaoComando || !track || !wrapper) return;
             
-            // Força a atualização dos cálculos do ScrollTrigger
             ScrollTrigger.refresh();
             const scrollDistance = track.scrollWidth - wrapper.offsetWidth;
 
@@ -42,7 +41,7 @@ function initHorizontalScroll() {
                     pin: wrapper,
                     scrub: 1,
                     start: "top top",
-                    end: () => "+=" + scrollDistance,
+                    end: () => `+=${scrollDistance}`,
                     invalidateOnRefresh: true
                 }
             });
@@ -50,21 +49,20 @@ function initHorizontalScroll() {
         } else if (isMobile) {
             // --- CÓDIGO DO SLIDER PARA MOBILE (Swiper.js) ---
             new Swiper('#comando-slider', {
-                // Efeito visual que você gostou
-                effect: 'cards',
-                cardsEffect: {
-                    rotate: false,
-                    slideShadows: false,
-                },
+                // Efeito padrão, o mais estável e customizável.
+                effect: 'slide',
                 
-                // MUDANÇA 1: Garante a ordem de 1 a 5, sem repetição infinita.
-                loop: false,
+                // O carrossel será infinito.
+                loop: true,
                 
-                // MUDANÇA 2: Garante que apenas 1 card é o foco principal.
-                slidesPerView: 1,
+                // O slide ativo ficará sempre no centro.
+                centeredSlides: true,
 
-                // MUDANÇA 3: Desativado para um comportamento mais padrão e ordenado.
-                centeredSlides: false,
+                // Deixa o CSS controlar a largura dos slides. Essencial para o efeito de "espiar".
+                slidesPerView: 'auto',
+                
+                // Espaçamento entre os cards.
+                spaceBetween: 15,
 
                 grabCursor: true,
                 
