@@ -328,35 +328,47 @@
 /* ========================================================== */
 /* SEÇÃO "O COMANDO" (Scroll Horizontal) --- */
 /* ========================================================== */
-================================================================
-    --- SLIDER "O COMANDO" PARA MOBILE (VERSÃO CORRIGIDA FINAL) ---
+/*
+    ================================================================
+    --- SLIDER "O COMANDO" PARA MOBILE (VERSÃO SÊNIOR E DEFINITIVA) ---
     ================================================================
     */
 
+    /* O contêiner principal do slider */
     #comando-slider.swiper {
-        /* MUDANÇA 1: Voltamos o 'palco' para 100% da largura.
-           Isso dá espaço de sobra para a animação 'cards' funcionar sem cortes. */
-        width: 100%;
-        overflow: visible; 
+        /* O SEGREDO: Permite que os slides laterais "vazem" para fora do contêiner. */
+        overflow: visible;
+        position: relative;
     }
 
     #comando-slider .swiper-wrapper {
+        /* Garante que todos os cards tenham a mesma altura. */
         align-items: stretch;
     }
 
+    /* Estilo para TODOS os slides */
     .dossier-card.swiper-slide {
-        /* MUDANÇA 2: Controlamos o tamanho do card diretamente aqui.
-           Ele ocupará 80% da largura da tela (viewport width), criando os respiros
-           laterais de forma natural e garantindo que nunca seja grande demais. */
-        width: 80vw !important;
-        max-width: 340px; /* Um limite máximo para telas um pouco maiores */
-        height: 100%;
+        /* Damos um tamanho fixo para o card ativo. */
+        width: 75vw !important;
+        max-width: 320px;
+        height: auto; /* A altura se ajusta ao conteúdo */
         display: flex;
         flex-direction: column;
-        justify-content: center;
+
+        /* EFEITO DE FOCO: Slides inativos ficam menores e com menos opacidade. */
+        transform: scale(0.9);
+        opacity: 0.6;
+        transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    /* Estilo APENAS para o slide ATIVO (no centro) */
+    .dossier-card.swiper-slide-active {
+        /* O card ativo fica em seu tamanho normal e totalmente visível. */
+        transform: scale(1);
+        opacity: 1;
     }
     
-    /* As setas e a paginação continuam com o mesmo estilo refinado */
+    /* Setas com a identidade visual e posicionamento correto */
     .swiper-button-next,
     .swiper-button-prev {
         width: 44px;
@@ -367,27 +379,17 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
         color: var(--accent-color);
         --swiper-navigation-size: 20px;
-        transition: background-color 0.3s ease;
+        transition: all 0.3s ease;
         top: 50%;
         transform: translateY(-50%);
     }
 
-    .swiper-button-prev {
-        left: 5px; /* Ajuste para ficarem mais próximas do card */
-    }
-
-    .swiper-button-next {
-        right: 5px; /* Ajuste para ficarem mais próximas do card */
-    }
+    .swiper-button-prev { left: -5px; }
+    .swiper-button-next { right: -5px; }
     
-    .swiper-button-disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-    }
+    .swiper-button-disabled { opacity: 0.3; cursor: not-allowed; }
     
-    .swiper-pagination-bullet-active {
-        background-color: var(--accent-color);
-    }
+    .swiper-pagination-bullet-active { background-color: var(--accent-color); }
 }
 .secao-comando { 
     padding: 0; 
