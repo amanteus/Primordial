@@ -328,38 +328,79 @@
 /* SEÇÃO "O COMANDO" (Scroll Horizontal) --- */
 /* ========================================================== */
 ============================================================
-    --- SLIDER "O COMANDO" PARA MOBILE ---
+    --- SLIDER "O COMANDO" PARA MOBILE (VERSÃO REFINADA) ---
     ============================================================
     */
-    /* Removemos a lógica de scroll horizontal antiga */
-    .comando-track {
-        overflow-x: visible; /* Swiper controla o overflow */
-        padding: 0;
-        gap: 0;
+
+    /* 1. CORRIGINDO O CORTE E CENTRALIZANDO OS CARDS */
+    .secao-comando {
+        /* Garante que a seção tenha altura suficiente para o slider respirar */
+        min-height: auto;
+        padding: 80px 0;
     }
     
-    .dossier-card.swiper-slide {
-        /* Reduzimos as dimensões dos cards para o slider */
-        width: 85% !important; /* !important para garantir a sobreposição */
-        max-width: 320px;
-        margin: 0 auto;
-        flex-shrink: 0; /* Garante que o Swiper controle o tamanho */
-    }
-    
-    /* Estilização dos botões de navegação (setas) */
-    .swiper-button-next,
-    .swiper-button-prev {
-        color: var(--accent-color); /* Usa a cor de destaque da sua marca */
-        transform: scale(0.7); /* Deixa as setas um pouco menores */
+    .comando-wrapper {
+        /* Removemos a altura fixa para que o conteúdo defina a altura */
+        height: auto;
     }
 
+    #comando-slider.swiper {
+        /* Definimos uma largura para o contêiner do slider. 
+           Os cards (com 85% de largura) ficarão perfeitamente centralizados dentro dele. */
+        width: 100%;
+        /* ESSENCIAL: Aumentamos a área visível para que o efeito 'cards' não seja cortado. */
+        overflow: visible;
+    }
+
+    .dossier-card.swiper-slide {
+        width: 85% !important; /* Mantemos os cards com um bom tamanho */
+        max-width: 340px;
+        /* O efeito 'cards' já centraliza o slide ativo. */
+    }
+    
+    /* 2. ESTILIZANDO AS SETAS COM A IDENTIDADE VISUAL */
+    .swiper-button-next,
+    .swiper-button-prev {
+        /* Posicionamento e tamanho */
+        width: 44px;
+        height: 44px;
+        
+        /* Efeito de vidro (glassmorphism) */
+        background-color: rgba(26, 26, 26, 0.5); /* Cor de fundo com transparência */
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+
+        /* Formato e borda */
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        /* Cor e tamanho do ícone da seta */
+        color: var(--accent-color);
+        --swiper-navigation-size: 20px; /* Variável do Swiper para controlar o tamanho do ícone */
+
+        /* Transição suave para o hover */
+        transition: background-color 0.3s ease;
+    }
+
+    /* Efeito ao passar o mouse */
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+        background-color: rgba(26, 26, 26, 0.8);
+    }
+    
+    /* Quando um botão está desabilitado (ex: no início/fim, se o loop for falso) */
+    .swiper-button-disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+    
     /* Estilização da paginação (bolinhas) */
     .swiper-pagination-bullet {
-        background-color: #555; /* Cor da bolinha inativa */
+        background-color: #555;
     }
     
     .swiper-pagination-bullet-active {
-        background-color: var(--accent-color); /* Cor da bolinha ativa */
+        background-color: var(--accent-color);
     }
 }
 
