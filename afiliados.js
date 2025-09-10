@@ -49,7 +49,6 @@ function initComandoSection() {
                     invalidateOnRefresh: true
                 }
             });
-        }
 
         } else if (isMobile) {
             const desktopCards = document.querySelectorAll('.comando-track .dossier-card');
