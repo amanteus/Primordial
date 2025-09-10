@@ -13,52 +13,91 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================================
 // --- MÓDULO 1: LÓGICA CONDICIONAL (VERSÃO FINAL E ROBUSTA) ---
 // ==========================================================
+/**
+ * MÓDULO 1: Controla a lógica da seção "O Comando" (VERSÃO RESET)
+ * - Desktop: Ativa o scroll horizontal com GSAP.
+ * - Mobile: Pega os cards do desktop e os transforma em um Accordion.
+ */
 function initComandoSection() {
-        gsap.matchMedia().add({
-            isDesktop: "(min-width: 769px)",
-            isMobile: "(max-width: 768px)"
-        }, (context) => {
-            let { isDesktop, isMobile } = context.conditions;
+    gsap.matchMedia().add({
+        isDesktop: "(min-width: 769px)",
+        isMobile: "(max-width: 768px)"
+    }, (context) => {
+        let { isDesktop, isMobile } = context.conditions;
 
-            if (isDesktop) {
-                const secaoComando = document.querySelector('.secao-comando');
-                const track = document.querySelector('.swiper-wrapper');
-                const wrapper = document.querySelector('.comando-wrapper');
-                if (!secaoComando || !track || !wrapper) return;
+        if (isDesktop) {
+            const secaoComando = document.querySelector('.secao-comando');
+            const track = document.querySelector('.comando-track');
+            const pinWrapper = document.querySelector('.comando-desktop-wrapper');
+            if (!secaoComando || !track || !pinWrapper) return;
 
-                const scrollDistance = track.scrollWidth - wrapper.offsetWidth;
+            const scrollDistance = track.scrollWidth - window.innerWidth;
 
-                gsap.to(track, {
-                    x: -scrollDistance,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: secaoComando,
-                        pin: wrapper,
-                        scrub: 1,
-                        start: "top top",
-                        end: () => "+=" + scrollDistance,
-                        invalidateOnRefresh: true
+            gsap.to(track, {
+                x: -scrollDistance,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: secaoComando,
+                    pin: pinWrapper,
+                    scrub: 1,
+                    start: "top top",
+                    end: () => "+=" + scrollDistance,
+                    invalidateOnRefresh: true
+                }
+            });
+        } 
+        
+        if (isMobile) {
+            const desktopCards = document.querySelectorAll('.comando-track .dossier-card');
+            const accordionContainer = document.querySelector('.accordion-mobile-container');
+            if (!desktopCards.length || !accordionContainer) return;
+
+            // Limpa o container para garantir que não haja duplicatas
+            accordionContainer.innerHTML = '';
+
+            // Constrói o Accordion dinamicamente
+            desktopCards.forEach((card, index) => {
+                const titleText = card.querySelector('h4').textContent;
+                const numberText = card.querySelector('.dossier-number').textContent;
+                const contentHTML = card.innerHTML;
+
+                const item = document.createElement('div');
+                item.className = 'accordion-item';
+
+                item.innerHTML = `
+                    <button class="accordion-button">
+                        <span>${numberText}</span>
+                        <h4>${titleText}</h4>
+                        <span class="accordion-icon"></span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            ${contentHTML}
+                        </div>
+                    </div>
+                `;
+                accordionContainer.appendChild(item);
+            });
+            
+            // Adiciona a funcionalidade de clique ao accordion recém-criado
+            const accordionItems = accordionContainer.querySelectorAll('.accordion-item');
+            if (accordionItems.length > 0) {
+                accordionItems[0].classList.add('active');
+            }
+
+            accordionItems.forEach(item => {
+                const button = item.querySelector('.accordion-button');
+                button.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    accordionItems.forEach(otherItem => otherItem.classList.remove('active'));
+                    if (!isActive) {
+                        item.classList.add('active');
                     }
                 });
-            } else if (isMobile) {
-                const accordionItems = document.querySelectorAll('.accordion-item');
-                if (accordionItems.length > 0) {
-                    accordionItems[0].classList.add('active'); // Abre o primeiro item por padrão
-                }
-
-                accordionItems.forEach(item => {
-                    const button = item.querySelector('.accordion-button');
-                    button.addEventListener('click', () => {
-                        const isActive = item.classList.contains('active');
-                        accordionItems.forEach(otherItem => otherItem.classList.remove('active'));
-                        if (!isActive) {
-                            item.classList.add('active');
-                        }
-                    });
-                });
-            }
-        });
-    }
+            });
+        }
+    });
+}
     
     // ==========================================================
     // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS ---
