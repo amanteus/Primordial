@@ -199,46 +199,52 @@
 }
 
 .marquee {
-  width: 100%;
-  overflow: hidden;
-  background: #111;
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
+    width: 100%;
+    overflow: hidden;
+    background: #111;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 20px 0; /* Movemos o padding para o contêiner principal */
 }
 
 .marquee-track {
-  display: flex;
-  gap: 80px;
-  white-space: nowrap;
-  animation: marquee 20s linear infinite;
-  padding: 20px 0;
+    display: flex;
+    gap: 80px; /* Espaço entre cada item */
+    white-space: nowrap;
+    /* Aumentei a duração para um movimento mais suave */
+    animation: marquee 30s linear infinite; 
 }
 
 .marquee span {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-headline);
-  font-size: 1.5rem;
-  color: var(--accent-color);
-}
-
-.marquee span {
-  flex: 0 0 100%; /* cada frase ocupa toda a largura da viewport */
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    /* REMOVEMOS a regra de 'flex: 0 0 100%' que causava o problema */
+    /* Agora a largura do span é definida pelo seu próprio conteúdo */
 }
 
 .marquee .logo-icon {
-  width: 32px;
-  height: 32px;
-  fill: var(--accent-color);
+    width: 32px;
+    height: 32px;
+    fill: var(--accent-color);
+    flex-shrink: 0; /* Garante que o ícone não seja espremido */
 }
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+    from {
+        transform: translateX(0);
+    }
+    to {
+        /* Agora isso funciona perfeitamente! 
+         A animação move o track exatamente pela metade de sua largura total,
+         que é o tamanho exato do nosso bloco de conteúdo original.
+        */
+        transform: translateX(-50%);
+    }
 }
-
 
 /* ========================================================== */
 /* PRODUTOS (botões roláveis) --- */
