@@ -418,24 +418,28 @@
 
 /*
 ================================================================
---- LÓGICA DE EXIBIÇÃO MOBILE-FIRST PARA A SEÇÃO "O COMANDO" ---
+--- LÓGICA DE EXIBIÇÃO DEFINITIVA (COM ALTA ESPECIFICIDADE) ---
 ================================================================
 */
 
-/* POR PADRÃO (MOBILE): Mostramos o Accordion e escondemos o Scroll Horizontal */
-.secao-comando .comando-wrapper {
+/* POR PADRÃO (MOBILE): Usamos o ID #comando-section para garantir
+  que o scroll horizontal do desktop seja escondido sem falhas.
+*/
+#comando-section .comando-wrapper {
     display: none;
 }
-.secao-comando .accordion-container {
+#comando-section .accordion-container {
     display: block;
 }
 
-/* APENAS EM TELAS GRANDES (DESKTOP): Invertemos a lógica */
+/* APENAS EM TELAS GRANDES (DESKTOP): Usamos o ID novamente
+  para inverter a lógica com força total.
+*/
 @media (min-width: 769px) {
-    .secao-comando .comando-wrapper {
-        display: flex; /* O valor correto para o GSAP funcionar */
+    #comando-section .comando-wrapper {
+        display: flex;
     }
-    .secao-comando .accordion-container {
+    #comando-section .accordion-container {
         display: none;
     }
 }
