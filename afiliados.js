@@ -13,11 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================================
 // --- MÓDULO 1: LÓGICA CONDICIONAL (VERSÃO FINAL E ROBUSTA) ---
 // ==========================================================
-/**
- * MÓDULO 1: Controla a lógica da seção "O Comando" (VERSÃO FINAL POLIDA)
- * - Desktop: Ativa o scroll horizontal com GSAP.
- * - Mobile: Pega os cards do desktop, remove o número gigante, e os transforma em um Accordion.
- */
+
 function initComandoSection() {
     gsap.matchMedia().add({
         isDesktop: "(min-width: 769px)",
@@ -26,29 +22,35 @@ function initComandoSection() {
         let { isDesktop, isMobile } = context.conditions;
 
         if (isDesktop) {
-            // --- CÓDIGO DO SCROLL HORIZONTAL PARA DESKTOP (CORRIGIDO) ---
+            // --- CÓDIGO DO SCROLL HORIZONTAL PARA DESKTOP (CORRIGIDO E ROBUSTO) ---
             const secaoComando = document.querySelector('.secao-comando');
-            // CORREÇÃO 1: O seletor do 'track' estava errado. O correto é '.comando-track'.
-            const track = document.querySelector('.comando-track'); 
+            const track = document.querySelector('.comando-track');
             const pinWrapper = document.querySelector('.comando-desktop-wrapper');
             if (!secaoComando || !track || !pinWrapper) return;
 
-            // CORREÇÃO 2: O cálculo da distância agora é mais robusto. Ele subtrai
-            // a largura visível do próprio track, em vez da janela inteira.
-            const scrollDistance = track.scrollWidth - track.offsetWidth;
+            // Damos um pequeno tempo para o navegador renderizar tudo antes de calcular
+            setTimeout(() => {
+                // CORREÇÃO 1: O cálculo da distância agora usa o container como referência, mais estável.
+                const scrollDistance = track.scrollWidth - pinWrapper.offsetWidth;
 
-            gsap.to(track, {
-                x: -scrollDistance,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: secaoComando,
-                    pin: pinWrapper,
-                    scrub: 1,
-                    start: "top top",
-                    end: () => `+=${scrollDistance}`,
-                    invalidateOnRefresh: true
-                }
-            });
+                gsap.to(track, {
+                    x: -scrollDistance,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: secaoComando,
+                        pin: pinWrapper,
+                        scrub: 1,
+                        start: "top top",
+                        end: () => `+=${scrollDistance}`,
+                        invalidateOnRefresh: true,
+                    }
+                });
+
+                // CORREÇÃO 2: Forçamos o ScrollTrigger a recalcular tudo, garantindo as medidas corretas.
+                ScrollTrigger.refresh();
+            }, 100); // 100ms é um delay seguro.
+
+        }
 
         } else if (isMobile) {
             const desktopCards = document.querySelectorAll('.comando-track .dossier-card');
