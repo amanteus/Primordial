@@ -329,77 +329,77 @@
 /* SEÇÃO "O COMANDO" (Scroll Horizontal) --- */
 /* ========================================================== */
 ============================================================
-    --- SLIDER "O COMANDO" PARA MOBILE (VERSÃO REFINADA) ---
+    --- SLIDER "O COMANDO" PARA MOBILE (VERSÃO LAPIDADA) ---
     ============================================================
     */
 
-    /* 1. CORRIGINDO O CORTE E CENTRALIZANDO OS CARDS */
-    .secao-comando {
-        /* Garante que a seção tenha altura suficiente para o slider respirar */
-        min-height: auto;
-        padding: 80px 0;
-    }
-    
-    .comando-wrapper {
-        /* Removemos a altura fixa para que o conteúdo defina a altura */
-        height: auto;
+    /* 1. ORGANIZAÇÃO GERAL E CENTRALIZAÇÃO */
+    #comando-slider.swiper {
+        /* Damos ao slider 90% da largura da tela e o centralizamos.
+           Isso cria 'respiros' laterais e melhora a organização. */
+        width: 90%;
+        margin: 0 auto;
+        padding: 0 10px; /* Pequeno padding interno para segurança */
+        overflow: visible;
+        position: relative; /* Necessário para posicionar as setas */
     }
 
-    #comando-slider.swiper {
-        /* Definimos uma largura para o contêiner do slider. 
-           Os cards (com 85% de largura) ficarão perfeitamente centralizados dentro dele. */
-        width: 100%;
-        /* ESSENCIAL: Aumentamos a área visível para que o efeito 'cards' não seja cortado. */
-        overflow: visible;
+    /* 2. GARANTINDO A MESMA ALTURA NOS CARDS */
+    #comando-slider .swiper-wrapper {
+        /* Este é o segredo para a mesma altura: 
+           o wrapper se alinha esticando todos os slides. */
+        align-items: stretch;
     }
 
     .dossier-card.swiper-slide {
-        width: 85% !important; /* Mantemos os cards com um bom tamanho */
-        max-width: 340px;
-        /* O efeito 'cards' já centraliza o slide ativo. */
+        /* O card agora ocupa 100% do seu contêiner 'slide' */
+        width: 100% !important; 
+        height: 100%; /* O card se estica para preencher a altura do slide */
+        display: flex; /* Habilita flexbox para alinhar o conteúdo interno */
+        flex-direction: column;
+        justify-content: center;
     }
     
-    /* 2. ESTILIZANDO AS SETAS COM A IDENTIDADE VISUAL */
+    /* 3. REFINANDO AS SETAS (IDENTIDADE VISUAL) */
     .swiper-button-next,
     .swiper-button-prev {
-        /* Posicionamento e tamanho */
+        /* Mantemos o estilo visual */
         width: 44px;
         height: 44px;
-        
-        /* Efeito de vidro (glassmorphism) */
-        background-color: rgba(26, 26, 26, 0.5); /* Cor de fundo com transparência */
+        background-color: rgba(26, 26, 26, 0.5);
         backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-
-        /* Formato e borda */
         border-radius: 50%;
         border: 1px solid rgba(255, 255, 255, 0.1);
-
-        /* Cor e tamanho do ícone da seta */
         color: var(--accent-color);
-        --swiper-navigation-size: 20px; /* Variável do Swiper para controlar o tamanho do ícone */
-
-        /* Transição suave para o hover */
+        --swiper-navigation-size: 20px;
         transition: background-color 0.3s ease;
+
+        /* MUDANÇA: Posicionamento vertical perfeito e ajuste fino horizontal */
+        top: 50%;
+        transform: translateY(-50%);
     }
 
-    /* Efeito ao passar o mouse */
+    /* Posiciona a seta 'prev' FORA do contêiner do slider, à esquerda */
+    .swiper-button-prev {
+        left: -25px; 
+    }
+
+    /* Posiciona a seta 'next' FORA do contêiner do slider, à direita */
+    .swiper-button-next {
+        right: -25px;
+    }
+
     .swiper-button-next:hover,
     .swiper-button-prev:hover {
         background-color: rgba(26, 26, 26, 0.8);
     }
     
-    /* Quando um botão está desabilitado (ex: no início/fim, se o loop for falso) */
     .swiper-button-disabled {
         opacity: 0.3;
         cursor: not-allowed;
     }
     
-    /* Estilização da paginação (bolinhas) */
-    .swiper-pagination-bullet {
-        background-color: #555;
-    }
-    
+    /* Paginação (bolinhas) */
     .swiper-pagination-bullet-active {
         background-color: var(--accent-color);
     }
