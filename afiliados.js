@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- MÓDULO 1: LÓGICA CONDICIONAL (VERSÃO FINAL E ROBUSTA) ---
 // ==========================================================
 /**
- * MÓDULO 1: Controla a lógica da seção "O Comando" (VERSÃO RESET)
+ * MÓDULO 1: Controla a lógica da seção "O Comando" (VERSÃO FINAL POLIDA)
  * - Desktop: Ativa o scroll horizontal com GSAP.
- * - Mobile: Pega os cards do desktop e os transforma em um Accordion.
+ * - Mobile: Pega os cards do desktop, remove o número gigante, e os transforma em um Accordion.
  */
 function initComandoSection() {
     gsap.matchMedia().add({
@@ -26,13 +26,12 @@ function initComandoSection() {
         let { isDesktop, isMobile } = context.conditions;
 
         if (isDesktop) {
+            // Lógica para o desktop (sem alterações)
             const secaoComando = document.querySelector('.secao-comando');
             const track = document.querySelector('.comando-track');
             const pinWrapper = document.querySelector('.comando-desktop-wrapper');
             if (!secaoComando || !track || !pinWrapper) return;
-
             const scrollDistance = track.scrollWidth - window.innerWidth;
-
             gsap.to(track, {
                 x: -scrollDistance,
                 ease: "none",
@@ -45,21 +44,26 @@ function initComandoSection() {
                     invalidateOnRefresh: true
                 }
             });
-        } 
-        
-        if (isMobile) {
+
+        } else if (isMobile) {
             const desktopCards = document.querySelectorAll('.comando-track .dossier-card');
             const accordionContainer = document.querySelector('.accordion-mobile-container');
             if (!desktopCards.length || !accordionContainer) return;
 
-            // Limpa o container para garantir que não haja duplicatas
             accordionContainer.innerHTML = '';
 
-            // Constrói o Accordion dinamicamente
-            desktopCards.forEach((card, index) => {
+            desktopCards.forEach((card) => {
                 const titleText = card.querySelector('h4').textContent;
                 const numberText = card.querySelector('.dossier-number').textContent;
-                const contentHTML = card.innerHTML;
+
+                // --- LÓGICA DE EXTRAÇÃO DE CONTEÚDO (A MUDANÇA ESTÁ AQUI) ---
+                const cardClone = card.cloneNode(true); // 1. Clona o card em memória
+                const bigNumber = cardClone.querySelector('.dossier-number'); // 2. Encontra o número no clone
+                if (bigNumber) {
+                    bigNumber.remove(); // 3. Remove o número do clone
+                }
+                // 4. Pega o HTML limpo, já sem o número gigante
+                const contentHTML = cardClone.innerHTML; 
 
                 const item = document.createElement('div');
                 item.className = 'accordion-item';
@@ -79,7 +83,6 @@ function initComandoSection() {
                 accordionContainer.appendChild(item);
             });
             
-            // Adiciona a funcionalidade de clique ao accordion recém-criado
             const accordionItems = accordionContainer.querySelectorAll('.accordion-item');
             if (accordionItems.length > 0) {
                 accordionItems[0].classList.add('active');
