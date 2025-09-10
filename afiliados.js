@@ -15,99 +15,82 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================================
 
 function initComandoSection() {
-    gsap.matchMedia().add({
-        isDesktop: "(min-width: 769px)",
-        isMobile: "(max-width: 768px)"
-    }, (context) => {
-        let { isDesktop, isMobile } = context.conditions;
+        gsap.matchMedia().add({
+            isDesktop: "(min-width: 769px)",
+            isMobile: "(max-width: 768px)"
+        }, (context) => {
+            let { isDesktop, isMobile } = context.conditions;
 
-        if (isDesktop) {
-            // --- CÓDIGO DO SCROLL HORIZONTAL PARA DESKTOP (CORRIGIDO E ROBUSTO) ---
-            const secaoComando = document.querySelector('.secao-comando');
-            const track = document.querySelector('.comando-track');
-            const pinWrapper = document.querySelector('.comando-desktop-wrapper');
-            if (!secaoComando || !track || !pinWrapper) return;
+            if (isDesktop) {
+                const secaoComando = document.querySelector('.secao-comando');
+                const track = document.querySelector('.comando-track');
+                const pinWrapper = document.querySelector('.comando-desktop-wrapper');
+                if (!secaoComando || !track || !pinWrapper) return;
 
-            // Damos um pequeno tempo para o navegador renderizar tudo antes de calcular
-            setTimeout(() => {
-                // CORREÇÃO 1: O cálculo da distância agora usa o container como referência, mais estável.
-                const scrollDistance = track.scrollWidth - pinWrapper.offsetWidth;
-
-                gsap.to(track, {
-                    x: -scrollDistance,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: secaoComando,
-                        pin: pinWrapper,
-                        scrub: 1,
-                        start: "top top",
-                        end: () => `+=${scrollDistance}`,
-                        invalidateOnRefresh: true,
-                    }
-                });
-
-                // CORREÇÃO 2: Forçamos o ScrollTrigger a recalcular tudo, garantindo as medidas corretas.
-                ScrollTrigger.refresh();
-            }, 100); // 100ms é um delay seguro.
-
-        }
-
-        } else if (isMobile) {
-            const desktopCards = document.querySelectorAll('.comando-track .dossier-card');
-            const accordionContainer = document.querySelector('.accordion-mobile-container');
-            if (!desktopCards.length || !accordionContainer) return;
-
-            accordionContainer.innerHTML = '';
-
-            desktopCards.forEach((card) => {
-                const titleText = card.querySelector('h4').textContent;
-                const numberText = card.querySelector('.dossier-number').textContent;
-
-                // --- LÓGICA DE EXTRAÇÃO DE CONTEÚDO (A MUDANÇA ESTÁ AQUI) ---
-                const cardClone = card.cloneNode(true); // 1. Clona o card em memória
-                const bigNumber = cardClone.querySelector('.dossier-number'); // 2. Encontra o número no clone
-                if (bigNumber) {
-                    bigNumber.remove(); // 3. Remove o número do clone
-                }
-                // 4. Pega o HTML limpo, já sem o número gigante
-                const contentHTML = cardClone.innerHTML; 
-
-                const item = document.createElement('div');
-                item.className = 'accordion-item';
-
-                item.innerHTML = `
-                    <button class="accordion-button">
-                        <span>${numberText}</span>
-                        <h4>${titleText}</h4>
-                        <span class="accordion-icon"></span>
-                    </button>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            ${contentHTML}
-                        </div>
-                    </div>
-                `;
-                accordionContainer.appendChild(item);
-            });
+                setTimeout(() => {
+                    const scrollDistance = track.scrollWidth - pinWrapper.offsetWidth;
+                    gsap.to(track, {
+                        x: -scrollDistance,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: secaoComando,
+                            pin: pinWrapper,
+                            scrub: 1,
+                            start: "top top",
+                            end: () => `+=${scrollDistance}`,
+                            invalidateOnRefresh: true,
+                        }
+                    });
+                    ScrollTrigger.refresh();
+                }, 100);
+            } 
             
-            const accordionItems = accordionContainer.querySelectorAll('.accordion-item');
-            if (accordionItems.length > 0) {
-                accordionItems[0].classList.add('active');
-            }
+            if (isMobile) {
+                const desktopCards = document.querySelectorAll('.comando-track .dossier-card');
+                const accordionContainer = document.querySelector('.accordion-mobile-container');
+                if (!desktopCards.length || !accordionContainer) return;
 
-            accordionItems.forEach(item => {
-                const button = item.querySelector('.accordion-button');
-                button.addEventListener('click', () => {
-                    const isActive = item.classList.contains('active');
-                    accordionItems.forEach(otherItem => otherItem.classList.remove('active'));
-                    if (!isActive) {
-                        item.classList.add('active');
-                    }
+                accordionContainer.innerHTML = '';
+
+                desktopCards.forEach((card) => {
+                    const titleText = card.querySelector('h4').textContent;
+                    const numberText = card.querySelector('.dossier-number').textContent;
+                    const cardClone = card.cloneNode(true);
+                    const bigNumber = cardClone.querySelector('.dossier-number');
+                    if (bigNumber) bigNumber.remove();
+                    const contentHTML = cardClone.innerHTML;
+
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.innerHTML = `
+                        <button class="accordion-button">
+                            <span>${numberText}</span>
+                            <h4>${titleText}</h4>
+                            <span class="accordion-icon"></span>
+                        </button>
+                        <div class="accordion-content"><div class="accordion-content-inner">${contentHTML}</div></div>`;
+                    accordionContainer.appendChild(item);
                 });
-            });
-        }
-    });
-}
+                
+                const accordionItems = accordionContainer.querySelectorAll('.accordion-item');
+                if (accordionItems.length > 0) {
+                    accordionItems[0].classList.add('active');
+                }
+
+                accordionItems.forEach(item => {
+                    const button = item.querySelector('.accordion-button');
+                    button.addEventListener('click', () => {
+                        const isActive = item.classList.contains('active');
+                        accordionItems.forEach(otherItem => otherItem.classList.remove('active'));
+                        if (!isActive) {
+                            item.classList.add('active');
+                        }
+                    });
+                });
+            }
+        });
+    }
+
     
     // ==========================================================
     // --- MÓDULO 2: ANIMAÇÃO DE CONTAGEM DE NÚMEROS ---
