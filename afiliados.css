@@ -390,35 +390,68 @@
 /* --- ESTILOS CORRIGIDOS PARA "O COMANDO" (SCROLL HORIZONTAL) --- */
 /* ========================================================== */
 
+/* SEÇÃO "O COMANDO" — Scroll horizontal nativo em todas as telas */
 .secao-comando {
-    padding: 0;
-    /* A altura será controlada pelo JS, mas definimos uma altura mínima */
-    min-height: 100vh; 
+  padding: 0;
+  min-height: 100vh;
 }
 
 .comando-wrapper {
-    height: 100vh;
-    width: 100%;
-    position: sticky;
-    top: 0;
-    display: flex;
-    align-items: center;
-    overflow-x: hidden; /* Esconde o scroll horizontal do navegador */
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100vh; /* ocupa a tela inteira */
+  overflow: hidden; /* só esconde o vertical */
 }
 
 .comando-track {
-    display: flex;
-    align-items: center; /* Centraliza verticalmente os cards */
-    height: auto; /* Altura se ajusta ao conteúdo */
-    width: max-content; /* A largura será a soma de todos os cards */
+  display: flex;
+  align-items: center;
+  gap: 10vw; /* espaço entre os cards */
+  padding: 0 5vw;
+  width: max-content;
+
+  /* Scroll horizontal nativo */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+
+  -ms-overflow-style: none;  /* IE e Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.comando-track::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.dossier-card {
+  flex-shrink: 0;
+  width: 80vw;
+  max-width: 600px;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* --- Ajustes Mobile --- */
+@media (max-width: 768px) {
+  .secao-comando {
+    min-height: 80vh;
+    padding: 40px 0;
+  }
+  .comando-track {
+    gap: 6vw; /* menor espaçamento no mobile */
+    padding: 0 4vw;
+  }
 }
 
 .dossier-card {
     /* CORREÇÃO: Define uma largura fixa e espaçamento */
-    width: 80vw; /* Cada card ocupa 80% da largura da tela */
-    max-width: 600px; /* Limite máximo de largura para telas grandes */
+    width: 85vw; /* ocupa quase toda a tela */
+    max-width: none; /* Limite máximo de largura para telas grandes */
     margin: 0 10vw; /* Cria um espaçamento generoso entre os cards */
-
     height: auto; /* A altura se ajusta ao conteúdo */
     display: flex;
     flex-direction: column;
@@ -465,27 +498,6 @@
     border-top: 1px solid #333;
     font-weight: bold;
     font-size: 1.1rem;
-}
-
-/* Responsividade: desativa o scroll horizontal e empilha os cards */
-@media (max-width: 768px) {
-    .secao-comando {
-        height: auto;
-        padding: 60px 20px; /* Adiciona padding vertical no mobile */
-    }
-    .comando-wrapper {
-        height: auto;
-        position: static;
-        display: block;
-    }
-    .comando-track {
-        flex-direction: column;
-        gap: 80px;
-    }
-    .dossier-card {
-        width: 100%;
-        margin: 0;
-    }
 }
 
 /* --- SEÇÃO "AS REGRAS DO JOGO" --- */
@@ -538,9 +550,6 @@
 }
 .cta-button.afiliados-cta:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(196, 170, 131, 0.5); }
 .secure-checkout-text { margin-top: 15px; font-size: 0.9rem; color: #888; }
-
-/* --- RODAPÉ --- */
-.footer { /* ... estilos do seu rodapé ... */ }
 
 /* --- RESPONSIVIDADE --- */
 @media (max-width: 768px) {
