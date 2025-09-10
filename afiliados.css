@@ -325,122 +325,99 @@
 #dossier-details p { color: var(--text-muted); margin-bottom: 15px; line-height: 1.7; }
 #dossier-details strong { color: var(--text-color); }
 
-/* ========================================================== */
-/* SEÇÃO "O COMANDO" (Scroll Horizontal) --- */
-/* ========================================================== */
-/*
-    ================================================================
-    --- ACCORDION "O COMANDO" PARA MOBILE (VERSÃO DEFINITIVA) ---
-    ================================================================
-    */
-
-    /* 2. Estilo de cada item do accordion */
-    .accordion-item {
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    /* 3. Estilo do botão/título clicável */
-    .accordion-button {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        width: 100%;
-        padding: 20px 0;
-        background: none;
-        border: none;
-        color: var(--text-color);
-        text-align: left;
-        cursor: pointer;
-    }
-    .accordion-button span:first-child { /* O número '01', '02', etc. */
-        font-family: var(--font-headline);
-        font-size: 1.5rem;
-        color: var(--text-muted);
-    }
-    .accordion-button h4 {
-        font-family: var(--font-headline);
-        font-size: 1.6rem;
-        color: var(--text-color);
-        margin: 0;
-        flex-grow: 1; /* Faz o título ocupar o espaço restante */
-    }
-
-    /* 4. O ícone de '+' e '-' (feito com CSS puro) */
-    .accordion-icon {
-        position: relative;
-        width: 20px;
-        height: 20px;
-        flex-shrink: 0;
-    }
-    .accordion-icon::before,
-    .accordion-icon::after {
-        content: '';
-        position: absolute;
-        width: 16px;
-        height: 2px;
-        background-color: var(--accent-color);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        transition: transform 0.3s ease;
-    }
-    .accordion-icon::after {
-        transform: translate(-50%, -50%) rotate(90deg);
-    }
-    .accordion-item.active .accordion-icon::after {
-        transform: translate(-50%, -50%) rotate(0deg); /* Esconde a barra vertical para formar um '-' */
-    }
-
-    /* 5. O painel de conteúdo */
-    .accordion-content {
-        max-height: 0; /* Começa fechado */
-        overflow: hidden;
-        transition: max-height 0.4s ease-out, padding 0.4s ease-out;
-        /* Estiliza o conteúdo para se parecer com o card original */
-        color: var(--text-muted);
-        line-height: 1.8;
-    }
-    .accordion-content p,
-    .accordion-content ul {
-        padding: 0 5px 20px 5px;
-    }
-    .accordion-content ul { list-style: none; }
-    .accordion-content .dossier-result {
-        margin-top: 10px;
-        padding-top: 15px;
-        border-top: 1px solid var(--border-color);
-    }
-    /* Quando o item está ativo, o conteúdo se expande */
-    .accordion-item.active .accordion-content {
-        max-height: 1000px; /* Um valor alto para permitir a expansão */
-    }
-}
-
 /*
 ================================================================
---- LÓGICA DE EXIBIÇÃO DEFINITIVA (COM ALTA ESPECIFICIDADE) ---
+--- CSS DEFINITIVO PARA SEÇÃO "O COMANDO" ---
 ================================================================
 */
 
-/* POR PADRÃO (MOBILE): Usamos o ID #comando-section para garantir
-  que o scroll horizontal do desktop seja escondido sem falhas.
-*/
-#comando-section .comando-wrapper {
-    display: none;
-}
-#comando-section .accordion-container {
-    display: block;
+/* --- LAYOUT PADRÃO (MOBILE FIRST) --- */
+
+/* Escondemos a versão desktop por padrão */
+.comando-desktop-wrapper {
+    display: none !important;
 }
 
-/* APENAS EM TELAS GRANDES (DESKTOP): Usamos o ID novamente
-  para inverter a lógica com força total.
-*/
+/* O container do accordion mobile fica visível por padrão */
+.accordion-mobile-container {
+    display: block !important;
+}
+
+/* Otimização do Accordion Mobile */
+.accordion-item {
+    border-bottom: 1px solid var(--border-color);
+}
+.accordion-button {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    padding: 22px 5px; /* Mais respiro vertical */
+    background: none;
+    border: none;
+    color: var(--text-color);
+    text-align: left;
+    cursor: pointer;
+}
+.accordion-button span:first-child {
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    color: var(--text-muted);
+}
+.accordion-button h4 {
+    font-family: var(--font-headline);
+    font-size: 1.7rem; /* Título mais legível */
+    color: var(--text-color);
+    margin: 0;
+    flex-grow: 1;
+}
+.accordion-icon {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+.accordion-icon::before, .accordion-icon::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    background-color: var(--accent-color);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.accordion-icon::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+.accordion-item.active .accordion-icon::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+}
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding-bottom 0.4s ease-out;
+    color: var(--text-muted);
+    font-size: 1rem; /* Tamanho de fonte otimizado */
+    line-height: 1.8;
+}
+.accordion-content-inner {
+    padding-bottom: 25px; /* Padding aplicado a um wrapper interno */
+}
+.accordion-item.active .accordion-content {
+    max-height: 1000px;
+}
+
+/* --- LAYOUT PARA TELAS GRANDES (DESKTOP) --- */
+
 @media (min-width: 769px) {
-    #comando-section .comando-wrapper {
-        display: flex;
+    /* Invertemos a lógica com autoridade máxima */
+    .comando-desktop-wrapper {
+        display: block !important; /* Mostra a versão desktop */
     }
-    #comando-section .accordion-container {
-        display: none;
+    .accordion-mobile-container {
+        display: none !important; /* Esconde a versão mobile */
     }
 }
 
