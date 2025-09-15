@@ -1,0 +1,33 @@
+/* --- CONFIGURAÇÕES GLOBAIS E FONTES --- */
+
+@font-face {
+    font-family: 'Houstiq';
+    src: url('fonts/Houstiq.otf') format('truetype');
+}
+
+:root {
+    --bg-color: #0f0f0f;
+    --text-color: #e0e0e0;
+    --accent-color: #c4aa83;
+    --font-primary: 'Loft', sans-serif;
+    --font-headline: 'Houstiq', serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-primary);
+    line-height: 1.7;
+    font-size: 18px;
+}
+
