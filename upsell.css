@@ -31,3 +31,276 @@ body {
     font-size: 18px;
 }
 
+/* --- ESTILOS DA PÁGINA DE UPSELL - A PRIMEIRA CAÇADA --- */
+
+.protocolo-body {
+    background-color: #151515;
+    padding-top: 50px; /* Adiciona espaço para o pre-header não sobrepor o conteúdo */
+}
+
+/* Novo Pre-Header Fixo */
+.upsell-pre-header {
+    position: fixed; /* Fica fixo no topo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--accent-color); /* Cor de destaque */
+    color: #111;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.8rem;
+    font-family: var(--font-primary);
+    font-weight: 400;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+#alert-overlay {
+    /* ... a regra do alert-overlay continua a mesma ... */
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(208, 0, 0, 0.95);
+    z-index: 9999; display: flex; justify-content: center; align-items: center;
+    text-align: center; padding: 20px; cursor: pointer;
+    opacity: 0; visibility: hidden; transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+#alert-overlay.visible { opacity: 1; visibility: visible; }
+#alert-overlay .alert-content h1 {
+    font-family: var(--font-headline);
+    font-size: clamp(4rem, 10vw, 8rem);
+    color: #fff;
+    animation: pulse-alert 1.5s infinite; /* <<< RESGATE ESTA LINHA */
+}
+#alert-overlay .alert-content p { font-size: 1.2rem; color: #fff; max-width: 600px; }
+
+/* Verifique se este bloco ainda está no seu CSS */
+@keyframes pulse-alert {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.protocolo-page {
+    opacity: 1; /* A página já começa visível, o overlay cobre ela */
+}
+
+.protocolo-subtitle { margin-bottom: 40px; color: #aaa; }
+.protocolo-page p { max-width: 800px; margin-left: auto; margin-right: auto; text-align: center; line-height: 1.8; }
+.protocolo-page .manifesto { border-left-color: rgba(196, 170, 131, 0.5); }
+
+.missoes-container { margin-top: 60px; }
+.missoes-title { text-align: center; color: var(--accent-color); margin-bottom: 30px; font-size: 1.8rem; }
+.missoes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    align-items: stretch;
+}
+.missao-card {
+    border: 2px solid #444;
+    padding: 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    background: #1f1f1f;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.missao-header {
+    position: absolute;
+    top: 15px;
+    right: -50px;
+    transform: rotate(45deg);
+    background-color: var(--accent-color);
+    color: #111;
+    padding: 5px 50px;
+    font-family: var(--font-headline);
+    font-size: 1rem;
+}
+.missao-card:hover {
+    transform: translateY(-10px);
+}
+.missao-card.selected {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 30px rgba(196, 170, 131, 0.4);
+    transform: translateY(-10px) scale(1.03);
+}
+.missao-card h3 { font-family: var(--font-headline); font-size: 1.8rem; color: var(--text-color); margin-top: 20px; margin-bottom: 15px; }
+.missao-card p { font-size: 1rem; text-align: left; max-width: 100%; }
+
+.protocolo-offer-box { margin-top: 80px; }
+.price-value-upsell { font-family: var(--font-headline); font-size: 4rem; color: var(--accent-color); line-height: 1; }
+
+.escolha-missao-texto {
+    font-family: var(--font-headline);
+    color: #888;
+    font-size: 1.2rem;
+    padding: 20px 0;
+    border: 2px dashed #444;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 500px; /* Adapte se necessário */
+}
+.cta-button.cta-disabled:hover { transform: none; box-shadow: none; }
+
+.hidden-cta { display: none; }
+
+.decline-link {
+    display: block; margin-top: 30px; font-size: 0.9rem;
+    color: #aaa; text-decoration: none; font-style: italic;
+    opacity: 0.8; transition: all 0.3s ease;
+}
+.decline-link:hover { color: var(--accent-color); opacity: 1; text-decoration: underline; }
+
+/* ========================================================== */
+/* --- ESTILOS PARA O NOVO EFEITO "PARALISIA" (UPSELL) --- */
+/* ========================================================== */
+
+.content-hidden {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+.content-visible {
+    opacity: 1;
+}
+
+/* Espaçamento entre parágrafos na página de upsell */
+.protocolo-page .conteudo-secao > div > p {
+    margin-bottom: 25px;
+}
+
+#paralysis-effect-container {
+    position: relative;
+    height: 120px;
+    margin: 40px auto;
+    overflow: hidden;
+}
+
+.glitch-word {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-headline);
+    font-size: 2rem;
+    color: var(--accent-color);
+    opacity: 0;
+    animation: glitch-animation 4s ease-in-out forwards;
+}
+
+@keyframes glitch-animation {
+    0%, 100% { opacity: 0; transform: translate(-50%, -50%) skew(0deg); }
+    5%, 95% { opacity: 1; }
+    10% { transform: translate(-48%, -52%) skew(5deg); }
+    20% { transform: translate(-52%, -48%) skew(-5deg); }
+    30% { transform: translate(-50%, -50%) skew(3deg); }
+    40% { transform: translate(-51%, -51%) skew(-3deg); }
+    50%, 70% { opacity: 1; transform: translate(-49%, -49%) skew(0deg); }
+    60%, 80% { opacity: 0.5; }
+}
+
+/* Notificação do Ticker (garantindo que fique no topo) */
+#mission-ticker-notification {
+    top: 80px; /* Abaixo do pre-header */
+    left: auto;
+    right: 20px;
+    bottom: auto;
+    transform: translateX(150%);
+    border-color: #333;
+}
+#mission-ticker-notification.show {
+    transform: translateX(0);
+}
+
+/* Tooltip do Arquiteto */
+.architect-tooltip {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease-in-out;
+    z-index: 100;
+}
+.architect-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--accent-color) transparent transparent transparent;
+}
+.architect-tooltip.visible {
+    opacity: 1;
+    visibility: visible;
+    top: -45px;
+}
+
+/* Destaque e Desfoque das Missões */
+.missao-card.is-highlighted {
+    box-shadow: 0 0 30px var(--accent-color);
+    border-color: var(--accent-color);
+}
+.missao-card.de-emphasized {
+    filter: blur(2px);
+    opacity: 0.6;
+    transform: scale(0.98);
+}
+
+/* Cronômetro */
+#countdown-timer-container {
+    margin: 30px auto;
+    padding: 15px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    max-width: 300px;
+}
+#countdown-timer-container p {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+#countdown-timer {
+    font-family: 'Abril Fatface', cursive;
+    font-size: 3rem;
+    color: var(--accent-color);
+    transition: color 0.5s;
+}
+#countdown-timer.final-minute {
+    color: #ff4d4d;
+    animation: pulse-alert 1.5s infinite;
+}
+
+/* Efeito Typewriter */
+.manifesto-line {
+    display: block; /* Garante que cada linha animada fique em sua própria linha */
+}
+
+/* --- AJUSTES FINAIS DE LAYOUT E POSICIONAMENTO (UPSELL) --- */
+
+/* Garante que todos os cards na mesma linha tenham a mesma altura */
+.missoes-grid {
+    align-items: stretch; /* Faz os wrappers se esticarem */
+}
+.mission-wrapper {
+    position: relative;
+    display: flex; /* Permite que o card interno se estique */
+}
+.missao-card {
+    width: 100%; /* Garante que o card ocupe todo o espaço do wrapper */
+}
+
+/* Garante que o tooltip fique acima de todos os outros elementos */
+.architect-tooltip {
+    z-index: 100; 
+}
