@@ -31,3 +31,206 @@ body {
     font-size: 18px;
 }
 
+/* --- ESTILOS DA PÁGINA DE OBRIGADO --- */
+
+.obrigado-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.obrigado-container {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+}
+
+.obrigado-header {
+    margin-bottom: 60px;
+}
+
+.obrigado-logo {
+    max-width: 120px;
+    margin-bottom: 30px;
+    opacity: 0.8;
+}
+
+.obrigado-title {
+    font-family: var(--font-headline);
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--accent-color);
+    line-height: 1.2;
+}
+
+.obrigado-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-top: 15px;
+    opacity: 0.9;
+}
+
+.instrucoes-box {
+    background-color: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 60px;
+}
+
+.instrucoes-box h2 {
+    font-family: var(--font-headline);
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+}
+
+.instrucoes-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    text-align: left;
+}
+
+.instrucao-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.instrucao-numero {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.instrucao-texto h3 {
+    font-family: var(--font-headline);
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.instrucao-texto p {
+    font-size: 0.95rem;
+    color: #aaa;
+    line-height: 1.5;
+}
+
+.chamada-irmandade h2 {
+    font-family: var(--font-headline);
+    color: var(--accent-color);
+    font-size: 1.5rem;
+}
+
+.chamada-irmandade p {
+    max-width: 600px;
+    margin: 15px auto;
+}
+
+.botao-irmandade {
+    display: inline-block;
+    background-color: #25D366; /* Cor do WhatsApp */
+    color: #fff;
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    padding: 15px 40px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-weight: bold;
+}
+
+.botao-irmandade:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+}
+
+.aviso-link {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 15px;
+}
+
+/* ========================================================== */
+/* --- ESTILOS PARA A SEÇÃO DE FEEDBACK (PÁGINA DE OBRIGADO) --- */
+/* ========================================================== */
+
+.feedback-section {
+    background-color: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 40px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.feedback-section h2 {
+    font-family: var(--font-headline);
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.feedback-section p {
+    color: #aaa;
+    margin-bottom: 30px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#feedback-form .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+#feedback-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #ccc;
+    font-weight: bold;
+}
+
+#feedback-form textarea,
+#feedback-form input[type="text"] {
+    width: 100%;
+    background-color: #1d1d1d;
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 12px;
+    font-family: var(--font-primary);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#feedback-form textarea:focus,
+#feedback-form input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px rgba(196, 170, 131, 0.3);
+}
+
+#feedback-form .cta-button {
+    width: 100%;
+    padding: 15px;
+}
+
+#form-success-message {
+    padding: 40px 20px;
+}
+
+#form-success-message h2 {
+    font-size: 2.5rem;
+}
