@@ -31,3 +31,518 @@ body {
     font-size: 18px;
 }
 
+/* ========================================================== */
+/* --- ESTILOS FINAIS PARA A PÁGINA DE DOWNSELL (TEMA ESCURO) --- */
+/* ========================================================== */
+.downsell-container {
+    max-width: 700px;
+    margin: 40px auto;
+    text-align: center;
+    padding: 20px;
+}
+.downsell-title {
+    font-family: var(--font-headline);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    color: var(--text-color);
+}
+.downsell-subtitle {
+    font-size: 1.2rem;
+    color: #aaa;
+    margin-top: 10px;
+}
+.downsell-divider {
+    border: none;
+    border-top: 1px solid #444;
+    margin: 40px auto;
+    width: 100px;
+}
+.copy-block p {
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+.highlight-dark {
+    color: var(--accent-color);
+}
+.section-subtitle-gold-dark {
+    font-family: var(--font-headline);
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    color: var(--text-color);
+    margin-bottom: 30px;
+}
+.price-prefix-dark {
+    color: #aaa;
+}
+
+/* --- ESTILOS DO DOSSIÊ INTERATIVO --- */
+.dossier-scene {
+    perspective: 1000px;
+    margin: 50px auto;
+    width: 300px;
+    height: 420px;
+}
+.dossier-card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+.dossier-card.is-flipped {
+    transform: rotateY(180deg);
+}
+.dossier-front, .dossier-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.dossier-front {
+    background: #1a1a1a;
+}
+.dossier-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.dossier-cta-prompt {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: var(--accent-color);
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.9rem;
+}
+.dossier-back {
+    background: #222;
+    transform: rotateY(180deg);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.dossier-back h3 {
+    font-family: var(--font-headline);
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+.benefits-list {
+    list-style: none; padding: 0; margin: 0; text-align: left;
+}
+.benefits-list li {
+    font-size: 1rem; margin-bottom: 10px;
+}
+
+.mentor-signature { margin: 40px 0; max-width: 180px; }
+.mentor-signature img { width: 100%; filter: invert(0.8); }
+
+/* --- ESTILOS PARA OS BOTÕES KIWIFY --- */
+.kiwify-cta-wrapper {
+    margin-top: 40px;
+}
+.cta-button-downsell {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: #111;
+    font-family: var(--font-headline);
+    font-size: 1.4rem;
+    padding: 15px 40px;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-shadow: none;
+    cursor: pointer;
+    width: 100%;
+    max-width: 500px;
+}
+.cta-button-downsell:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(196, 170, 131, 0.5);
+}
+.decline-link-downsell {
+    display: block;
+    margin-top: 20px;
+    cursor: pointer;
+    text-decoration: underline;
+    color: #888;
+    transition: color 0.3s;
+}
+.decline-link-downsell:hover {
+    color: var(--text-color);
+}
+/* ========================================================== */
+/* --- ESTILOS FINAIS E COMPLETOS PARA A PÁGINA DE DOWNSELL --- */
+/* ========================================================== */
+
+/* --- Layout Geral e Tipografia --- */
+.downsell-container {
+    max-width: 750px;
+    margin: 40px auto;
+    text-align: center;
+    padding: 20px;
+}
+.downsell-title {
+    font-family: var(--font-headline);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    color: var(--text-color);
+}
+.downsell-subtitle {
+    font-size: 1.2rem;
+    color: #aaa;
+    margin-top: 10px;
+}
+.downsell-divider {
+    border: none;
+    border-top: 1px solid #444;
+    margin: 40px auto;
+    width: 100px;
+}
+.copy-block {
+    text-align: left;
+    margin-bottom: 40px;
+}
+.copy-block p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+.highlight-dark {
+    color: var(--accent-color);
+}
+.section-subtitle-gold-dark {
+    font-family: var(--font-headline);
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    color: var(--text-color);
+    margin-bottom: 30px;
+    text-align: center;
+}
+.price-prefix-dark {
+    color: #aaa;
+}
+
+/* --- ESTILOS PARA O PREÇO PARCELADO DO DOWNSELL --- */
+
+.price-installments-downsell {
+    font-family: var(--font-primary);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-right: 10px;
+}
+
+.price-value-downsell {
+    font-family: var(--font-headline);
+    font-size: 4rem; 
+    color: var(--accent-color);
+    line-height: 1;
+}
+
+/* --- Painel de Simulação Interativa --- */
+#live-demo-section {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 30px;
+    margin: 50px 0;
+    text-align: center;
+}
+.interactive-menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+.menu-button {
+    background-color: #252525;
+    border: 1px solid #444;
+    color: var(--text-color);
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.menu-button:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border-color: var(--accent-color);
+    transform: translateY(-3px);
+}
+
+/* --- Assinatura Animada --- */
+.mentor-signature {
+    margin: 40px auto 20px auto;
+    max-width: 300px;
+}
+#signature-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    transition: stroke-dashoffset 2.5s ease-in-out;
+}
+#signature-container.is-visible #signature-path {
+    stroke-dashoffset: 0;
+}
+
+/* ========================================================== */
+/* --- ESTILO CUSTOMIZADO PARA A BARRA DE ROLAGEM DO CHAT --- */
+/* ========================================================== */
+
+/* A mágica acontece aqui, mirando o container de mensagens */
+.chat-messages::-webkit-scrollbar {
+  width: 8px; /* Define uma espessura elegante para a barra */
+}
+
+/* Estiliza a "pista" por onde a barra corre */
+.chat-messages::-webkit-scrollbar-track {
+  background: #1c2327; /* Um tom ligeiramente mais escuro que o fundo do chat */
+  border-radius: 10px;
+}
+
+/* Estiliza o "polegar" (a parte que você arrasta) */
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: var(--accent-color); /* Usa nossa cor de destaque */
+  border-radius: 10px;
+  border: 2px solid #1c2327; /* Cria um contorno sutil com a cor da pista */
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background-color: #e0c49a; /* Um tom ligeiramente mais claro da nossa cor de destaque no hover */
+}
+
+/* --- Modal/Popup do Chat --- */
+.chat-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
+}
+.chat-modal-container.visible {
+    opacity: 1;
+    visibility: visible;
+}
+.chat-modal-backdrop {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+.chat-window {
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    height: 80%;
+    max-height: 600px;
+    background-color: #E5DDD5;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+.chat-modal-container.visible .chat-window {
+    transform: scale(1);
+}
+.chat-header {
+    background-color: #075E54;
+    color: #fff;
+    padding: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+.close-chat-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+}
+.chat-messages {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+.message {
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    max-width: 80%;
+    line-height: 1.4;
+    opacity: 0;
+    animation: fade-in-up 0.5s ease-out forwards;
+}
+.message.sent {
+    background-color: #DCF8C6;
+    color: #333;
+    align-self: flex-end;
+    border-top-right-radius: 0;
+}
+.message.received {
+    background-color: #fff;
+    color: #333;
+    align-self: flex-start;
+    border-top-left-radius: 0;
+}
+.message-time {
+    display: block;
+    font-size: 0.7rem;
+    color: #999;
+    text-align: right;
+    margin-top: 4px;
+}
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+}
+.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    background: #999;
+    border-radius: 50%;
+    margin: 0 2px;
+    animation: typing-blink 1.4s infinite both;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing-blink {
+    0% { opacity: 0.2; }
+    20% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
+
+.chat-modal-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 3000; display: none; justify-content: center; align-items: center;
+}
+.chat-modal-container.visible { display: flex; }
+.chat-modal-backdrop { position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+.chat-window {
+    position: relative; width: 90%; max-width: 400px; height: 80%; max-height: 700px; background-color: #0d1418; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; overflow: hidden; transform: scale(0.95); transition: transform 0.3s ease;
+}
+.chat-modal-container.visible .chat-window { transform: scale(1); }
+
+/* Novo Cabeçalho do Chat */
+.chat-header {
+    background-color: #2a2f32; color: #fff; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; border-bottom: 1px solid #3a3f42;
+}
+.chat-header-left { display: flex; align-items: center; gap: 15px; }
+.chat-avatar { width: 40px; height: 40px; border-radius: 50%; }
+.chat-user-info { display: flex; flex-direction: column; }
+.chat-username { font-weight: bold; }
+.chat-status { font-size: 0.8rem; color: #8a99a4; transition: all 0.3s; }
+.chat-status.typing { color: #00af9c; font-style: italic; }
+.chat-header-right { display: flex; gap: 20px; color: #b1b5b7; }
+.chat-header-right svg { cursor: pointer; }
+.close-chat-btn { background: none; border: none; color: #b1b5b7; font-size: 2rem; cursor: pointer; line-height: 1; padding: 0 0 0 10px; }
+
+/* --- ESTILO FINAL PARA OS ÍCONES DO CABEÇALHO DO CHAT --- */
+
+.chat-header-right {
+    display: flex;
+    gap: 24px; /* Aumentando um pouco o espaçamento */
+    color: #b1b5b7;
+    align-items: center;
+}
+
+.chat-header-right i {
+    font-size: 1.2rem; /* Tamanho dos ícones */
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.chat-header-right i:hover {
+    color: #fff; /* Cor ao passar o mouse */
+    transform: scale(1.1); /* Efeito de leve crescimento */
+}
+
+/* --- ESTILO PARA OS ÍCONES DO RODAPÉ DO CHAT --- */
+
+.chat-footer svg, /* Mantém o estilo para SVGs caso use em outro lugar */
+.chat-footer i {
+    font-size: 1.5rem; /* Tamanho dos ícones */
+    color: #8a99a4;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.chat-footer i:hover {
+    color: #fff;
+}
+
+/* Corpo das Mensagens com Wallpaper */
+.chat-messages {
+    flex-grow: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column;
+    background-image: url('img/padrao_amanteus.png');
+    background-color: #0d1418;
+    background-blend-mode: overlay;
+    background-size: 410px;
+    opacity: 0.8;
+}
+
+/* Bolhas de Mensagem Tema Escuro */
+.message { padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; max-width: 80%; line-height: 1.4; animation: fade-in-up 0.5s ease-out forwards; opacity: 0; }
+.message.sent { background-color: #005C4B; color: #e9edef; align-self: flex-end; border-top-right-radius: 0; }
+.message.received { background-color: #2a2f32; color: #e9edef; align-self: flex-start; border-top-left-radius: 0; }
+.message-time { display: block; font-size: 0.7rem; color: #8a99a4; text-align: right; margin-top: 4px; }
+@keyframes fade-in-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Indicador "Digitando..." */
+.typing-indicator { display: flex; align-items: center; padding: 8px 12px; }
+.typing-indicator span { height: 8px; width: 8px; background: #8a99a4; border-radius: 50%; margin: 0 2px; animation: typing-blink 1.4s infinite both; }
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing-blink { 0% { opacity: 0.2; } 20% { opacity: 1; } 100% { opacity: 0.2; } }
+
+/* Novo Rodapé do Chat */
+.chat-footer {
+    background-color: #2a2f32; flex-shrink: 0; padding: 8px 12px; display: flex; align-items: center; gap: 15px;
+}
+.chat-footer svg { color: #8a99a4; }
+.fake-input {
+    flex-grow: 1;
+    background-color: #3e4448;
+    border-radius: 20px;
+    padding: 10px 15px;
+    color: #8a99a4;
+    font-size: 0.9rem;
+}
+
+/* Estilo do botão Kiwify */
+.cta-button-downsell {
+    display: inline-block; background-color: var(--accent-color); color: #111; font-family: var(--font-headline); font-size: 1.4rem; padding: 15px 40px; text-decoration: none; border: none; border-radius: 5px; transition: transform 0.2s, box-shadow 0.2s; text-shadow: none; cursor: pointer; width: 100%; max-width: 500px;
+}
+.cta-button-downsell:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(196, 170, 131, 0.5); }
+.decline-link-downsell { display: block; margin-top: 20px; cursor: pointer; text-decoration: underline; color: #888; transition: color 0.3s; }
+.decline-link-downsell:hover { color: var(--text-color); }
