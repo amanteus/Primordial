@@ -111,41 +111,28 @@
         </section>
 
         <section class="testimonials-section">
-            <h2>Ecos da Alcateia</h2>
-            
-            <div class="swiper testimonials-slider">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="testimonial-card">
-                            <p>"O Primordial não é um curso, é um sistema operacional. A mudança na forma como me porto e sou percebido foi imediata."</p>
-                            <div class="testimonial-author">
-                                <img src="img/profile1.jpg" alt="Foto do membro da Alcateia">
-                                <span>- L. V., Engenheiro</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="testimonial-card">
-                            <p>"Eu passei a vida tentando ser o 'cara legal'. O Amanteus me ensinou a ser o homem que elas escolhem. A diferença é brutal."</p>
-                             <div class="testimonial-author">
-                                <img src="img/profile2.jpg" alt="Foto do membro da Alcateia">
-                                <span>- M. S., Designer</span>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="swiper-slide">
-                        <div class="testimonial-card">
-                            <p>"A clareza que o 'Código Soberano' me deu para conversas difíceis no trabalho e na vida pessoal não tem preço."</p>
-                            <div class="testimonial-author">
-                                <img src="img/profile3.jpg" alt="Foto do membro da Alcateia">
-                                <span>- J. F., Empreendedor</span>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                <div class="swiper-pagination"></div>
+    <h2 class="section-title">Ecos da Alcateia</h2>
+    
+    <div class="swiper testimonials-slider">
+        <div class="swiper-wrapper"></div>
+        
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+</section>
+
+<template id="testimonial-template">
+    <div class="swiper-slide">
+        <div class="testimonial-card">
+            <p class="testimonial-text">Texto do depoimento aqui...</p>
+            <div class="testimonial-author">
+                <img class="testimonial-author-img" src="img/profile-placeholder.jpg" alt="Foto do membro da Alcateia">
+                <span class="testimonial-author-name">- Nome do Autor</span>
             </div>
-        </section>
+        </div>
+    </div>
+</template>
 
     </main>
 
