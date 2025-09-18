@@ -353,3 +353,103 @@ body {
     font-size: 0.9rem;
     border-top: 1px solid var(--border-color);
 }
+
+/* ========================================================== */
+/* --- LAPIDAÇÃO FINAL - ECOS DA ALCATEIA --- */
+/* ========================================================== */
+
+/* 1. Nova estrutura do Card de Depoimento */
+.testimonial-card {
+    display: flex;
+    flex-direction: column; /* Empilha header, body e actions */
+    justify-content: space-between;
+    gap: 15px; /* Espaço entre os elementos */
+}
+
+.testimonial-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.testimonial-author-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+}
+
+.testimonial-author-name {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.testimonial-author-handle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.testimonial-body {
+    flex-grow: 1; /* Faz o corpo ocupar o espaço disponível */
+}
+
+.testimonial-text {
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+/* 2. Estilo para os botões de Ação (Like/Salvar) */
+.testimonial-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+.action-button {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px;
+    transition: color 0.3s ease;
+}
+.action-button:hover {
+    color: var(--accent-color);
+}
+.action-button svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor; /* O SVG herda a cor do botão */
+    transition: fill 0.3s ease, transform 0.3s ease;
+}
+.like-count {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* Estilo para botões ativos */
+.action-button.is-active {
+    color: var(--accent-color);
+}
+.like-button.is-active svg {
+    fill: var(--accent-color); /* Preenche o coração quando ativo */
+    transform: scale(1.1);
+}
+.save-button.is-active svg {
+    fill: var(--accent-color); /* Preenche o marcador quando ativo */
+}
+
+/* 3. Refinamento das Setas de Navegação (Mais Sutis) */
+.testimonials-slider .swiper-button-next,
+.testimonials-slider .swiper-button-prev {
+    width: 38px; /* Tamanho menor */
+    height: 38px;
+    background-color: rgba(26, 26, 26, 0.4); /* Mais transparente */
+    --swiper-navigation-size: 18px; /* Ícone interno menor */
+}
