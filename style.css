@@ -1642,6 +1642,104 @@ h1, h2, h3, h4 {
     line-height: 1.6;
 }
 
+/* ================================== */
+/* --- ETAPA 2: BACKGROUNDS DINÂMICOS DE SEÇÃO --- */
+/* ================================== */
+
+/* --- Seção 2: A Epidemia --- */
+/* Um gradiente sutil de cima para baixo para separar do topo. */
+.secao-2-epidemia {
+    background: linear-gradient(180deg, #0f0f0f 0%, #151515 100%);
+}
+
+/* --- Seção 4: A Revelação --- */
+/* Um brilho sutil vindo do topo para dar um ar de "revelação". */
+.secao-4-revelacao {
+    background: radial-gradient(circle at top, #202020 0%, #0f0f0f 100%);
+}
+
+/* --- Seção 6: O Arsenal (Módulos) --- */
+/* Incorpora a cor verde da marca para dar identidade ao produto. */
+.secao-6-arsenal {
+    background: linear-gradient(135deg, var(--bg-color) 0%, var(--brand-green) 100%);
+}
+
+/* --- Seção 8: A Oferta --- */
+/* Um fundo mais escuro para destacar a caixa da oferta. */
+.secao-8-oferta {
+    background: linear-gradient(to bottom, #111, #000);
+}
+
+/* ================================== */
+/* --- ETAPA 3: DIVISÓRIAS ESTILIZADAS --- */
+/* ================================== */
+
+.divider-glow {
+    width: 100%;
+    height: 4px; /* Altura sutil da linha */
+    margin: 0 auto; /* Garante centralização */
+    
+    /* O gradiente cria o efeito de brilho central que some nas pontas */
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(196, 170, 131, 0.4), /* Cor de destaque com transparência */
+        transparent
+    );
+
+    /* Aplica a animação de pulso */
+    animation: pulseGlow 4s infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        opacity: 0.5; /* Começa e termina com menos brilho */
+    }
+    50% {
+        opacity: 1; /* Atinge o brilho máximo no meio da animação */
+    }
+}
+
+/* ================================== */
+/* --- ETAPA 4: REFINAMENTO GERAL E CONSISTÊNCIA --- */
+/* ================================== */
+
+/* --- 1. Refinamento dos Cards de Estatísticas (.stat-card) --- */
+.stat-card {
+    /* Removemos a borda antiga e damos um fundo sólido */
+    border: 1px solid #2a2a2a; /* Borda mais sutil e escura */
+    background-color: #1a1a1a; /* Cor de fundo padrão para cards */
+    
+    /* Adicionamos detalhes de design */
+    border-radius: 8px; /* Cantos arredondados */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidade */
+    
+    /* Preparamos para a interatividade */
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px); /* Efeito de "flutuar" ao passar o mouse */
+    border-color: var(--accent-color); /* Borda fica dourada no hover */
+}
+
+
+/* --- 2. Destaque da Caixa de Oferta (.offer-box) --- */
+.offer-box {
+    /* Adicionamos um brilho sutil com a cor da marca */
+    box-shadow: 0 0 40px rgba(196, 170, 131, 0.2);
+    
+    /* Damos uma textura de fundo muito sutil para mais profundidade */
+    background: radial-gradient(circle, #151515 0%, #111 100%);
+}
+
+
+/* --- 3. Profundidade para o Bloco 'Manifesto' --- */
+.manifesto {
+    background-color: rgba(26, 26, 26, 0.5); /* Fundo semitransparente para destacar */
+    border-radius: 8px; /* Cantos arredondados */
+}
+
+
 /* --- ESTILOS DA PÁGINA DE UPSELL - A PRIMEIRA CAÇADA --- */
 
 .protocolo-body {
@@ -3190,99 +3288,3 @@ h1, h2, h3, h4 {
     .price-prefix, .price-descriptor {
     font-size: 1rem;}
 
-/* ================================== */
-/* --- ETAPA 2: BACKGROUNDS DINÂMICOS DE SEÇÃO --- */
-/* ================================== */
-
-/* --- Seção 2: A Epidemia --- */
-/* Um gradiente sutil de cima para baixo para separar do topo. */
-.secao-2-epidemia {
-    background: linear-gradient(180deg, #0f0f0f 0%, #151515 100%);
-}
-
-/* --- Seção 4: A Revelação --- */
-/* Um brilho sutil vindo do topo para dar um ar de "revelação". */
-.secao-4-revelacao {
-    background: radial-gradient(circle at top, #202020 0%, #0f0f0f 100%);
-}
-
-/* --- Seção 6: O Arsenal (Módulos) --- */
-/* Incorpora a cor verde da marca para dar identidade ao produto. */
-.secao-6-arsenal {
-    background: linear-gradient(135deg, var(--bg-color) 0%, var(--brand-green) 100%);
-}
-
-/* --- Seção 8: A Oferta --- */
-/* Um fundo mais escuro para destacar a caixa da oferta. */
-.secao-8-oferta {
-    background: linear-gradient(to bottom, #111, #000);
-}
-
-/* ================================== */
-/* --- ETAPA 3: DIVISÓRIAS ESTILIZADAS --- */
-/* ================================== */
-
-.divider-glow {
-    width: 100%;
-    height: 4px; /* Altura sutil da linha */
-    margin: 0 auto; /* Garante centralização */
-    
-    /* O gradiente cria o efeito de brilho central que some nas pontas */
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(196, 170, 131, 0.4), /* Cor de destaque com transparência */
-        transparent
-    );
-
-    /* Aplica a animação de pulso */
-    animation: pulseGlow 4s infinite;
-}
-
-@keyframes pulseGlow {
-    0%, 100% {
-        opacity: 0.5; /* Começa e termina com menos brilho */
-    }
-    50% {
-        opacity: 1; /* Atinge o brilho máximo no meio da animação */
-    }
-}
-
-/* ================================== */
-/* --- ETAPA 4: REFINAMENTO GERAL E CONSISTÊNCIA --- */
-/* ================================== */
-
-/* --- 1. Refinamento dos Cards de Estatísticas (.stat-card) --- */
-.stat-card {
-    /* Removemos a borda antiga e damos um fundo sólido */
-    border: 1px solid #2a2a2a; /* Borda mais sutil e escura */
-    background-color: #1a1a1a; /* Cor de fundo padrão para cards */
-    
-    /* Adicionamos detalhes de design */
-    border-radius: 8px; /* Cantos arredondados */
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidade */
-    
-    /* Preparamos para a interatividade */
-    transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.stat-card:hover {
-    transform: translateY(-5px); /* Efeito de "flutuar" ao passar o mouse */
-    border-color: var(--accent-color); /* Borda fica dourada no hover */
-}
-
-
-/* --- 2. Destaque da Caixa de Oferta (.offer-box) --- */
-.offer-box {
-    /* Adicionamos um brilho sutil com a cor da marca */
-    box-shadow: 0 0 40px rgba(196, 170, 131, 0.2);
-    
-    /* Damos uma textura de fundo muito sutil para mais profundidade */
-    background: radial-gradient(circle, #151515 0%, #111 100%);
-}
-
-
-/* --- 3. Profundidade para o Bloco 'Manifesto' --- */
-.manifesto {
-    background-color: rgba(26, 26, 26, 0.5); /* Fundo semitransparente para destacar */
-    border-radius: 8px; /* Cantos arredondados */
-}
