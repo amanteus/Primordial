@@ -29,6 +29,7 @@ body {
     font-family: var(--font-primary);
     line-height: 1.7;
     font-size: 18px;
+    padding-top: 60px; /* <<< ADICIONE ESTA LINHA */
 }
 
 .container {
@@ -130,15 +131,28 @@ h1, h2, h3, h4 {
     margin-bottom: 10px;
     text-align: center; 
 }
-/* SEÇÃO 0: PRÉ-HEADER */
+/* ================================== */
+/* --- NOVO PRE-HEADER FIXO COM EFEITO GLASS --- */
+/* ================================== */
 .pre-header {
-    background-color: #000;
-    color: var(--accent-color);
-    position: sticky;
+    /* Lógica de Posicionamento */
+    position: fixed; /* <<< ALTERADO: Fixo no topo da janela */
     top: 0;
+    left: 0;
+    width: 100%; /* Garante que ocupe toda a largura */
     z-index: 1000;
+
+    /* Efeito de Vidro (Glassmorphism) */
+    background-color: rgba(15, 15, 15, 0.75); /* Cor de fundo escura com 75% de opacidade */
+    backdrop-filter: blur(10px); /* O desfoque mágico do conteúdo que passa por trás */
+    -webkit-backdrop-filter: blur(10px); /* <<< Essencial para compatibilidade com o Safari */
+    
+    /* Detalhes Visuais */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Linha sutil para dar profundidade */
     padding: 8px 0;
+    color: var(--accent-color);
 }
+
 .pre-header-content {
     display: flex;
     flex-direction: column; /* <<< ALTERADO: Empilha os itens verticalmente */
