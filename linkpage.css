@@ -37,21 +37,64 @@ body {
     flex-direction: column;
 }
 
+/* ================================== */
+/* --- ESTILOS DO PRE-LOADER (LOGO AMANTEUS) --- */
+/* ================================== */
+
 #preloader {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: var(--bg-color);
-    z-index: 9999; display: flex; justify-content: center; align-items: center;
-    opacity: 1; visibility: visible; transition: opacity 0.8s ease, visibility 0.8s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color); /* Usa a cor de fundo do seu site */
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
 }
-#preloader.hidden { opacity: 0; visibility: hidden; }
-#preloader-logo { width: 100px; height: auto; }
+
+#preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+#preloader-logo {
+    width: 100px; /* Tamanho do logo na tela */
+    height: auto;
+}
+
 #preloader-logo .logo-path {
-    stroke: var(--text-color); stroke-width: 2; fill: transparent;
-    stroke-dasharray: 4500; stroke-dashoffset: 4500;
-    animation: draw-logo 1.5s ease-in-out forwards, fill-logo 1s ease-in-out 1.5s forwards;
+    /* A mágica da animação de "desenho" */
+    stroke: var(--text-color);
+    stroke-width: 2;
+    fill: transparent;
+    stroke-dasharray: 4500; 
+    stroke-dashoffset: 4500;
+    
+    /* Animação: 1. Desenha, 2. Preenche */
+    animation: 
+        draw-logo 1.5s ease-in-out forwards,
+        fill-logo 1s ease-in-out 1.5s forwards; /* Atraso de 2.5s para preencher */
 }
-@keyframes draw-logo { to { stroke-dashoffset: 0; } }
-@keyframes fill-logo { to { fill: var(--accent-color); } }
+
+@keyframes draw-logo {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fill-logo {
+    from {
+        fill: transparent;
+    }
+    to {
+        fill: var(--accent-color); /* Preenche com a mesma cor de destaque */
+    }
+}
 
 
 /* --- 3. HEADER E MENU NAVEGAÇÃO --- */
