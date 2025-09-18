@@ -34,15 +34,20 @@ document.addEventListener('DOMContentLoaded', () => {
         "O conceito de 'desequilíbrio sexy' é genial.", "A promessa de 'impor presença' ao invés de 'pedir atenção'. É isso."
     ];
 
-    /**
-     * MÓDULO 1: Pre-loader
-     */
-    function initPreloader() {
-        const preloader = document.getElementById('preloader');
-        if (preloader) {
-            window.addEventListener('load', () => preloader.classList.add('hidden'));
-        }
+    // --- MÓDULO: PRE-LOADER ---
+function initPreloader() {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        // Garante que a página inteira, incluindo imagens, foi carregada
+        window.addEventListener('load', () => {
+            // Define o tempo total da animação (2.5s desenho + 1s preenchimento)
+            // e adiciona um pequeno delay extra antes de sumir.
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 1800); // 2.8 segundos no total
+        });
     }
+}
 
     /**
      * MÓDULO 2: Menu Expansível
