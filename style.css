@@ -3217,3 +3217,32 @@ h1, h2, h3, h4 {
 .secao-8-oferta {
     background: linear-gradient(to bottom, #111, #000);
 }
+
+/* ================================== */
+/* --- ETAPA 3: DIVISÓRIAS ESTILIZADAS --- */
+/* ================================== */
+
+.divider-glow {
+    width: 100%;
+    height: 4px; /* Altura sutil da linha */
+    margin: 0 auto; /* Garante centralização */
+    
+    /* O gradiente cria o efeito de brilho central que some nas pontas */
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(196, 170, 131, 0.4), /* Cor de destaque com transparência */
+        transparent
+    );
+
+    /* Aplica a animação de pulso */
+    animation: pulseGlow 4s infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        opacity: 0.5; /* Começa e termina com menos brilho */
+    }
+    50% {
+        opacity: 1; /* Atinge o brilho máximo no meio da animação */
+    }
+}
