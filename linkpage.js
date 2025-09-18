@@ -64,65 +64,86 @@ function initPreloader() {
     }
 
     /**
-     * MÓDULO 3: Carrossel de Depoimentos (Lógica Dinâmica)
-     */
-    function initLinkpageTestimonials() {
-        const swiperWrapper = document.querySelector('.testimonials-slider .swiper-wrapper');
-        const template = document.getElementById('testimonial-template');
-        if (!swiperWrapper || !template) return;
+ * MÓDULO 3: Carrossel de Depoimentos (VERSÃO LAPIDADA E INTERATIVA)
+ */
+function initLinkpageTestimonials() {
+    const swiperWrapper = document.querySelector('.testimonials-slider .swiper-wrapper');
+    const template = document.getElementById('testimonial-template');
+    if (!swiperWrapper || !template) return;
 
-        // 1. Funções auxiliares para gerar dados (recicladas do original)
-        const generateUsername = (name) => {
-            const slugify = (text) => text.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-            const parts = name.split(' ');
-            const firstName = slugify(parts[0]);
-            const lastNameInitial = parts.length > 1 ? slugify(parts[parts.length - 1]).charAt(0) : '';
-            return `${firstName.charAt(0).toUpperCase() + firstName.slice(1)} ${lastNameInitial.toUpperCase()}.`;
-        };
+    // Funções e Dados (reciclados e simplificados)
+    const generateUsername = (name) => {
+        const slugify = (text) => text.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u36f]/g, '');
+        const parts = name.split(' ');
+        const firstName = slugify(parts[0]);
+        return `@${firstName}${Math.floor(Math.random() * 90 + 10)}`;
+    };
+     const generateFullName = (name) => {
+        const parts = name.split(' ');
+        const firstName = parts[0];
+        const lastNameInitial = parts.length > 1 ? parts[parts.length - 1].charAt(0) : '';
+        return `${firstName} ${lastNameInitial}.`;
+    };
 
-        // 2. Gera a lista completa de possíveis depoimentos
-        const allCommentsData = compradoresDB.map((comprador, index) => ({
-            id: 101 + index,
-            username: generateUsername(comprador.name),
-            text: commentTemplates[index % commentTemplates.length]
-        }));
+    const allCommentsData = compradoresDB.map((comprador, index) => ({
+        id: 101 + index,
+        fullName: generateFullName(comprador.name),
+        username: generateUsername(comprador.name),
+        text: commentTemplates[index % commentTemplates.length],
+        initialLikes: Math.floor(Math.random() * 250) + 15
+    }));
 
-        // 3. Embaralha e seleciona um número limitado de depoimentos para exibir
-        const shuffled = allCommentsData.sort(() => 0.5 - Math.random());
-        const selectedTestimonials = shuffled.slice(0, 15); // Exibiremos 15 depoimentos aleatórios
+    // Lógica principal
+    const shuffled = allCommentsData.sort(() => 0.5 - Math.random());
+    const selectedTestimonials = shuffled.slice(0, 15);
 
-        // 4. Popula o HTML com os depoimentos selecionados
-        selectedTestimonials.forEach(testimonial => {
-            const clone = template.content.cloneNode(true);
-            const slide = clone.querySelector('.swiper-slide');
-            
-            slide.querySelector('.testimonial-text').textContent = `"${testimonial.text}"`;
-            slide.querySelector('.testimonial-author-name').textContent = `- ${testimonial.username}`;
-            slide.querySelector('.testimonial-author-img').src = `https://i.pravatar.cc/40?u=${testimonial.id}`;
-            slide.querySelector('.testimonial-author-img').alt = `Avatar de ${testimonial.username}`;
-            
-            swiperWrapper.appendChild(slide);
+    selectedTestimonials.forEach(testimonial => {
+        const clone = template.content.cloneNode(true);
+        const slide = clone.querySelector('.swiper-slide');
+        
+        // Popula o novo template
+        slide.querySelector('.testimonial-text').textContent = `"${testimonial.text}"`;
+        slide.querySelector('.testimonial-author-name').textContent = testimonial.fullName;
+        slide.querySelector('.testimonial-author-handle').textContent = testimonial.username;
+        slide.querySelector('.testimonial-author-img').src = `https://i.pravatar.cc/40?u=${testimonial.id}`;
+        slide.querySelector('.testimonial-author-img').alt = `Avatar de ${testimonial.fullName}`;
+        slide.querySelector('.like-count').textContent = testimonial.initialLikes;
+        
+        swiperWrapper.appendChild(slide);
+    });
+
+    // Inicializa o Swiper
+    new Swiper('.testimonials-slider', {
+        loop: true,
+        autoplay: { delay: 5000, disableOnInteraction: false },
+        pagination: { el: '.swiper-pagination', clickable: true },
+        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+        slidesPerView: 1,
+        spaceBetween: 20,
+    });
+
+    // Adiciona a funcionalidade de clique aos botões DEPOIS que o Swiper foi inicializado
+    const actionButtons = document.querySelectorAll('.action-button');
+    actionButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault(); // Impede que o clique no botão afete o link do slide
+            e.stopPropagation(); // Impede a propagação do evento
+
+            button.classList.toggle('is-active');
+
+            if (button.classList.contains('like-button')) {
+                const countEl = button.querySelector('.like-count');
+                let count = parseInt(countEl.textContent);
+                if (button.classList.contains('is-active')) {
+                    count++;
+                } else {
+                    count--;
+                }
+                countEl.textContent = count;
+            }
         });
-
-        // 5. Inicializa o Swiper DEPOIS que os slides foram adicionados
-        new Swiper('.testimonials-slider', {
-            loop: true,
-            autoplay: {
-                delay: 4500,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            slidesPerView: 1,
-            spaceBetween: 20,
-        });
-    }
+    });
+}
 
     // ==========================================================
     // INICIALIZAÇÃO DE TODOS OS MÓDULOS
