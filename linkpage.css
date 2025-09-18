@@ -163,7 +163,7 @@ body {
 }
 .profile-subtitle {
     font-family: var(--font-headline);
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
     color: var(--text-color);
 }
 
