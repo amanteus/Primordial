@@ -3189,3 +3189,31 @@ h1, h2, h3, h4 {
     font-size: 4rem;}
     .price-prefix, .price-descriptor {
     font-size: 1rem;}
+
+/* ================================== */
+/* --- ETAPA 2: BACKGROUNDS DINÂMICOS DE SEÇÃO --- */
+/* ================================== */
+
+/* --- Seção 2: A Epidemia --- */
+/* Um gradiente sutil de cima para baixo para separar do topo. */
+.secao-2-epidemia {
+    background: linear-gradient(180deg, #0f0f0f 0%, #151515 100%);
+}
+
+/* --- Seção 4: A Revelação --- */
+/* Um brilho sutil vindo do topo para dar um ar de "revelação". */
+.secao-4-revelacao {
+    background: radial-gradient(circle at top, #202020 0%, #0f0f0f 100%);
+}
+
+/* --- Seção 6: O Arsenal (Módulos) --- */
+/* Incorpora a cor verde da marca para dar identidade ao produto. */
+.secao-6-arsenal {
+    background: linear-gradient(135deg, var(--bg-color) 0%, var(--brand-green) 100%);
+}
+
+/* --- Seção 8: A Oferta --- */
+/* Um fundo mais escuro para destacar a caixa da oferta. */
+.secao-8-oferta {
+    background: linear-gradient(to bottom, #111, #000);
+}
