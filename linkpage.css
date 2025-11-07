@@ -118,8 +118,8 @@ body {
     align-items: center;
 }
 
-.header-logo svg {
-    height: 40px;
+.header-logo {
+    height: 100px;
     width: auto;
     fill: var(--text-color);
 }
