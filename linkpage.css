@@ -7,6 +7,8 @@
 @font-face {
     font-family: 'Houstiq';
     src: url('fonts/Houstiq.otf') format('truetype');
+    font-family: 'Loft';
+    src: url ('fonts/Loft-Regular-iF660a82ad1b77b.otf') format('truetype');
 }
 
 /* --- 1. FUNDAÇÃO E VARIÁVEIS DE MARCA --- */
