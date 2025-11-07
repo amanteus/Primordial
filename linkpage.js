@@ -1,6 +1,6 @@
 /**
  * ==========================================================
- * --- SCRIPT DEDICADO PARA A LINKPAGE AMANTEUS (V2 - DINÂMICA) ---
+ * --- SCRIPT DEDICADO PARA A LINKPAGE AMANTEUS (V2.1 - CORRIGIDO) ---
  * ==========================================================
  */
 
@@ -28,26 +28,29 @@ document.addEventListener('DOMContentLoaded', () => {
         "Ok, entrei. Chega de ser espectador da minha própria vida. Hora de virar protagonista.",
         "Acabei de garantir meu acesso. O sentimento não é de comprar um curso, é de entrar pra uma guerra.",
         "Chega de ser o 'cara legal' que fica na friendzone. Se é pra ser perigoso, que comece agora.",
-        "O preço de duas cervejas no bar. A decisão foi fácil.", "A parte sobre 'ser percebido como líder sem dizer uma palavra' é ouro puro.",
+        // --- LINHA CORRIGIDA ABAIXO ---
+        "O preço de duas cervejas no bar. A decisão foi fácil.",
+        "A parte sobre 'ser percebido como líder sem dizer uma palavra' é ouro puro.",
+        // --- FIM DA CORREÇÃO ---
         "Dentro. A ideia de que a atração não tem a ver com beleza, mas com instinto, é libertadora.",
         "A escolha entre o 'vampiro emocional' e o 'caçador primordial' é o resumo da vida.",
-        "O conceito de 'desequilíbrio sexy' é genial.", "A promessa de 'impor presença' ao invés de 'pedir atenção'. É isso."
+        "O conceito de 'desequilíbrio sexy' é genial.", 
+        "A promessa de 'impor presença' ao invés de 'pedir atenção'. É isso."
     ];
 
-    // --- MÓDULO: PRE-LOADER ---
-function initPreloader() {
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        // Garante que a página inteira, incluindo imagens, foi carregada
-        window.addEventListener('load', () => {
-            // Define o tempo total da animação (2.5s desenho + 1s preenchimento)
-            // e adiciona um pequeno delay extra antes de sumir.
-            setTimeout(() => {
-                preloader.classList.add('hidden');
-            }, 1800); // 2.8 segundos no total
-        });
+    /**
+     * MÓDULO 1: Pre-loader
+     */
+    function initPreloader() {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    preloader.classList.add('hidden');
+                }, 1800);
+            });
+        }
     }
-}
 
     /**
      * MÓDULO 2: Menu Expansível
@@ -64,86 +67,86 @@ function initPreloader() {
     }
 
     /**
- * MÓDULO 3: Carrossel de Depoimentos (VERSÃO LAPIDADA E INTERATIVA)
- */
-function initLinkpageTestimonials() {
-    const swiperWrapper = document.querySelector('.testimonials-slider .swiper-wrapper');
-    const template = document.getElementById('testimonial-template');
-    if (!swiperWrapper || !template) return;
+     * MÓDULO 3: Carrossel de Depoimentos (VERSÃO LAPIDADA E INTERATIVA)
+     */
+    function initLinkpageTestimonials() {
+        const swiperWrapper = document.querySelector('.testimonials-slider .swiper-wrapper');
+        const template = document.getElementById('testimonial-template');
+        if (!swiperWrapper || !template) return;
 
-    // Funções e Dados (reciclados e simplificados)
-    const generateUsername = (name) => {
-        const slugify = (text) => text.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u36f]/g, '');
-        const parts = name.split(' ');
-        const firstName = slugify(parts[0]);
-        return `@${firstName}${Math.floor(Math.random() * 90 + 10)}`;
-    };
-     const generateFullName = (name) => {
-        const parts = name.split(' ');
-        const firstName = parts[0];
-        const lastNameInitial = parts.length > 1 ? parts[parts.length - 1].charAt(0) : '';
-        return `${firstName} ${lastNameInitial}.`;
-    };
+        // Funções e Dados (reciclados e simplificados)
+        const generateUsername = (name) => {
+            const slugify = (text) => text.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            const parts = name.split(' ');
+            const firstName = slugify(parts[0]);
+            return `@${firstName}${Math.floor(Math.random() * 90 + 10)}`;
+        };
+         const generateFullName = (name) => {
+            const parts = name.split(' ');
+            const firstName = parts[0];
+            const lastNameInitial = parts.length > 1 ? parts[parts.length - 1].charAt(0) : '';
+            return `${firstName} ${lastNameInitial}.`;
+        };
 
-    const allCommentsData = compradoresDB.map((comprador, index) => ({
-        id: 101 + index,
-        fullName: generateFullName(comprador.name),
-        username: generateUsername(comprador.name),
-        text: commentTemplates[index % commentTemplates.length],
-        initialLikes: Math.floor(Math.random() * 250) + 15
-    }));
+        const allCommentsData = compradoresDB.map((comprador, index) => ({
+            id: 101 + index,
+            fullName: generateFullName(comprador.name),
+            username: generateUsername(comprador.name),
+            text: commentTemplates[index % commentTemplates.length],
+            initialLikes: Math.floor(Math.random() * 250) + 15
+        }));
 
-    // Lógica principal
-    const shuffled = allCommentsData.sort(() => 0.5 - Math.random());
-    const selectedTestimonials = shuffled.slice(0, 15);
+        // Lógica principal
+        const shuffled = allCommentsData.sort(() => 0.5 - Math.random());
+        const selectedTestimonials = shuffled.slice(0, 15);
 
-    selectedTestimonials.forEach(testimonial => {
-        const clone = template.content.cloneNode(true);
-        const slide = clone.querySelector('.swiper-slide');
-        
-        // Popula o novo template
-        slide.querySelector('.testimonial-text').textContent = `"${testimonial.text}"`;
-        slide.querySelector('.testimonial-author-name').textContent = testimonial.fullName;
-        slide.querySelector('.testimonial-author-handle').textContent = testimonial.username;
-        slide.querySelector('.testimonial-author-img').src = `https://i.pravatar.cc/40?u=${testimonial.id}`;
-        slide.querySelector('.testimonial-author-img').alt = `Avatar de ${testimonial.fullName}`;
-        slide.querySelector('.like-count').textContent = testimonial.initialLikes;
-        
-        swiperWrapper.appendChild(slide);
-    });
-
-    // Inicializa o Swiper
-    new Swiper('.testimonials-slider', {
-        loop: true,
-        autoplay: { delay: 5000, disableOnInteraction: false },
-        pagination: { el: '.swiper-pagination', clickable: true },
-        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-        slidesPerView: 1,
-        spaceBetween: 20,
-    });
-
-    // Adiciona a funcionalidade de clique aos botões DEPOIS que o Swiper foi inicializado
-    const actionButtons = document.querySelectorAll('.action-button');
-    actionButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault(); // Impede que o clique no botão afete o link do slide
-            e.stopPropagation(); // Impede a propagação do evento
-
-            button.classList.toggle('is-active');
-
-            if (button.classList.contains('like-button')) {
-                const countEl = button.querySelector('.like-count');
-                let count = parseInt(countEl.textContent);
-                if (button.classList.contains('is-active')) {
-                    count++;
-                } else {
-                    count--;
-                }
-                countEl.textContent = count;
-            }
+        selectedTestimonials.forEach(testimonial => {
+            const clone = template.content.cloneNode(true);
+            const slide = clone.querySelector('.swiper-slide');
+            
+            // Popula o novo template
+            slide.querySelector('.testimonial-text').textContent = `"${testimonial.text}"`;
+            slide.querySelector('.testimonial-author-name').textContent = testimonial.fullName;
+            slide.querySelector('.testimonial-author-handle').textContent = testimonial.username;
+            slide.querySelector('.testimonial-author-img').src = `https://i.pravatar.cc/40?u=${testimonial.id}`;
+            slide.querySelector('.testimonial-author-img').alt = `Avatar de ${testimonial.fullName}`;
+            slide.querySelector('.like-count').textContent = testimonial.initialLikes;
+            
+            swiperWrapper.appendChild(slide);
         });
-    });
-}
+
+        // Inicializa o Swiper
+        new Swiper('.testimonials-slider', {
+            loop: true,
+            autoplay: { delay: 5000, disableOnInteraction: false },
+            pagination: { el: '.swiper-pagination', clickable: true },
+            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+            slidesPerView: 1,
+            spaceBetween: 20,
+        });
+
+        // Adiciona a funcionalidade de clique aos botões DEPOIS que o Swiper foi inicializado
+        const actionButtons = document.querySelectorAll('.action-button');
+        actionButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault(); // Impede que o clique no botão afete o link do slide
+                e.stopPropagation(); // Impede a propagação do evento
+
+                button.classList.toggle('is-active');
+
+                if (button.classList.contains('like-button')) {
+                    const countEl = button.querySelector('.like-count');
+                    let count = parseInt(countEl.textContent);
+                    if (button.classList.contains('is-active')) {
+                        count++;
+                    } else {
+                        count--;
+                    }
+                    countEl.textContent = count;
+                }
+            });
+        });
+    }
 
     // ==========================================================
     // INICIALIZAÇÃO DE TODOS OS MÓDULOS
