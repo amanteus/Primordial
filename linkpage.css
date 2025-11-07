@@ -245,37 +245,64 @@ body {
 }
 
 
-/* --- 6. SEÇÃO LINKS PRINCIPAIS --- */
+/* --- 6. SEÇÃO LINKS PRINCIPAIS (VERSÃO ATUALIZADA) --- */
 .main-links-section {
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin-bottom: 60px;
 }
+
 .link-card {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    align-items: stretch; /* Faz os filhos se esticarem para a mesma altura */
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    padding: 20px;
     border-radius: 12px;
     text-decoration: none;
     color: var(--text-color);
     transition: all 0.3s ease;
+    overflow: hidden; /* Essencial para os cantos arredondados funcionarem no "cantinho" */
+    
+    /* Removemos o padding e o gap do card principal */
+    padding: 0;
+    gap: 0;
 }
 .link-card:hover {
     border-color: var(--accent-color);
-    transform: scale(1.03);
+    transform: scale(1.02); /* Um 'scale' mais sutil */
     box-shadow: 0 5px 20px rgba(0,0,0,0.3);
 }
-.link-card-image {
-    width: 50px;
-    height: 50px;
-    flex-shrink: 0;
+
+/* O "CANTINHO" DA IMAGEM (A NOVA <div>) */
+.link-card-image-bg {
+    width: 90px; /* Largura fixa para o "cantinho" da imagem */
+    flex-shrink: 0; /* Impede que a div encolha */
+    background-size: cover;
+    background-position: center;
+    /* Linha divisória sutil */
+    border-right: 1px solid var(--border-color);
+    transition: border-color 0.3s ease;
 }
+.link-card:hover .link-card-image-bg {
+    border-color: var(--accent-color); /* A borda acompanha o hover */
+}
+
+/* CLASSES MODIFICADORAS PARA CADA IMAGEM */
+.link-card--primordial .link-card-image-bg {
+    background-image: url('img/CP.png');
+}
+.link-card--soberano .link-card-image-bg {
+    background-image: url('img/CS.png');
+}
+.link-card--circulo .link-card-image-bg {
+    background-image: url('img/CI.png');
+}
+
+/* O TEXTO (Agora com padding interno) */
 .link-card-text {
     flex-grow: 1;
+    padding: 20px; /* O padding que antes era do card, agora é do texto */
 }
 .link-card-text h2 {
     font-family: var(--font-headline);
@@ -285,6 +312,14 @@ body {
 .link-card-text p {
     font-size: 0.9rem;
     color: var(--text-muted);
+}
+
+/* O ÍCONE DA SETA (Agora com padding interno) */
+.link-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px; /* Espaçamento para o ícone */
 }
 .link-card-icon svg {
     stroke: var(--text-muted);
