@@ -36,8 +36,6 @@ html {
 }
 
 body {
-    body {
-    /* --- FUNDO CORRIGIDO E DEFINITIVO --- */
     background-color: var(--bg-color);
     background-image: linear-gradient(135deg, 
         var(--brand-green) -20%, 
@@ -503,4 +501,33 @@ body {
     height: 38px;
     background-color: rgba(26, 26, 26, 0.4); /* Mais transparente */
     --swiper-navigation-size: 18px; /* Ícone interno menor */
+}
+
+/* ========================================================== */
+/* --- 9. OTIMIZAÇÃO E RESPONSIVIDADE (MOBILE) --- */
+/* ========================================================== */
+@media (max-width: 768px) {
+
+    /* Diminui o padding geral do header */
+    .main-header {
+        padding: 10px 0;
+    }
+
+    /* Diminui drasticamente o tamanho da logo */
+    .header-logo img {
+        height: 35px; /* Altura ideal para mobile */
+    }
+
+    /* Ajusta o padding do botão de menu para ficar proporcional */
+    .menu-button {
+        padding: 6px 10px;
+    }
+
+    /* Ajusta o padding dos links principais */
+    .link-card-text {
+        padding: 15px;
+    }
+    .link-card-icon {
+        padding: 0 15px;
+    }
 }
