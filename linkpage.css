@@ -28,14 +28,14 @@ html {
 
 body {
     body {
-    /* --- SUBSTITUA AS LINHAS ABAIXO --- */
-    background-color: var(--bg-color); /* Cor de fallback */
+    /* --- FUNDO CORRIGIDO E DEFINITIVO --- */
+    background-color: var(--bg-color);
     background-image: linear-gradient(135deg, 
-        var(--brand-green) -20%, /* Começa com a cor da marca fora da tela */
-        var(--bg-color) 40%,    /* Transição rápida para o preto */
-        var(--bg-color) 100%    /* Permanece preto no restante */
+        var(--brand-green) -20%, 
+        var(--bg-color) 40%,    
+        var(--bg-color) 100%
     );
-    background-attachment: fixed; /* O fundo fica fixo durante o scroll */
+    background-attachment: fixed; 
     color: var(--text-color);
     font-family: var(--font-primary);
     font-size: 16px;
