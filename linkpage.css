@@ -10,6 +10,7 @@
     --text-color: #f0f0f0;
     --text-muted: #aaa;
     --accent-color: #c4aa83;
+    --brand-green: #021710;
     --font-headline: 'Houstiq', serif;
     --font-primary: 'Loft', sans-serif;
 }
@@ -26,8 +27,15 @@ html {
 }
 
 body {
-    background-color: var(--bg-color);
-    background-image: radial-gradient(circle at top, #1a1a1a 0%, #0f0f0f 100%);
+    body {
+    /* --- SUBSTITUA AS LINHAS ABAIXO --- */
+    background-color: var(--bg-color); /* Cor de fallback */
+    background-image: linear-gradient(135deg, 
+        var(--brand-green) -20%, /* Começa com a cor da marca fora da tela */
+        var(--bg-color) 40%,    /* Transição rápida para o preto */
+        var(--bg-color) 100%    /* Permanece preto no restante */
+    );
+    background-attachment: fixed; /* O fundo fica fixo durante o scroll */
     color: var(--text-color);
     font-family: var(--font-primary);
     font-size: 16px;
