@@ -532,7 +532,7 @@ body::before {
 
     /* Diminui drasticamente o tamanho da logo */
     .header-logo img {
-        height: 35px; /* Altura ideal para mobile */
+        height: 50px; /* Altura ideal para mobile */
     }
 
     /* Ajusta o padding do botão de menu para ficar proporcional */
