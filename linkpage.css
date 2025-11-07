@@ -406,14 +406,14 @@ body::before {
      * Damos ao slider um padding lateral de 50px.
      * Os cards ficarão dentro desse espaço, e as setas ficarão nesse padding.
      */
-    padding: 0 50px;
+    padding: 0 70px;
 }
 
 /* Estilo do Card (da sua lapidação anterior) */
 .testimonial-card {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    padding: 25px;
+    padding: 30px;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
